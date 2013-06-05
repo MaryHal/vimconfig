@@ -1,43 +1,49 @@
 ﻿"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
+set nocompatible               " Be iMproved
 
-" let Vundle manage Vundle. REQUIRED
-Bundle 'gmarik/vundle'
+if has('vim_starting')
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 " My bundles
-Bundle 'Shougo/unite.vim'
-Bundle 'Shougo/unite-outline'
-"Bundle 'Shougo/unite-help'
-"Bundle 'Shougo/unite-session'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-outline'
+"NeoBundle 'Shougo/unite-help'
+"NeoBundle 'Shougo/unite-session'
 
 " Code Completion
-Bundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplcache'
 
 " Snippets
-Bundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet'
 
 " Buffers, Tabs, and such
-Bundle 'a.vim'
-Bundle 'bufkill.vim'
-Bundle 'scrooloose/nerdtree'
+NeoBundle 'a.vim'
+NeoBundle 'bufkill.vim'
+NeoBundle 'scrooloose/nerdtree'
 
 " Usability
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-surround'
-Bundle 'Lokaltog/vim-easymotion'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'Lokaltog/vim-easymotion'
 
 " Color Scheme plugins and appearance
-Bundle 'w0ng/vim-hybrid'
-Bundle 'Lokaltog/vim-powerline'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'Lokaltog/vim-powerline'
 
 " Filetype plugins
-Bundle 'jceb/vim-orgmode'
+NeoBundle 'jceb/vim-orgmode'
 
 filetype plugin indent on " required! 
+
+NeoBundleCheck            " Installation check.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
