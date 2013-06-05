@@ -1,6 +1,6 @@
-﻿"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+﻿"===============================================================================
 " => Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 set nocompatible               " Be iMproved
 
 if has('vim_starting')
@@ -19,7 +19,7 @@ NeoBundle 'Shougo/unite-outline'
 "NeoBundle 'Shougo/unite-session'
 
 " Code Completion
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neocomplete'
 
 " Snippets
 NeoBundle 'Shougo/neosnippet'
@@ -45,9 +45,9 @@ filetype plugin indent on " required!
 
 NeoBundleCheck            " Installation check.
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => General
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 set nocompatible
 
 " Sets how many lines of history VIM has to remember
@@ -94,24 +94,26 @@ set ttimeoutlen=50
 set autoread
 set autowrite
 
-"set ofu=syntaxcomplete#Complete
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" No intro splash
+"===============================================================================
 set shortmess=I
 
 " Ask for confirmation for various things
 set confirm
-set completeopt=menu,menuone,longest
+set completeopt=menuone
+
+" Don't complete from other buffer
+set complete=.
 
 " Set 3 lines to pad the cursor - when moving vertical..
 set scrolloff=3
 set sidescrolloff=5
 
-set wildmenu " Turn on WiLd menu
-set wildmode=longest:full,full
+set nowildmenu " Turn on WiLd menu
+"set wildmode=longest:full,full
+set wildmode=list:longest,full
+
 set wildignore=*.o,*.pyc,*.hi
 set wildignore+=.hg,.git,.svn,.gitignore         " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
@@ -141,6 +143,7 @@ set ignorecase "Ignore case when searching
 set smartcase  "If there are any capitalized letters, case sensitive search
 set nohlsearch "Don't Highlight search things
 set incsearch  "Make search act like search in modern browsers
+set wrapscan   " Search wraps around the end of the file
 
 set gdefault "substitute default = all matches on line
 
@@ -150,13 +153,13 @@ set matchtime=5
 set modelines=0
 
 " Disable all bells
-set noerrorbells visualbell t_vb=
+set noerrorbells novisualbell t_vb=
 
 set lazyredraw
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Files and backups
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 set nowritebackup
 set nobackup
 set noswapfile
@@ -174,9 +177,9 @@ set directory=~/.vim/tmp/swap/   " swap files
 set backup                       " enable backups
 set undofile
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -184,8 +187,8 @@ set expandtab
 set smarttab
 
 set autoindent
-"set smartindent
-set cindent
+set smartindent
+" set cindent
 
 set list
 "set listchars=extends:»,precedes:«,tab:▸\ ,trail:°
@@ -197,9 +200,9 @@ set wrap
 set linebreak
 " set tw=500
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Moving around, tabs and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 set splitright
 set splitbelow
 
@@ -220,6 +223,9 @@ noremap <leader>v <C-w>v
 " Fast Tab Switching?
 nmap <silent> J gT
 nmap <silent> K gt
+
+" Window sizes always equal on split or close
+set equalalways
 
 " line wrap movement
 noremap j gj
@@ -248,9 +254,10 @@ noremap k gk
 "nmap <C-S-tab> :tabp<CR>
 "nmap <C-tab>   :tabn<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Other Key Remapping
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Fix broken vim regexes when searching
 nnoremap / /\v
 vnoremap / /\v
@@ -273,9 +280,9 @@ silent! command -nargs=0 Q q
 silent! command -nargs=0 WQ x
 silent! command -nargs=0 Wq x
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Autocommands
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 if has('autocmd')
     " Resize splits when window is resized
     au VimResized * exe "normal! \<c-w>="
@@ -293,9 +300,9 @@ if has('autocmd')
     augroup END
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 syntax enable
 
 "if has("gui_running")
@@ -324,11 +331,13 @@ else
 endif
 
 set guioptions=acg
+set fileformat=unix
 set ffs=unix,dos,mac "Default file types
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Status
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Always show the statusline
 set laststatus=2
 
@@ -337,9 +346,9 @@ hi Modified guibg=orange guifg=black ctermbg=lightred ctermfg=black
 
 let &guicursor = &guicursor . ",a:blinkon0"
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 map <F5> :call CompileAndRun(0)<CR>
 map <F6> :call CompileAndRun(1)<CR>
 
@@ -400,9 +409,9 @@ function! CompileAndRun(runProgram)
     endif
 endfunction
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " => Plugin Settings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 "let g:Powerline_symbols = 'fancy'
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
@@ -416,7 +425,7 @@ nnoremap <C-o> <ESC>:FufBuffer<CR>
 
 let g:EasyMotion_leader_key = '<Leader>'
 
-map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
 " Autocommands
@@ -455,32 +464,32 @@ augroup END
 " Neocomplcache and Neosnippets
 "===============================================================================
 
-" Launches neocomplcache automatically on vim startup.
-let g:neocomplcache_enable_at_startup = 1
+" Launches neocomplete automatically on vim startup.
+let g:neocomplete_enable_at_startup = 1
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
+let g:neocomplete_enable_smart_case = 1
 " Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplete_enable_camel_case_completion = 1
 " Use underscore completion.
-let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplete_enable_underbar_completion = 1
 " Sets minimum char length of syntax keyword.
-let g:neocomplcache_min_syntax_length = 4
-let g:neocomplcache_min_keyword_length = 4
+let g:neocomplete_min_syntax_length = 4
+let g:neocomplete_min_keyword_length = 4
 " AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 1
+let g:neocomplete_enable_auto_select = 1
 let g:snips_author = ""
-let g:neocomplcache_max_list=10
+let g:neocomplete_max_list=10
 " <Tab>'s function is overloaded depending on the context:
 " - If the current word is a snippet, then expand that snippet
 " - If we're in the middle of a snippet, tab jumps to the next placeholder text
 " - If the competion menu is visible, enter the currently selected entry and
 " close the popup
 " - If none of the above is true, simply do what <Tab> does originally
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplete#close_popup() : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Enter always performs a literal enter
-imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
+imap <expr><cr> neocomplete#smart_close_popup() . "\<CR>"
 
 " if has('conceal')
 " set conceallevel=2 concealcursor=i
@@ -490,32 +499,32 @@ imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
 " These are the battle scars of me trying to get omni_patterns to work correctly
-" so Neocomplcache and Eclim could co-exist peacefully. No cigar.
-" if !exists('g:neocomplcache_force_omni_patterns')
-" let g:neocomplcache_force_omni_patterns = {}
+" so neocomplete and Eclim could co-exist peacefully. No cigar.
+" if !exists('g:neocomplete_force_omni_patterns')
+" let g:neocomplete_force_omni_patterns = {}
 " endif
-" if !exists('g:neocomplcache_omni_patterns')
-" let g:neocomplcache_omni_patterns = {}
+" if !exists('g:neocomplete_omni_patterns')
+" let g:neocomplete_omni_patterns = {}
 " endif
-" let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
-" let g:neocomplcache_force_omni_patterns.java = '.'
-" let g:neocomplcache_omni_patterns.java = '\%(\.\)\h\w*'
+" let g:neocomplete_force_omni_patterns.java = '\%(\.\)\h\w*'
+" let g:neocomplete_force_omni_patterns.java = '.'
+" let g:neocomplete_omni_patterns.java = '\%(\.\)\h\w*'
 
-" Ok this requires some explanation. I couldn't get Neocomplcache and Eclim to
-" play nice with each other. When Neocomplcache triggers omni_complete under
+" Ok this requires some explanation. I couldn't get neocomplete and Eclim to
+" play nice with each other. When neocomplete triggers omni_complete under
 " Eclim, everything just blows up. I tried to configure omni_patterns using
-" Neocomplcache, but nothing I tried worked. What eventually worked is disabling
-" omni_complete from the Neocomplcache sources for java files, and trigger it
-" manually with Ctrl-Space. Neocomplcache also has this strange behavior where
+" neocomplete, but nothing I tried worked. What eventually worked is disabling
+" omni_complete from the neocomplete sources for java files, and trigger it
+" manually with Ctrl-Space. neocomplete also has this strange behavior where
 " it overrides the completeopt flag to always remove 'longest'. In order for
 " Ctrl-Space to trigger sane behavior of autocomplete and not always select the
 " first entry by default, I need to temporarily set completeopt to include
 " longest when the key is triggered. Theoratically I could call
-" neocomplcache#start_manual_complete, but I think that requires the
+" neocomplete#start_manual_complete, but I think that requires the
 " omni_patterns to set correctly and I couldn't get that to work
-function! s:disable_neocomplcache_for_java()
+function! s:disable_neocomplete_for_java()
   if &ft ==# 'java'
-    :NeoComplCacheLockSource omni_complete
+    :neocompleteLockSource omni_complete
     inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
   endif
 endfunction
@@ -525,7 +534,7 @@ function! s:java_omni_complete()
   return "\<C-X>\<C-O>"
 endfunction
 
-" autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
+" autocmd MyAutoCmd BufEnter * call s:disable_neocomplete_for_java()
 
 "===============================================================================
 " Unite
@@ -621,6 +630,7 @@ function! s:unite_settings()
   nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
   imap <buffer> <c-a> <Plug>(unite_choose_action)
   imap <buffer> <Tab> <Plug>(unite_exit_insert)
+  imap <buffer>  <BS> <Plug>(unite_delete_backward_path)
   imap <buffer> jj <Plug>(unite_insert_leave)
   imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
   imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
