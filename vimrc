@@ -412,16 +412,8 @@ endfunction
 "===============================================================================
 " => Plugin Settings
 "===============================================================================
-"let g:Powerline_symbols = 'fancy'
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-
 let NerdTreeQuitOnExit=1
-
 nnoremap <silent> <F1> <ESC>:NERDTreeToggle<CR>
-
-command! -nargs=? -bar F FufFile
-nnoremap <C-p> <ESC>:FufFileWithCurrentBufferDir<CR>
-nnoremap <C-o> <ESC>:FufBuffer<CR>
 
 let g:EasyMotion_leader_key = '<Leader>'
 
@@ -559,8 +551,7 @@ nnoremap [unite] <Nop>
 nmap <space> [unite]
 
 " General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+nnoremap <silent> [unite]<space> :<C-u>Unite -buffer-name=files buffer file<CR>
 
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
@@ -588,7 +579,7 @@ nnoremap <silent> [unite]d
       \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
 
 " Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file<CR>
 
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
