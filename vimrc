@@ -12,31 +12,34 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" My bundles
+NeoBundle 'Shougo/vimproc', { 'build': {
+      \ 'windows': 'make -f make_mingw32.mak',
+      \ 'cygwin': 'make -f make_cygwin.mak',
+      \ 'mac': 'make -f make_mac.mak',
+      \ 'unix': 'make -f make_unix.mak',
+      \ } }
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
-"NeoBundle 'Shougo/unite-help'
-"NeoBundle 'Shougo/unite-session'
+NeoBundle 'Shougo/unite-help'
 
-" Code Completion
-NeoBundle 'Shougo/neocomplete'
 
-" Snippets
-NeoBundle 'Shougo/neosnippet'
+" Completion
+NeoBundle 'Valloric/YouCompleteMe'
 
 " Buffers, Tabs, and such
 NeoBundle 'a.vim'
 NeoBundle 'bufkill.vim'
-NeoBundle 'scrooloose/nerdtree'
+
+NeoBundle 'rking/ag.vim'
 
 " Usability
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'terryma/vim-expand-region'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
 NeoBundle 'jceb/vim-orgmode'
@@ -74,8 +77,8 @@ set mouse=a
 "set tags+=~/.vim/tags/cpp
 "set tags+=~/.vim/tags/glfw
 
-" Let's use ack instead of grep!
-set grepprg=ack
+" Let's use ag instead of grep!
+set grepprg=ag
 
 " Make with 2 cores
 " set makeprg=make\ -j2
@@ -107,7 +110,7 @@ set completeopt=menuone
 set complete=.
 
 " Set 3 lines to pad the cursor - when moving vertical..
-set scrolloff=3
+set scrolloff=10
 set sidescrolloff=5
 
 set nowildmenu " Turn on WiLd menu
@@ -231,8 +234,17 @@ set equalalways
 noremap j gj
 noremap k gk
 
+" Reselect visual block after indent
+xnoremap < <gv
+xnoremap > >gv
+
+" Delete into the blackhole register to not clobber the last yank
+nnoremap d "_d
+" I use this often to yank a single line, retain its original behavior
+nnoremap dd dd
+
 " map control-backspace to delete the previous word
-" imap <C-BS> <C-W>
+imap <C-BS> <C-W>
 
 "map H ^
 "map L g_
@@ -286,18 +298,6 @@ silent! command -nargs=0 Wq x
 if has('autocmd')
     " Resize splits when window is resized
     au VimResized * exe "normal! \<c-w>="
-
-    augroup closenerdtreeiflastwindow
-        au!
-        au BufEnter *
-                    \ if exists("t:NERDTreeBufName")            |
-                    \   if bufwinnr(t:NERDTreeBufName) != -1    |
-                    \       if winnr("$") == 1                  |
-                    \           q                               |
-                    \       endif                               |
-                    \   endif                                   |
-                    \ endif
-    augroup END
 endif
 
 "===============================================================================
@@ -341,10 +341,243 @@ set ffs=unix,dos,mac "Default file types
 " Always show the statusline
 set laststatus=2
 
-hi StatColor guibg=#94e454 guifg=black ctermbg=lightgreen ctermfg=black
-hi Modified guibg=orange guifg=black ctermbg=lightred ctermfg=black
+" Airline
+let g:airline_enable_branch=0
+let g:airline_enable_syntastic=0
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline_detect_whitespace=0 "disabled
+
+" Theme
+let g:airline_powerline_fonts=0
+let g:airline_theme='wombat'
+
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_linecolumn_prefix = '¶ '
 
 let &guicursor = &guicursor . ",a:blinkon0"
+
+"===============================================================================
+" Autocommands
+"===============================================================================
+
+" Turn on cursorline only on active window
+augroup MyAutoCmd
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter,BufRead * setlocal cursorline
+augroup END
+
+" q quits in certain page types. Don't map esc, that interferes with mouse input
+autocmd MyAutoCmd FileType help,quickrun
+      \ if (!&modifiable || &ft==#'quickrun') |
+      \ nnoremap <silent> <buffer> q :q<cr>|
+      \ nnoremap <silent> <buffer> <esc><esc> :q<cr>|
+      \ endif
+autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
+
+" json = javascript syntax highlight
+autocmd MyAutoCmd FileType json setlocal syntax=javascript
+
+"===============================================================================
+" => Plugin Settings
+"===============================================================================
+nmap <F1> [unite]h
+
+" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"===============================================================================
+" Expand Region
+"===============================================================================
+
+" This option currently isn't working :( Neosnippet is unmappion my
+" select mode mappings, so if I switch buffer and come back, the mappings no
+" longer work. Not sure how to solve that
+" let g:expand_region_use_select_mode = 1
+let g:expand_region_use_select_mode = 0
+
+" Extend the global dictionary
+call expand_region#custom_text_objects({
+      \ 'a]' :1,
+      \ 'ab' :1,
+      \ 'aB' :1,
+      \ 'ii' :0,
+      \ 'ai' :0,
+      \ })
+
+" Customize it further for ruby
+call expand_region#custom_text_objects('ruby', {
+      \ 'im' :0,
+      \ 'am' :0,
+      \ })
+
+"===============================================================================
+" YCM
+"===============================================================================
+
+let g:ycm_confirm_extra_conf = 0
+let g:EclimCompletionMethod = 'omnifunc'
+let g:ycm_filetype_blacklist = {
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'text' : 1,
+      \ 'unite' : 1
+      \}
+
+"===============================================================================
+" Unite
+"===============================================================================
+
+" Use the fuzzy matcher for everything
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+" Use the rank sorter for everything
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+" Set up some custom ignores
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ 'git5/.*/review/',
+      \ 'google/obj/',
+      \ ], '\|'))
+
+" Map space to the prefix for Unite
+nnoremap [unite] <Nop>
+nmap <space> [unite]
+
+" General fuzzy search
+nnoremap <silent> [unite]<space> :<C-u>Unite
+      \ -buffer-name=files buffer file_mru bookmark file<CR>
+
+" Quick registers
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+
+" Quick buffer and mru
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
+
+" Quick yank history
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+
+" Quick outline
+nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
+
+" Quick sessions (projects)
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+
+" Quick sources
+nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
+
+" Quick snippet
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+
+" Quickly switch lcd
+nnoremap <silent> [unite]d
+      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+
+" Quick file search
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
+
+" Quick grep from cwd
+nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
+
+" Quick help
+nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+
+" Quick line using the word under cursor
+nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
+
+" Quick MRU search
+nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
+
+" Quick find
+nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
+
+" Quick commands
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+
+" Quick bookmarks
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+
+" Fuzzy search from current buffer
+" nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
+" \ -buffer-name=files -prompt=%\ buffer file_mru bookmark file<CR>
+
+" Quick commands
+nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
+
+" Custom Unite settings
+autocmd MyAutoCmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <ESC> <Plug>(unite_exit)
+" imap <buffer> <c-j> <Plug>(unite_select_next_line)
+  imap <buffer> <c-j> <Plug>(unite_insert_leave)
+  nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
+  nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
+  imap <buffer> <c-a> <Plug>(unite_choose_action)
+  imap <buffer> <Tab> <Plug>(unite_exit_insert)
+  imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
+  imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
+  imap <buffer> ' <Plug>(unite_quick_match_default_action)
+  nmap <buffer> ' <Plug>(unite_quick_match_default_action)
+  nmap <buffer> <C-r> <Plug>(unite_redraw)
+  imap <buffer> <C-r> <Plug>(unite_redraw)
+  inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+  nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+
+  let unite = unite#get_current_unite()
+  if unite.buffer_name =~# '^search'
+    nnoremap <silent><buffer><expr> r unite#do_action('replace')
+  else
+    nnoremap <silent><buffer><expr> r unite#do_action('rename')
+  endif
+
+  nnoremap <silent><buffer><expr> cd unite#do_action('lcd')
+
+" Using Ctrl-\ to trigger outline, so close it using the same keystroke
+  if unite.buffer_name =~# '^outline'
+    imap <buffer> <C-\> <Plug>(unite_exit)
+  endif
+
+" Using Ctrl-/ to trigger line, close it using same keystroke
+  if unite.buffer_name =~# '^search_file'
+    imap <buffer> <C-_> <Plug>(unite_exit)
+  endif
+endfunction
+
+" Start in insert mode
+let g:unite_enable_start_insert = 1
+
+" Enable short source name in window
+" let g:unite_enable_short_source_names = 1
+
+" Enable history yank source
+let g:unite_source_history_yank_enable = 1
+
+" Open in bottom right
+let g:unite_split_rule = "botright"
+
+" Shorten the default update date of 500ms
+let g:unite_update_time = 200
+
+let g:unite_source_file_mru_limit = 1000
+let g:unite_cursor_line_highlight = 'TabLineSel'
+" let g:unite_abbr_highlight = 'TabLine'
+
+let g:unite_source_file_mru_filename_format = ':~:.'
+let g:unite_source_file_mru_time_format = ''
+
+" Use ag for search
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
 
 "===============================================================================
 " => Functions
@@ -408,283 +641,4 @@ function! CompileAndRun(runProgram)
         endif
     endif
 endfunction
-
-"===============================================================================
-" => Plugin Settings
-"===============================================================================
-let NerdTreeQuitOnExit=1
-nnoremap <silent> <F1> <ESC>:NERDTreeToggle<CR>
-
-let g:EasyMotion_leader_key = '<Leader>'
-
-" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-"===============================================================================
-" Autocommands
-"===============================================================================
-
-" Turn on cursorline only on active window
-augroup MyAutoCmd
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter,BufRead * setlocal cursorline
-augroup END
-
-" q quits in certain page types. Don't map esc, that interferes with mouse input
-autocmd MyAutoCmd FileType help,quickrun
-      \ if (!&modifiable || &ft==#'quickrun') |
-      \ nnoremap <silent> <buffer> q :q<cr>|
-      \ nnoremap <silent> <buffer> <esc><esc> :q<cr>|
-      \ endif
-autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
-
-" json = javascript syntax highlight
-autocmd MyAutoCmd FileType json setlocal syntax=javascript
-
-" Enable omni completion
-augroup MyAutoCmd
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
-augroup END
-
-
-"===============================================================================
-" Neocomplcache and Neosnippets
-"===============================================================================
-
-" Launches neocomplete automatically on vim startup.
-let g:neocomplete_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplete_enable_camel_case_completion = 1
-" Use underscore completion.
-let g:neocomplete_enable_underbar_completion = 1
-" Sets minimum char length of syntax keyword.
-let g:neocomplete_min_syntax_length = 4
-let g:neocomplete_min_keyword_length = 4
-" AutoComplPop like behavior.
-let g:neocomplete_enable_auto_select = 1
-let g:snips_author = ""
-let g:neocomplete_max_list=10
-" <Tab>'s function is overloaded depending on the context:
-" - If the current word is a snippet, then expand that snippet
-" - If we're in the middle of a snippet, tab jumps to the next placeholder text
-" - If the competion menu is visible, enter the currently selected entry and
-" close the popup
-" - If none of the above is true, simply do what <Tab> does originally
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplete#close_popup() : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" Enter always performs a literal enter
-imap <expr><cr> neocomplete#smart_close_popup() . "\<CR>"
-
-" if has('conceal')
-" set conceallevel=2 concealcursor=i
-" endif
-
-" Tell Neosnippets to use the snipmate snippets
-let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
-
-" These are the battle scars of me trying to get omni_patterns to work correctly
-" so neocomplete and Eclim could co-exist peacefully. No cigar.
-" if !exists('g:neocomplete_force_omni_patterns')
-" let g:neocomplete_force_omni_patterns = {}
-" endif
-" if !exists('g:neocomplete_omni_patterns')
-" let g:neocomplete_omni_patterns = {}
-" endif
-" let g:neocomplete_force_omni_patterns.java = '\%(\.\)\h\w*'
-" let g:neocomplete_force_omni_patterns.java = '.'
-" let g:neocomplete_omni_patterns.java = '\%(\.\)\h\w*'
-
-" Ok this requires some explanation. I couldn't get neocomplete and Eclim to
-" play nice with each other. When neocomplete triggers omni_complete under
-" Eclim, everything just blows up. I tried to configure omni_patterns using
-" neocomplete, but nothing I tried worked. What eventually worked is disabling
-" omni_complete from the neocomplete sources for java files, and trigger it
-" manually with Ctrl-Space. neocomplete also has this strange behavior where
-" it overrides the completeopt flag to always remove 'longest'. In order for
-" Ctrl-Space to trigger sane behavior of autocomplete and not always select the
-" first entry by default, I need to temporarily set completeopt to include
-" longest when the key is triggered. Theoratically I could call
-" neocomplete#start_manual_complete, but I think that requires the
-" omni_patterns to set correctly and I couldn't get that to work
-function! s:disable_neocomplete_for_java()
-  if &ft ==# 'java'
-    :neocompleteLockSource omni_complete
-    inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
-  endif
-endfunction
-
-function! s:java_omni_complete()
-  setlocal completeopt+=longest
-  return "\<C-X>\<C-O>"
-endfunction
-
-" autocmd MyAutoCmd BufEnter * call s:disable_neocomplete_for_java()
-
-"===============================================================================
-" Unite
-"===============================================================================
-
-" Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-" Use the rank sorter for everything
-call unite#filters#sorter_default#use(['sorter_rank'])
-
-" Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'git5/.*/review/',
-      \ 'google/obj/',
-      \ ], '\|'))
-
-" Map space to the prefix for Unite
-nnoremap [unite] <Nop>
-nmap <space> [unite]
-
-" General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite -buffer-name=files buffer file<CR>
-
-" Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-
-" Quick buffer and mru
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
-
-" Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
-
-" Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
-
-" Quick sessions (projects)
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
-
-" Quick sources
-nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
-
-" Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
-
-" Quickly switch lcd
-nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
-
-" Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file<CR>
-
-" Quick grep from cwd
-nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
-
-" Quick help
-nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
-
-" Quick line using the word under cursor
-nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
-
-" Quick MRU search
-nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
-
-" Quick find
-nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
-
-" Quick commands
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
-
-" Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
-
-" Fuzzy search from current buffer
-" nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
-" \ -buffer-name=files -prompt=%\ buffer file_mru bookmark file<CR>
-
-" Quick commands
-nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
-
-" Custom Unite settings
-autocmd MyAutoCmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-
-  nmap <buffer> <ESC> <Plug>(unite_exit)
-  imap <buffer> <ESC> <Plug>(unite_exit)
-" imap <buffer> <c-j> <Plug>(unite_select_next_line)
-  imap <buffer> <c-j> <Plug>(unite_insert_leave)
-  nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
-  nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
-  imap <buffer> <c-a> <Plug>(unite_choose_action)
-  imap <buffer> <Tab> <Plug>(unite_exit_insert)
-  imap <buffer>  <BS> <Plug>(unite_delete_backward_path)
-  imap <buffer> jj <Plug>(unite_insert_leave)
-  imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
-  imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
-  imap <buffer> ' <Plug>(unite_quick_match_default_action)
-  nmap <buffer> ' <Plug>(unite_quick_match_default_action)
-  nmap <buffer> <C-r> <Plug>(unite_redraw)
-  imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-  nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-
-  let unite = unite#get_current_unite()
-  if unite.buffer_name =~# '^search'
-    nnoremap <silent><buffer><expr> r unite#do_action('replace')
-  else
-    nnoremap <silent><buffer><expr> r unite#do_action('rename')
-  endif
-
-  nnoremap <silent><buffer><expr> cd unite#do_action('lcd')
-
-" Using Ctrl-\ to trigger outline, so close it using the same keystroke
-  if unite.buffer_name =~# '^outline'
-    imap <buffer> <C-\> <Plug>(unite_exit)
-  endif
-
-" Using Ctrl-/ to trigger line, close it using same keystroke
-  if unite.buffer_name =~# '^search_file'
-    imap <buffer> <C-_> <Plug>(unite_exit)
-  endif
-endfunction
-
-" Start in insert mode
-let g:unite_enable_start_insert = 1
-
-" Enable short source name in window
-" let g:unite_enable_short_source_names = 1
-
-" Enable history yank source
-let g:unite_source_history_yank_enable = 1
-
-" Open in bottom right
-let g:unite_split_rule = "botright"
-
-" Shorten the default update date of 500ms
-let g:unite_update_time = 200
-
-let g:unite_source_file_mru_limit = 1000
-let g:unite_cursor_line_highlight = 'TabLineSel'
-" let g:unite_abbr_highlight = 'TabLine'
-
-let g:unite_source_file_mru_filename_format = ':~:.'
-let g:unite_source_file_mru_time_format = ''
-
-" For ack.
-if executable('ack-grep')
-  let g:unite_source_grep_command = 'ack-grep'
-" Match whole word only. This might/might not be a good idea
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
-  let g:unite_source_grep_recursive_opt = ''
-endif
 

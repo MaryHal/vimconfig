@@ -1,0 +1,15 @@
+YouCompleteMe
+a.vim
+ag.vim
+bufkill.vim
+neobundle.vim
+unite-help
+unite-outline
+unite.vim
+vim-airline
+vim-expand-region
+vim-hybrid
+vim-orgmode
+vim-surround
+vim-unimpaired
+vimproc
