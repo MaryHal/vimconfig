@@ -3,12 +3,14 @@ a.vim
 ag.vim
 bufkill.vim
 neobundle.vim
+nerdcommenter
 unite-help
 unite-outline
 unite.vim
 vim-airline
-vim-expand-region
+vim-easymotion
 vim-hybrid
+vim-markdown
 vim-orgmode
 vim-surround
 vim-unimpaired
