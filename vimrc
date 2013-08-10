@@ -40,7 +40,6 @@ NeoBundle 'rking/ag.vim'
 " Usability
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
-" NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'Lokaltog/vim-easymotion'
 
 " Color Scheme plugins and appearance
@@ -106,7 +105,6 @@ set shortmess=I
 
 " Ask for confirmation for various things
 set confirm
-set completeopt=menuone
 
 " Don't complete from other buffer
 set complete=.
@@ -258,20 +256,10 @@ nnoremap d "_d
 " I use this often to yank a single line, retain its original behavior
 nnoremap dd dd
 
-" map control-backspace to delete the previous word
-imap <C-BS> <C-W>
-
 "map H ^
 "map L g_
 
 "nmap <silent> <C-S-w> :wincmd<Space>
-
-" Escape is far...
-"imap jk <ESC>
-"imap kj <ESC>
-
-"imap jj <Esc>
-"inoremap <A-Space> <Esc>
 
 " Bracket matching made easy?
 "nnoremap <tab> %
@@ -311,11 +299,26 @@ silent! command -nargs=0 WQ x
 silent! command -nargs=0 Wq x
 
 "===============================================================================
+" => Insert Mode Key Remapping
+"===============================================================================
+inoremap <c-e> <esc>A
+
+" map control-backspace to delete the previous word
+imap <C-BS> <C-W>
+
+" Escape is far...
+imap jk <ESC>
+imap kj <ESC>
+
+"===============================================================================
 " => Autocommands
 "===============================================================================
 if has('autocmd')
     " Resize splits when window is resized
     au VimResized * exe "normal! \<c-w>="
+
+    " Html settings
+    autocmd FileType html setlocal shiftwidth=2 tabstop=2
 endif
 
 "===============================================================================
@@ -362,6 +365,7 @@ set laststatus=2
 " Airline
 let g:airline_enable_branch=0
 let g:airline_enable_syntastic=0
+let g:airline_enable_tagbar=0
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
 let g:airline_detect_whitespace=0 "disabled
@@ -532,8 +536,8 @@ function! s:unite_settings()
   nmap <buffer> ' <Plug>(unite_quick_match_default_action)
   nmap <buffer> <C-r> <Plug>(unite_redraw)
   imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-  nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+  inoremap <silent><buffer><expr> <C-x> unite#do_action('split')
+  nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
   inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
   nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
 
