@@ -22,9 +22,14 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 
-
 " Completion
 NeoBundle 'Valloric/YouCompleteMe'
+
+" Commenter
+NeoBundle 'scrooloose/nerdcommenter'
+
+" Filetypes
+NeoBundle 'tpope/vim-markdown'
 
 " Buffers, Tabs, and such
 NeoBundle 'a.vim'
@@ -35,7 +40,8 @@ NeoBundle 'rking/ag.vim'
 " Usability
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'terryma/vim-expand-region'
+" NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'Lokaltog/vim-easymotion'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -66,10 +72,6 @@ set encoding=utf-8
 set autoread
 
 set hidden
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
 
 " Allow Mouse Usage
 set mouse=a
@@ -113,8 +115,10 @@ set complete=.
 set scrolloff=10
 set sidescrolloff=5
 
-set nowildmenu " Turn on WiLd menu
-"set wildmode=longest:full,full
+" Auto complete setting
+set completeopt=longest,menuone
+
+set wildmenu " Turn on Wild menu
 set wildmode=list:longest,full
 
 set wildignore=*.o,*.pyc,*.hi
@@ -128,9 +132,10 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX BS
 
 set wildignore+=*.luac                           " Lua byte code
-
-set wildignore+=migrations                       " Django migrations
 set wildignore+=*.pyc                            " Python byte code
+
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.so,*.swp,*.zip,*.pdf
 
 set ruler "Always show current position
 
@@ -153,6 +158,12 @@ set gdefault "substitute default = all matches on line
 set showmatch "Show matching bracets when text indicator is over them
 set matchtime=5
 
+" Show incomplete commands
+set showcmd
+
+" No need to show mode due to Powerline
+set noshowmode
+
 set modelines=0
 
 " Disable all bells
@@ -169,7 +180,7 @@ set noswapfile
 
 if has('persistent_undo')
     set undodir=~/.vim/tmp/undo/     " undo files
-    set undofile
+    "set undofile
     set undolevels=1000
     if exists('+undoreload')
         set undoreload=1000
@@ -177,8 +188,7 @@ if has('persistent_undo')
 endif
 set backupdir=~/.vim/tmp/backup/ " backups
 set directory=~/.vim/tmp/swap/   " swap files
-set backup                       " enable backups
-set undofile
+"set backup                       " enable backups
 
 "===============================================================================
 " => Text, tab and indent related
@@ -194,12 +204,11 @@ set smartindent
 " set cindent
 
 set list
-"set listchars=extends:»,precedes:«,tab:▸\ ,trail:°
-"set listchars=tab:▸\ ,extends:»,precedes:«
 set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 "set showbreak=↪
 
 set wrap
+set whichwrap+=h,l,<,>,[,]
 set linebreak
 " set tw=500
 
@@ -212,6 +221,12 @@ set splitbelow
 " Multiple buffer stuff
 "set switchbuf=useopen
 set switchbuf=usetab
+
+" Mapleader and localleader
+let mapleader = ","
+let g:mapleader = ","
+let maplocalleader = ","
+let g:maplocalleader = ","
 
 " When pressing <leader>cd switch to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>
@@ -279,6 +294,9 @@ cnoremap s/ s/\v
 
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
+
+" U: Redos since 'u' undos
+nnoremap U <c-r>
 
 " Less chording
 "nnoremap ; :
@@ -380,36 +398,25 @@ autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
 
 "===============================================================================
-" => Plugin Settings
+" Plugin Settings
 "===============================================================================
 nmap <F1> [unite]h
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
-" Expand Region
+" EasyMotion
 "===============================================================================
 
-" This option currently isn't working :( Neosnippet is unmappion my
-" select mode mappings, so if I switch buffer and come back, the mappings no
-" longer work. Not sure how to solve that
-" let g:expand_region_use_select_mode = 1
-let g:expand_region_use_select_mode = 0
+" Tweak the colors
+hi link EasyMotionTarget WarningMsg
+hi link EasyMotionShade Comment
 
-" Extend the global dictionary
-call expand_region#custom_text_objects({
-      \ 'a]' :1,
-      \ 'ab' :1,
-      \ 'aB' :1,
-      \ 'ii' :0,
-      \ 'ai' :0,
-      \ })
-
-" Customize it further for ruby
-call expand_region#custom_text_objects('ruby', {
-      \ 'im' :0,
-      \ 'am' :0,
-      \ })
+let g:EasyMotion_do_mapping = 0
+nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
+nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
+nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
+nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 
 "===============================================================================
 " YCM
@@ -454,7 +461,7 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 
 " Quick buffer and mru
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer<CR>
 
 " Quick yank history
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
@@ -504,7 +511,7 @@ nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 " \ -buffer-name=files -prompt=%\ buffer file_mru bookmark file<CR>
 
 " Quick commands
-nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
+" nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
