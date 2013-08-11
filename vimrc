@@ -82,7 +82,7 @@ set mouse=a
 set grepprg=ag
 
 " Make with 2 cores
-" set makeprg=make\ -j2
+set makeprg=make\ -j2
 
 if has ('unnamedplus')
   set clipboard=unnamedplus
@@ -283,9 +283,6 @@ cnoremap s/ s/\v
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
 
-" U: Redos since 'u' undos
-nnoremap U <c-r>
-
 " Less chording
 "nnoremap ; :
 
@@ -484,10 +481,13 @@ nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+      \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd  -default-action=lcd directory<CR>
+nnoremap <silent> [unite]D
+      \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
 " Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir  -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
 
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
@@ -572,6 +572,9 @@ let g:unite_source_history_yank_enable = 1
 
 " Open in bottom right
 let g:unite_split_rule = "botright"
+
+" Data directory location
+let g:unite_data_directory = "~/.vim/unite"
 
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
