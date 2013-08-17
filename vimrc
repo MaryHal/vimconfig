@@ -38,6 +38,7 @@ NeoBundle 'bufkill.vim'
 NeoBundle 'rking/ag.vim'
 
 " Usability
+NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -323,20 +324,6 @@ endif
 "===============================================================================
 syntax enable
 
-"if has("gui_running")
-"    colorscheme fu
-"elseif &t_Co != 256
-"    colorscheme asdf
-"else
-"    colorscheme fu
-"
-"    " fu modifications
-"    hi NonText        ctermfg=248   ctermbg=none  cterm=bold     guifg=#a8a8a8  guibg=#121212
-"    hi Normal         ctermfg=252   ctermbg=none                 guifg=#d0d0d0  guibg=#1c1c1c
-"    hi Visual         ctermfg=none  ctermbg=238   cterm=bold
-"    hi StatusLineNC   ctermfg=234   ctermbg=253                  guifg=#3a3a3a  guibg=#dadada
-"endif
-
 let g:hybrid_use_Xresources = 1
 colorscheme hybrid
 
@@ -374,8 +361,6 @@ let g:airline_theme='wombat'
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_linecolumn_prefix = '¶ '
-
-let &guicursor = &guicursor . ",a:blinkon0"
 
 "===============================================================================
 " Autocommands
@@ -423,6 +408,7 @@ nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 " YCM
 "===============================================================================
 
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 let g:EclimCompletionMethod = 'omnifunc'
 let g:ycm_filetype_blacklist = {
@@ -616,9 +602,9 @@ function! CompileAndRun(runProgram)
     elseif filereadable("build.xml")
         setl makeprg=ant
     elseif &filetype == 'c'
-        setl makeprg=gcc\ -Wall\ -std=c99\ -o\ %<\ %
+        setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
     elseif &filetype == 'cpp'
-        setl makeprg=g++\ -Wall\ -o\ %<\ %
+        setl makeprg=g++\ -Wall\ -std=c++11\ -o\ %<\ %
     elseif &filetype == 'java'
         setl makeprg=javac\ %
         let l:progname = 'java ' . expand('%:t:r')
