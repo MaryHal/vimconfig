@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/home/sanford/code/pkg/sfml/src/SFML-2.1/examples/window/CMakeFiles'
-let g:netrw_dirhist_2='/home/sanford'
-let g:netrw_dirhist_3='/home/sanford/code'
-let g:netrw_dirhist_4='/home/sanford/code/current'
-let g:netrw_dirhist_5='/home/sanford/code/current/Pattern'
-let g:netrw_dirhist_6='/home/sanford/code/current/Pattern/src'
