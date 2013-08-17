@@ -11,6 +11,7 @@ vim-airline
 vim-easymotion
 vim-hybrid
 vim-markdown
+vim-multiple-cursors
 vim-orgmode
 vim-surround
 vim-unimpaired
