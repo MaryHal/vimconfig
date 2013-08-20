@@ -8,11 +8,11 @@ unite-help
 unite-outline
 unite.vim
 vim-airline
-vim-easymotion
 vim-hybrid
 vim-markdown
-vim-multiple-cursors
 vim-orgmode
+vim-repeat
+vim-speeddating
 vim-surround
 vim-unimpaired
 vimproc

@@ -38,10 +38,10 @@ NeoBundle 'bufkill.vim'
 NeoBundle 'rking/ag.vim'
 
 " Usability
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'tpope/vim-speeddating'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -253,9 +253,9 @@ xnoremap < <gv
 xnoremap > >gv
 
 " Delete into the blackhole register to not clobber the last yank
-nnoremap d "_d
+"nnoremap d "_d
 " I use this often to yank a single line, retain its original behavior
-nnoremap dd dd
+"nnoremap dd dd
 
 "map H ^
 "map L g_
@@ -389,20 +389,6 @@ autocmd MyAutoCmd FileType json setlocal syntax=javascript
 nmap <F1> [unite]h
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-"===============================================================================
-" EasyMotion
-"===============================================================================
-
-" Tweak the colors
-hi link EasyMotionTarget WarningMsg
-hi link EasyMotionShade Comment
-
-let g:EasyMotion_do_mapping = 0
-nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
-nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
-nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
-nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 
 "===============================================================================
 " YCM
