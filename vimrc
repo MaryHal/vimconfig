@@ -330,7 +330,6 @@ colorscheme hybrid
 " Set font
 if has("win32") || has('win64')
     set guifont=Consolas:h8:cANSI
-    cd ~
 else
     set guifont=Inconsolata\ 10
 endif
@@ -452,8 +451,7 @@ nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
-nnoremap <silent> [unite]d
-      \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd  -default-action=lcd directory<CR>
+nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd  -default-action=lcd directory<CR>
 nnoremap <silent> [unite]D
       \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
