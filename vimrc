@@ -45,7 +45,8 @@ NeoBundle 'tpope/vim-speeddating'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'bling/vim-airline'
+" NeoBundle 'bling/vim-airline'
+NeoBundle 'itchyny/lightline.vim'
 
 " Filetype plugins
 NeoBundle 'jceb/vim-orgmode'
@@ -346,20 +347,64 @@ set ffs=unix,dos,mac "Default file types
 set laststatus=2
 
 " Airline
-let g:airline_enable_branch=0
-let g:airline_enable_syntastic=0
-let g:airline_enable_tagbar=0
-let g:airline_detect_modified=1
-let g:airline_detect_paste=1
-let g:airline_detect_whitespace=0 "disabled
+"let g:airline_enable_branch=0
+"let g:airline_enable_syntastic=0
+"let g:airline_enable_tagbar=0
+"let g:airline_detect_modified=1
+"let g:airline_detect_paste=1
+"let g:airline_detect_whitespace=0 "disabled
 
 " Theme
-let g:airline_powerline_fonts=0
-let g:airline_theme='wombat'
+"let g:airline_powerline_fonts=0
+"let g:airline_theme='wombat'
 
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_linecolumn_prefix = '¶ '
+"let g:airline_left_sep=''
+"let g:airline_right_sep=''
+"let g:airline_linecolumn_prefix = '¶ '
+
+"let g:airline_mode_map = {
+            "\ '__' : '-',
+            "\ 'n'  : 'Normal',
+            "\ 'i'  : 'Insert',
+            "\ 'R'  : 'Replace',
+            "\ 'c'  : 'C',
+            "\ 'v'  : 'Visual',
+            "\ 'V'  : 'Visual-Line',
+            "\ '' : 'Visual-Block',
+            "\ 's'  : 'S',
+            "\ 'S'  : 'S',
+            "\ '' : 'S',
+            "\ }
+            
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'active': {
+      \   'left':  [ [ 'mode', 'paste' ],
+      \              [ 'filename', 'modified' ],
+      \              [ 'readonly' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \ },
+      \ 'component': {
+      \   'lineinfo': '¶ %3l:%-2v',
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+let g:lightline.mode_map = {
+            \ 'n' : 'Normal',
+            \ 'i' : 'Insert',
+            \ 'R' : 'Replace',
+            \ 'v' : 'Visual',
+            \ 'V' : 'V-Line',
+            \ 'c' : 'Command',
+            \ '': 'V-Block',
+            \ 's' : 'Select',
+            \ 'S' : 'S-Line',
+            \ '': 'S-Block',
+            \ '?' : '      ' }
 
 "===============================================================================
 " Autocommands

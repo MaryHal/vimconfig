@@ -2,12 +2,12 @@ YouCompleteMe
 a.vim
 ag.vim
 bufkill.vim
+lightline.vim
 neobundle.vim
 nerdcommenter
 unite-help
 unite-outline
 unite.vim
-vim-airline
 vim-hybrid
 vim-markdown
 vim-orgmode
