@@ -321,61 +321,12 @@ if has('autocmd')
 endif
 
 "===============================================================================
-" => Colors and Fonts
-"===============================================================================
-syntax enable
-
-let g:hybrid_use_Xresources = 1
-colorscheme hybrid
-
-" Set font
-if has("win32") || has('win64')
-    set guifont=Consolas:h8:cANSI
-else
-    set guifont=Inconsolata\ 10
-endif
-
-set guioptions=acg
-set fileformat=unix
-set ffs=unix,dos,mac "Default file types
-
-"===============================================================================
 " => Status
 "===============================================================================
 
 " Always show the statusline
 set laststatus=2
 
-" Airline
-"let g:airline_enable_branch=0
-"let g:airline_enable_syntastic=0
-"let g:airline_enable_tagbar=0
-"let g:airline_detect_modified=1
-"let g:airline_detect_paste=1
-"let g:airline_detect_whitespace=0 "disabled
-
-" Theme
-"let g:airline_powerline_fonts=0
-"let g:airline_theme='wombat'
-
-"let g:airline_left_sep=''
-"let g:airline_right_sep=''
-"let g:airline_linecolumn_prefix = '¶ '
-
-"let g:airline_mode_map = {
-            "\ '__' : '-',
-            "\ 'n'  : 'Normal',
-            "\ 'i'  : 'Insert',
-            "\ 'R'  : 'Replace',
-            "\ 'c'  : 'C',
-            "\ 'v'  : 'Visual',
-            "\ 'V'  : 'Visual-Line',
-            "\ '' : 'Visual-Block',
-            "\ 's'  : 'S',
-            "\ 'S'  : 'S',
-            "\ '' : 'S',
-            "\ }
-            
 let g:lightline = {
       \ 'colorscheme': 'jellybeans',
       \ 'active': {
@@ -405,6 +356,25 @@ let g:lightline.mode_map = {
             \ 'S' : 'S-Line',
             \ '': 'S-Block',
             \ '?' : '      ' }
+
+"===============================================================================
+" => Colors and Fonts
+"===============================================================================
+syntax enable
+
+let g:hybrid_use_Xresources = 1
+colorscheme hybrid
+
+" Set font
+if has("win32") || has('win64')
+    set guifont=Consolas:h8:cANSI
+else
+    set guifont=Inconsolata\ 10
+endif
+
+set guioptions=acg
+set fileformat=unix
+set ffs=unix,dos,mac "Default file types
 
 "===============================================================================
 " Autocommands
@@ -589,7 +559,7 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
 
 " Data directory location
-let g:unite_data_directory = "~/.vim/unite"
+let g:unite_data_directory = "/home/sanford/.vim/unite"
 
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
