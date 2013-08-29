@@ -45,8 +45,8 @@ NeoBundle 'tpope/vim-speeddating'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
-" NeoBundle 'bling/vim-airline'
-NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'bling/vim-airline'
+" NeoBundle 'itchyny/lightline.vim'
 
 " Filetype plugins
 NeoBundle 'jceb/vim-orgmode'
@@ -321,46 +321,13 @@ if has('autocmd')
 endif
 
 "===============================================================================
-" => Status
-"===============================================================================
-
-" Always show the statusline
-set laststatus=2
-
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left':  [ [ 'mode', 'paste' ],
-      \              [ 'filename', 'modified' ],
-      \              [ 'readonly' ] ],
-      \   'right': [ [ 'lineinfo' ],
-      \              [ 'percent' ],
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
-      \ },
-      \ 'component': {
-      \   'lineinfo': '¶ %3l:%-2v',
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '|', 'right': '|' }
-      \ }
-
-let g:lightline.mode_map = {
-            \ 'n' : 'Normal',
-            \ 'i' : 'Insert',
-            \ 'R' : 'Replace',
-            \ 'v' : 'Visual',
-            \ 'V' : 'V-Line',
-            \ 'c' : 'Command',
-            \ '': 'V-Block',
-            \ 's' : 'Select',
-            \ 'S' : 'S-Line',
-            \ '': 'S-Block',
-            \ '?' : '      ' }
-
-"===============================================================================
 " => Colors and Fonts
 "===============================================================================
 syntax enable
+
+if !has('gui_running')
+  set t_Co=256
+endif
 
 let g:hybrid_use_Xresources = 1
 colorscheme hybrid
@@ -375,6 +342,44 @@ endif
 set guioptions=acg
 set fileformat=unix
 set ffs=unix,dos,mac "Default file types
+
+"===============================================================================
+" => Statusline
+"===============================================================================
+
+" Always show the statusline
+set laststatus=2
+
+" Airline
+let g:airline_enable_branch=0
+let g:airline_enable_syntastic=0
+let g:airline_enable_tagbar=0
+let g:airline_detect_modified=1
+let g:airline_detect_paste=1
+let g:airline_detect_whitespace=0 "disabled
+
+" Theme
+let g:airline_inactive_collapse=1
+let g:airline_powerline_fonts=0
+let g:airline_theme='wombat'
+
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_linecolumn_prefix = '¶ '
+
+let g:airline_mode_map = {
+            \ '__' : '-',
+            \ 'n'  : 'Normal',
+            \ 'i'  : 'Insert',
+            \ 'R'  : 'Replace',
+            \ 'c'  : 'Command',
+            \ 'v'  : 'Visual',
+            \ 'V'  : 'Visual-Line',
+            \ '' : 'Visual-Block',
+            \ 's'  : 'Select',
+            \ 'S'  : 'Select-Line',
+            \ '' : 'Select-Block',
+            \ }
 
 "===============================================================================
 " Autocommands
