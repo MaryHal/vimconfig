@@ -26,7 +26,7 @@ NeoBundle 'Shougo/unite-help'
 NeoBundle 'Valloric/YouCompleteMe'
 
 " Commenter
-NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'tomtom/tcomment_vim'
 
 " Filetypes
 NeoBundle 'tpope/vim-markdown'

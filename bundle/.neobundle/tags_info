@@ -3,7 +3,7 @@ a.vim
 ag.vim
 bufkill.vim
 neobundle.vim
-nerdcommenter
+tcomment_vim
 unite-help
 unite-outline
 unite.vim
