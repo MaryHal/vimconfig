@@ -474,10 +474,13 @@ nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd  -default-action=lcd directory<CR>
 nnoremap <silent> [unite]D
       \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
+nnoremap <silent> [unite]<C-d>
+      \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
 " Quick file search
 nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]<C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
