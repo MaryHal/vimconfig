@@ -85,6 +85,7 @@
 <Plug>(unite_toggle_auto_preview)	unite.txt	/*<Plug>(unite_toggle_auto_preview)*
 <Plug>(unite_toggle_mark_all_candidates)	unite.txt	/*<Plug>(unite_toggle_mark_all_candidates)*
 <Plug>(unite_toggle_mark_current_candidate)	unite.txt	/*<Plug>(unite_toggle_mark_current_candidate)*
+<Plug>(unite_toggle_mark_current_candidate_up)	unite.txt	/*<Plug>(unite_toggle_mark_current_candidate_up)*
 <Plug>(unite_toggle_transpose_window)	unite.txt	/*<Plug>(unite_toggle_transpose_window)*
 CTRL-sub-U	youcompleteme.txt	/*CTRL-sub-U*
 ClearCompilationFlagCache	youcompleteme.txt	/*ClearCompilationFlagCache*
@@ -170,6 +171,7 @@ ag	ag.txt	/*ag*
 ag-mappings	ag.txt	/*ag-mappings*
 ag.txt	ag.txt	/*ag.txt*
 airline	airline.txt	/*airline*
+airline-advanced-customization	airline.txt	/*airline-advanced-customization*
 airline-branch	airline.txt	/*airline-branch*
 airline-bufferline	airline.txt	/*airline-bufferline*
 airline-commands	airline.txt	/*airline-commands*
@@ -185,9 +187,12 @@ airline-funcrefs	airline.txt	/*airline-funcrefs*
 airline-hunks	airline.txt	/*airline-hunks*
 airline-license	airline.txt	/*airline-license*
 airline-name	airline.txt	/*airline-name*
+airline-parts	airline.txt	/*airline-parts*
 airline-pipeline	airline.txt	/*airline-pipeline*
 airline-pipeline-return-codes	airline.txt	/*airline-pipeline-return-codes*
+airline-sections	airline.txt	/*airline-sections*
 airline-syntastic	airline.txt	/*airline-syntastic*
+airline-tabline	airline.txt	/*airline-tabline*
 airline-tagbar	airline.txt	/*airline-tagbar*
 airline-themes	airline.txt	/*airline-themes*
 airline-troubleshooting	airline.txt	/*airline-troubleshooting*
@@ -402,6 +407,7 @@ i_<Plug>(unite_skip_next_line)	unite.txt	/*i_<Plug>(unite_skip_next_line)*
 i_<Plug>(unite_skip_previous_line)	unite.txt	/*i_<Plug>(unite_skip_previous_line)*
 i_<Plug>(unite_toggle_auto_preview)	unite.txt	/*i_<Plug>(unite_toggle_auto_preview)*
 i_<Plug>(unite_toggle_mark_current_candidate)	unite.txt	/*i_<Plug>(unite_toggle_mark_current_candidate)*
+i_<Plug>(unite_toggle_mark_current_candidate_up)	unite.txt	/*i_<Plug>(unite_toggle_mark_current_candidate_up)*
 i_<Plug>(unite_toggle_transpose_window)	unite.txt	/*i_<Plug>(unite_toggle_transpose_window)*
 i_CTRL-G_S	surround.txt	/*i_CTRL-G_S*
 i_CTRL-G_s	surround.txt	/*i_CTRL-G_s*
@@ -436,6 +442,7 @@ neobundle-options-base_path	neobundle.txt	/*neobundle-options-base_path*
 neobundle-options-build	neobundle.txt	/*neobundle-options-build*
 neobundle-options-default	neobundle.txt	/*neobundle-options-default*
 neobundle-options-depends	neobundle.txt	/*neobundle-options-depends*
+neobundle-options-disabled	neobundle.txt	/*neobundle-options-disabled*
 neobundle-options-external_commands	neobundle.txt	/*neobundle-options-external_commands*
 neobundle-options-gui	neobundle.txt	/*neobundle-options-gui*
 neobundle-options-hooks	neobundle.txt	/*neobundle-options-hooks*
