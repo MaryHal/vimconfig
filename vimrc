@@ -365,6 +365,8 @@ let g:airline_theme='wombat'
 
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+let g:airline_left_alt_sep=''
+let g:airline_right_alt_sep=''
 let g:airline_linecolumn_prefix = '¶ '
 
 let g:airline_mode_map = {
@@ -380,6 +382,8 @@ let g:airline_mode_map = {
             \ 'S'  : 'Select-Line',
             \ '' : 'Select-Block',
             \ }
+
+let g:airline#extensions#tabline#enabled = 1
 
 "===============================================================================
 " Autocommands
