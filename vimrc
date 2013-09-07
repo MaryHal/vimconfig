@@ -103,7 +103,7 @@ set autowrite
 "===============================================================================
 " => VIM user interface
 "===============================================================================
-set shortmess=I
+set shortmess=Iat
 
 " Ask for confirmation for various things
 set confirm
@@ -383,7 +383,9 @@ let g:airline_mode_map = {
             \ '' : 'Select-Block',
             \ }
 
+" Smart Tabline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 "===============================================================================
 " Autocommands
@@ -593,8 +595,13 @@ endif
 "===============================================================================
 " => Functions
 "===============================================================================
+map <F4> :call Premake()<CR>
 map <F5> :call CompileAndRun(0)<CR>
 map <F6> :call CompileAndRun(1)<CR>
+
+function! Premake()
+    exec '!premake4 gmake'
+endfunction
 
 function! CompileAndRun(runProgram)
     let l:progname = './' . expand('%:t:r')
@@ -609,7 +616,7 @@ function! CompileAndRun(runProgram)
     if filereadable("SConstruct")
         setl makeprg=scons
     elseif filereadable("Makefile") || filereadable("makefile")
-        setl makeprg=make\ -j \ -k
+        setl makeprg=make\ -j\ -k
     elseif filereadable("build.xml")
         setl makeprg=ant
     elseif &filetype == 'c'
