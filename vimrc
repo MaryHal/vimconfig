@@ -1,8 +1,29 @@
 ﻿"===============================================================================
-" => Plugins
+" => Pre-init
 "===============================================================================
 set nocompatible               " Be iMproved
 
+" Note: Skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
+
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
+      \   (!executable('xdg-open') &&
+      \     system('uname') =~? '^darwin'))
+
+if s:is_windows
+  " Exchange path separator.
+  set shellslash
+endif
+
+" In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
+let $DOTVIM = expand('~/.vim')
+
+"===============================================================================
+" => Plugins
+"===============================================================================
 if has('vim_starting')
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -24,6 +45,7 @@ NeoBundle 'Shougo/unite-help'
 
 " Completion
 NeoBundle 'Valloric/YouCompleteMe'
+" NeoBundle 'Shougo/neocomplete.vim'
 
 " Commenter
 NeoBundle 'tomtom/tcomment_vim'
