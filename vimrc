@@ -39,6 +39,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
       \ 'mac': 'make -f make_mac.mak',
       \ 'unix': 'make -f make_unix.mak',
       \ } }
+
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
@@ -60,15 +61,15 @@ NeoBundle 'bufkill.vim'
 NeoBundle 'rking/ag.vim'
 
 " Usability
-NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
+NeoBundle 'tpope/vim-rsi'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'bling/vim-airline'
-" NeoBundle 'itchyny/lightline.vim'
 
 " Filetype plugins
 NeoBundle 'jceb/vim-orgmode'
@@ -261,8 +262,11 @@ nmap <silent> <C-l> :wincmd l<CR>
 noremap <leader>v <C-w>v
 
 " Fast Tab Switching?
-nmap <silent> J gT
-nmap <silent> K gt
+" nmap <silent> J gT
+" nmap <silent> K gt
+
+" Make K match J
+nmap K kddkpJ
 
 " Window sizes always equal on split or close
 set equalalways
