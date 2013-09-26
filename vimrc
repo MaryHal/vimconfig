@@ -44,6 +44,8 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 
+NeoBundle 'Shougo/vimfiler.vim'
+
 " Completion
 NeoBundle 'Valloric/YouCompleteMe'
 " NeoBundle 'Shougo/neocomplete.vim'
@@ -438,6 +440,8 @@ autocmd MyAutoCmd FileType json setlocal syntax=javascript
 " Plugin Settings
 "===============================================================================
 nmap <F1> [unite]h
+
+let g:vimfiler_as_default_explorer = 1
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
