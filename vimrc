@@ -53,9 +53,6 @@ NeoBundle 'Valloric/YouCompleteMe'
 " Commenter
 NeoBundle 'tomtom/tcomment_vim'
 
-" Filetypes
-NeoBundle 'tpope/vim-markdown'
-
 " Buffers, Tabs, and such
 NeoBundle 'a.vim'
 NeoBundle 'bufkill.vim'
@@ -71,10 +68,12 @@ NeoBundle 'tpope/vim-rsi'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
-NeoBundle 'jceb/vim-orgmode'
+NeoBundleLazy 'tpope/vim-markdown'
+NeoBundleLazy 'jceb/vim-orgmode'
 
 filetype plugin indent on " required! 
 
@@ -357,6 +356,9 @@ if !has('gui_running')
   set t_Co=256
 endif
 
+" set background=dark
+" colorscheme base16-default
+
 let g:hybrid_use_Xresources = 1
 colorscheme hybrid
 
@@ -442,6 +444,7 @@ autocmd MyAutoCmd FileType json setlocal syntax=javascript
 nmap <F1> [unite]h
 
 let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_data_directory = "~/.vim/vimfiler"
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 

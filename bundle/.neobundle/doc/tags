@@ -257,6 +257,7 @@ airline-branch	airline.txt	/*airline-branch*
 airline-bufferline	airline.txt	/*airline-bufferline*
 airline-commands	airline.txt	/*airline-commands*
 airline-configuration	airline.txt	/*airline-configuration*
+airline-contents	airline.txt	/*airline-contents*
 airline-contributions	airline.txt	/*airline-contributions*
 airline-csv	airline.txt	/*airline-csv*
 airline-ctrlp	airline.txt	/*airline-ctrlp*
@@ -266,6 +267,7 @@ airline-extensions	airline.txt	/*airline-extensions*
 airline-features	airline.txt	/*airline-features*
 airline-funcrefs	airline.txt	/*airline-funcrefs*
 airline-hunks	airline.txt	/*airline-hunks*
+airline-intro	airline.txt	/*airline-intro*
 airline-license	airline.txt	/*airline-license*
 airline-name	airline.txt	/*airline-name*
 airline-parts	airline.txt	/*airline-parts*
@@ -300,6 +302,7 @@ g:neobundle#default_options	neobundle.txt	/*g:neobundle#default_options*
 g:neobundle#default_site	neobundle.txt	/*g:neobundle#default_site*
 g:neobundle#enable_name_conversion	neobundle.txt	/*g:neobundle#enable_name_conversion*
 g:neobundle#install_max_processes	neobundle.txt	/*g:neobundle#install_max_processes*
+g:neobundle#install_process_timeout	neobundle.txt	/*g:neobundle#install_process_timeout*
 g:neobundle#log_filename	neobundle.txt	/*g:neobundle#log_filename*
 g:neobundle#rm_command	neobundle.txt	/*g:neobundle#rm_command*
 g:neobundle#types#git#default_protocol	neobundle.txt	/*g:neobundle#types#git#default_protocol*
@@ -428,6 +431,7 @@ g:unite_source_rec_async_command	unite.txt	/*g:unite_source_rec_async_command*
 g:unite_source_rec_ignore_pattern	unite.txt	/*g:unite_source_rec_ignore_pattern*
 g:unite_source_rec_max_cache_files	unite.txt	/*g:unite_source_rec_max_cache_files*
 g:unite_source_rec_min_cache_files	unite.txt	/*g:unite_source_rec_min_cache_files*
+g:unite_source_rec_unit	unite.txt	/*g:unite_source_rec_unit*
 g:unite_source_vimgrep_ignore_pattern	unite.txt	/*g:unite_source_vimgrep_ignore_pattern*
 g:unite_source_vimgrep_search_word_highlight	unite.txt	/*g:unite_source_vimgrep_search_word_highlight*
 g:unite_split_rule	unite.txt	/*g:unite_split_rule*
