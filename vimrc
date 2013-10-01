@@ -72,8 +72,8 @@ NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
-NeoBundleLazy 'tpope/vim-markdown'
-NeoBundleLazy 'jceb/vim-orgmode'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'jceb/vim-orgmode'
 
 filetype plugin indent on " required! 
 
@@ -267,7 +267,7 @@ noremap <leader>v <C-w>v
 " nmap <silent> K gt
 
 " Make K match J
-nmap K kddkpJ
+nmap K kJ
 
 " Window sizes always equal on split or close
 set equalalways
