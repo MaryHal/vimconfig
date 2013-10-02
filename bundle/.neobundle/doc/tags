@@ -263,6 +263,7 @@ airline-csv	airline.txt	/*airline-csv*
 airline-ctrlp	airline.txt	/*airline-ctrlp*
 airline-customization	airline.txt	/*airline-customization*
 airline-default	airline.txt	/*airline-default*
+airline-eclim	airline.txt	/*airline-eclim*
 airline-extensions	airline.txt	/*airline-extensions*
 airline-features	airline.txt	/*airline-features*
 airline-funcrefs	airline.txt	/*airline-funcrefs*

@@ -185,7 +185,7 @@ set matchtime=5
 " Show incomplete commands
 set showcmd
 
-" No need to show mode due to Powerline
+" No need to show mode due to Powerline / Statusline modifications
 set noshowmode
 
 set modelines=0
@@ -212,7 +212,6 @@ if has('persistent_undo')
 endif
 set backupdir=~/.vim/tmp/backup/ " backups
 set directory=~/.vim/tmp/swap/   " swap files
-"set backup                       " enable backups
 
 "===============================================================================
 " => Text, tab and indent related
@@ -327,8 +326,6 @@ silent! command -nargs=0 Wq x
 "===============================================================================
 " => Insert Mode Key Remapping
 "===============================================================================
-inoremap <c-e> <esc>A
-
 " map control-backspace to delete the previous word
 imap <C-BS> <C-W>
 
@@ -386,7 +383,8 @@ let g:airline_enable_syntastic=0
 let g:airline_enable_tagbar=0
 let g:airline_detect_modified=1
 let g:airline_detect_paste=1
-let g:airline_detect_whitespace=0 "disabled
+let g:airline_detect_whitespace=0
+let g:airline_detect_iminsert=0
 
 " Theme
 let g:airline_inactive_collapse=1
@@ -421,10 +419,10 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Autocommands
 "===============================================================================
 
-" Turn on cursorline only on active window
 augroup MyAutoCmd
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter,BufRead * setlocal cursorline
+    " Turn on cursorline only on active window
+    " autocmd WinLeave * setlocal nocursorline
+    " autocmd WinEnter,BufRead * setlocal cursorline
 augroup END
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
@@ -434,9 +432,6 @@ autocmd MyAutoCmd FileType help,quickrun
       \ nnoremap <silent> <buffer> <esc><esc> :q<cr>|
       \ endif
 autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
-
-" json = javascript syntax highlight
-autocmd MyAutoCmd FileType json setlocal syntax=javascript
 
 "===============================================================================
 " Plugin Settings
