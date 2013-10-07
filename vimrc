@@ -124,6 +124,9 @@ set ttimeoutlen=50
 set autoread
 set autowrite
 
+" Turn off cursor blinking
+set guicursor=a:blinkon0
+
 "===============================================================================
 " => VIM user interface
 "===============================================================================
@@ -660,8 +663,7 @@ function! CompileAndRun(runProgram)
         let l:interpreter = 1
         let l:domake = 0
     elseif &filetype == 'tex'
-        let l:progname = 'pdflatex ' . expand('%:p')
-        let l:domake = 0
+        setl makeprg=pdflatex\ %
     else
         " Assume it's a simple script.
         let l:progname = './' . expand('%')

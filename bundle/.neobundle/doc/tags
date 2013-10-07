@@ -3,6 +3,7 @@
 :AgFile	ag.txt	/*:AgFile*
 :AgFromSearch	ag.txt	/*:AgFromSearch*
 :AgHelp	ag.txt	/*:AgHelp*
+:AirlineRefresh	airline.txt	/*:AirlineRefresh*
 :AirlineTheme	airline.txt	/*:AirlineTheme*
 :AirlineToggle	airline.txt	/*:AirlineToggle*
 :AirlineToggleWhitespace	airline.txt	/*:AirlineToggleWhitespace*
@@ -252,6 +253,7 @@ ag	ag.txt	/*ag*
 ag-mappings	ag.txt	/*ag-mappings*
 ag.txt	ag.txt	/*ag.txt*
 airline	airline.txt	/*airline*
+airline-accents	airline.txt	/*airline-accents*
 airline-advanced-customization	airline.txt	/*airline-advanced-customization*
 airline-branch	airline.txt	/*airline-branch*
 airline-bufferline	airline.txt	/*airline-bufferline*
@@ -458,6 +460,7 @@ g:vimfiler_no_default_key_mappings	vimfiler.txt	/*g:vimfiler_no_default_key_mapp
 g:vimfiler_preview_action	vimfiler.txt	/*g:vimfiler_preview_action*
 g:vimfiler_quick_look_command	vimfiler.txt	/*g:vimfiler_quick_look_command*
 g:vimfiler_readonly_file_icon	vimfiler.txt	/*g:vimfiler_readonly_file_icon*
+g:vimfiler_redraw_files_limit	vimfiler.txt	/*g:vimfiler_redraw_files_limit*
 g:vimfiler_safe_mode_by_default	vimfiler.txt	/*g:vimfiler_safe_mode_by_default*
 g:vimfiler_sort_type	vimfiler.txt	/*g:vimfiler_sort_type*
 g:vimfiler_split_action	vimfiler.txt	/*g:vimfiler_split_action*
