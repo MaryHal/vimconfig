@@ -101,9 +101,6 @@ set hidden
 " Allow Mouse Usage
 set mouse=a
 
-"set tags+=~/.vim/tags/cpp
-"set tags+=~/.vim/tags/glfw
-
 " Let's use ag instead of grep!
 set grepprg=ag
 
@@ -206,7 +203,7 @@ set nobackup
 set noswapfile
 
 if has('persistent_undo')
-    set undodir=~/.vim/tmp/undo/     " undo files
+    set undodir='~/.vim/tmp/undo/'
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -442,7 +439,7 @@ autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 nmap <F1> [unite]h
 
 let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = "~/.vim/vimfiler"
+let g:vimfiler_data_directory = '~/.vim/vimfiler'
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
@@ -604,7 +601,7 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
 
 " Data directory location
-let g:unite_data_directory = "/home/sanford/.vim/unite"
+let g:unite_data_directory = '~/.vim/unite'
 
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
@@ -663,7 +660,7 @@ function! CompileAndRun(runProgram)
         let l:interpreter = 1
         let l:domake = 0
     elseif &filetype == 'tex'
-        setl makeprg=pdflatex\ %
+        setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
     else
         " Assume it's a simple script.
         let l:progname = './' . expand('%')
