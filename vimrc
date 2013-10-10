@@ -173,6 +173,7 @@ set backspace=eol,start,indent
 " Searching
 set ignorecase "Ignore case when searching
 set smartcase  "If there are any capitalized letters, case sensitive search
+
 set nohlsearch "Don't Highlight search things
 set incsearch  "Make search act like search in modern browsers
 set wrapscan   " Search wraps around the end of the file
@@ -228,7 +229,7 @@ set smartindent
 
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
-"set showbreak=↪
+set showbreak=↪
 
 set wrap
 set whichwrap+=h,l,<,>,[,]
