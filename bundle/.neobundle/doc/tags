@@ -25,6 +25,7 @@
 :NeoBundleList	neobundle.txt	/*:NeoBundleList*
 :NeoBundleLocal	neobundle.txt	/*:NeoBundleLocal*
 :NeoBundleLog	neobundle.txt	/*:NeoBundleLog*
+:NeoBundleRecipe	neobundle.txt	/*:NeoBundleRecipe*
 :NeoBundleReinstall	neobundle.txt	/*:NeoBundleReinstall*
 :NeoBundleSource	neobundle.txt	/*:NeoBundleSource*
 :NeoBundleUpdate	neobundle.txt	/*:NeoBundleUpdate*
@@ -61,6 +62,7 @@
 :YcmDebugInfo	youcompleteme.txt	/*:YcmDebugInfo*
 :YcmDiags	youcompleteme.txt	/*:YcmDiags*
 :YcmForceCompileAndDiagnostics	youcompleteme.txt	/*:YcmForceCompileAndDiagnostics*
+:YcmRestartServer	youcompleteme.txt	/*:YcmRestartServer*
 :YcmShowDetailedDiagnostic	youcompleteme.txt	/*:YcmShowDetailedDiagnostic*
 :unite-sources-commands	unite.txt	/*:unite-sources-commands*
 <Plug>(unite_all_exit)	unite.txt	/*<Plug>(unite_all_exit)*
@@ -277,6 +279,7 @@ airline-parts	airline.txt	/*airline-parts*
 airline-pipeline	airline.txt	/*airline-pipeline*
 airline-pipeline-return-codes	airline.txt	/*airline-pipeline-return-codes*
 airline-predefined-parts	airline.txt	/*airline-predefined-parts*
+airline-quickfix	airline.txt	/*airline-quickfix*
 airline-sections	airline.txt	/*airline-sections*
 airline-syntastic	airline.txt	/*airline-syntastic*
 airline-tabline	airline.txt	/*airline-tabline*
@@ -358,6 +361,7 @@ g:tcommentModeExtra	tcomment.txt	/*g:tcommentModeExtra*
 g:tcommentOpModeExtra	tcomment.txt	/*g:tcommentOpModeExtra*
 g:tcommentOptions	tcomment.txt	/*g:tcommentOptions*
 g:tcommentSyntaxMap	tcomment.txt	/*g:tcommentSyntaxMap*
+g:tcommentTextObjectInlineComment	tcomment.txt	/*g:tcommentTextObjectInlineComment*
 g:tcomment_types	tcomment.txt	/*g:tcomment_types*
 g:unite_abbr_highlight	unite.txt	/*g:unite_abbr_highlight*
 g:unite_candidate_icon	unite.txt	/*g:unite_candidate_icon*
@@ -446,6 +450,7 @@ g:vimfiler_data_directory	vimfiler.txt	/*g:vimfiler_data_directory*
 g:vimfiler_default_columns	vimfiler.txt	/*g:vimfiler_default_columns*
 g:vimfiler_detect_drives	vimfiler.txt	/*g:vimfiler_detect_drives*
 g:vimfiler_directory_display_top	vimfiler.txt	/*g:vimfiler_directory_display_top*
+g:vimfiler_draw_files_limit	vimfiler.txt	/*g:vimfiler_draw_files_limit*
 g:vimfiler_edit_action	vimfiler.txt	/*g:vimfiler_edit_action*
 g:vimfiler_enable_auto_cd	vimfiler.txt	/*g:vimfiler_enable_auto_cd*
 g:vimfiler_execute_file_list	vimfiler.txt	/*g:vimfiler_execute_file_list*
@@ -460,7 +465,6 @@ g:vimfiler_no_default_key_mappings	vimfiler.txt	/*g:vimfiler_no_default_key_mapp
 g:vimfiler_preview_action	vimfiler.txt	/*g:vimfiler_preview_action*
 g:vimfiler_quick_look_command	vimfiler.txt	/*g:vimfiler_quick_look_command*
 g:vimfiler_readonly_file_icon	vimfiler.txt	/*g:vimfiler_readonly_file_icon*
-g:vimfiler_redraw_files_limit	vimfiler.txt	/*g:vimfiler_redraw_files_limit*
 g:vimfiler_safe_mode_by_default	vimfiler.txt	/*g:vimfiler_safe_mode_by_default*
 g:vimfiler_sort_type	vimfiler.txt	/*g:vimfiler_sort_type*
 g:vimfiler_split_action	vimfiler.txt	/*g:vimfiler_split_action*
@@ -490,6 +494,7 @@ g:ycm_complete_in_strings	youcompleteme.txt	/*g:ycm_complete_in_strings*
 g:ycm_confirm_extra_conf	youcompleteme.txt	/*g:ycm_confirm_extra_conf*
 g:ycm_csharp_server_port	youcompleteme.txt	/*g:ycm_csharp_server_port*
 g:ycm_extra_conf_globlist	youcompleteme.txt	/*g:ycm_extra_conf_globlist*
+g:ycm_extra_conf_vim_data	youcompleteme.txt	/*g:ycm_extra_conf_vim_data*
 g:ycm_filepath_completion_use_working_dir	youcompleteme.txt	/*g:ycm_filepath_completion_use_working_dir*
 g:ycm_filetype_blacklist	youcompleteme.txt	/*g:ycm_filetype_blacklist*
 g:ycm_filetype_specific_completion_to_disable	youcompleteme.txt	/*g:ycm_filetype_specific_completion_to_disable*
@@ -505,6 +510,10 @@ g:ycm_min_num_of_chars_for_completion	youcompleteme.txt	/*g:ycm_min_num_of_chars
 g:ycm_register_as_syntastic_checker	youcompleteme.txt	/*g:ycm_register_as_syntastic_checker*
 g:ycm_seed_identifiers_with_syntax	youcompleteme.txt	/*g:ycm_seed_identifiers_with_syntax*
 g:ycm_semantic_triggers	youcompleteme.txt	/*g:ycm_semantic_triggers*
+g:ycm_server_idle_suicide_seconds	youcompleteme.txt	/*g:ycm_server_idle_suicide_seconds*
+g:ycm_server_keep_logfiles	youcompleteme.txt	/*g:ycm_server_keep_logfiles*
+g:ycm_server_log_level	youcompleteme.txt	/*g:ycm_server_log_level*
+g:ycm_server_use_vim_stdout	youcompleteme.txt	/*g:ycm_server_use_vim_stdout*
 i_<Plug>(unite_choose_action)	unite.txt	/*i_<Plug>(unite_choose_action)*
 i_<Plug>(unite_delete_backward_char)	unite.txt	/*i_<Plug>(unite_delete_backward_char)*
 i_<Plug>(unite_delete_backward_line)	unite.txt	/*i_<Plug>(unite_delete_backward_line)*
@@ -536,6 +545,7 @@ i_<Plug>(unite_toggle_mark_current_candidate_up)	unite.txt	/*i_<Plug>(unite_togg
 i_<Plug>(unite_toggle_transpose_window)	unite.txt	/*i_<Plug>(unite_toggle_transpose_window)*
 i_CTRL-G_S	surround.txt	/*i_CTRL-G_S*
 i_CTRL-G_s	surround.txt	/*i_CTRL-G_s*
+import-vim	youcompleteme.txt	/*import-vim*
 libpython	youcompleteme.txt	/*libpython*
 libpython2.7.a-...-relocation-R_X86_64_32	youcompleteme.txt	/*libpython2.7.a-...-relocation-R_X86_64_32*
 neobundle	neobundle.txt	/*neobundle*
@@ -574,6 +584,7 @@ neobundle-options-hooks	neobundle.txt	/*neobundle-options-hooks*
 neobundle-options-lazy	neobundle.txt	/*neobundle-options-lazy*
 neobundle-options-name	neobundle.txt	/*neobundle-options-name*
 neobundle-options-overwrite	neobundle.txt	/*neobundle-options-overwrite*
+neobundle-options-recipe	neobundle.txt	/*neobundle-options-recipe*
 neobundle-options-regular_name	neobundle.txt	/*neobundle-options-regular_name*
 neobundle-options-resettable	neobundle.txt	/*neobundle-options-resettable*
 neobundle-options-rtp	neobundle.txt	/*neobundle-options-rtp*
@@ -713,6 +724,7 @@ tcomment#OperatorAnyway()	tcomment.txt	/*tcomment#OperatorAnyway()*
 tcomment#OperatorLine()	tcomment.txt	/*tcomment#OperatorLine()*
 tcomment#OperatorLineAnyway()	tcomment.txt	/*tcomment#OperatorLineAnyway()*
 tcomment#SetOption()	tcomment.txt	/*tcomment#SetOption()*
+tcomment#TextObjectInlineComment()	tcomment.txt	/*tcomment#TextObjectInlineComment()*
 tcomment-maps	tcomment.txt	/*tcomment-maps*
 tcomment-operator	tcomment.txt	/*tcomment-operator*
 tcomment.txt	tcomment.txt	/*tcomment.txt*
@@ -1147,6 +1159,7 @@ yo	unimpaired.txt	/*yo*
 youcompleteme	youcompleteme.txt	/*youcompleteme*
 youcompleteme-c-family-semantic-completion-engine-usage	youcompleteme.txt	/*youcompleteme-c-family-semantic-completion-engine-usage*
 youcompleteme-c-semantic-completion	youcompleteme.txt	/*youcompleteme-c-semantic-completion*
+youcompleteme-client-server-architecture	youcompleteme.txt	/*youcompleteme-client-server-architecture*
 youcompleteme-commands	youcompleteme.txt	/*youcompleteme-commands*
 youcompleteme-completion-string-ranking	youcompleteme.txt	/*youcompleteme-completion-string-ranking*
 youcompleteme-contact	youcompleteme.txt	/*youcompleteme-contact*
