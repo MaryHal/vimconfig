@@ -1,9 +1,9 @@
-YouCompleteMe
 a.vim
 ag.vim
 base16-vim
 bufkill.vim
 neobundle.vim
+neocomplete.vim
 tcomment_vim
 unite-help
 unite-outline
