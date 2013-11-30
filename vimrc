@@ -6,18 +6,6 @@ set nocompatible               " Be iMproved
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
 
-let s:is_windows = has('win16') || has('win32') || has('win64')
-let s:is_cygwin = has('win32unix')
-let s:is_mac = !s:is_windows && !s:is_cygwin
-      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-      \   (!executable('xdg-open') &&
-      \     system('uname') =~? '^darwin'))
-
-if s:is_windows
-  " Exchange path separator.
-  set shellslash
-endif
-
 " In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
 let $DOTVIM = expand('~/.vim')
 
@@ -65,6 +53,7 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
+NeoBundle 'sjl/gundo.vim'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -74,6 +63,9 @@ NeoBundle 'bling/vim-airline'
 " Filetype plugins
 NeoBundle 'tpope/vim-markdown'
 NeoBundle 'jceb/vim-orgmode'
+
+" Load local plugins
+execute 'NeoBundleLocal' '~/.vim/local'
 
 filetype plugin indent on " required! 
 
@@ -246,21 +238,18 @@ set splitbelow
 "set switchbuf=useopen
 set switchbuf=usetab
 
-" Mapleader and localleader
+" Mapleader and localleader. Keep in mind I use most leader stuff with unite.
 let mapleader = ","
-let g:mapleader = ","
 let maplocalleader = ","
-let g:maplocalleader = ","
 
 " When pressing <leader>cd switch to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>
+" map <leader>cd :cd %:p:h<cr>
 
 " Easy buffer navigation
 nmap <silent> <C-h> :wincmd h<CR>
 nmap <silent> <C-j> :wincmd j<CR>
 nmap <silent> <C-k> :wincmd k<CR>
 nmap <silent> <C-l> :wincmd l<CR>
-noremap <leader>v <C-w>v
 
 " Fast Tab Switching?
 " nmap <silent> J gT
@@ -328,7 +317,7 @@ silent! command -nargs=0 Wq x
 " => Insert Mode Key Remapping
 "===============================================================================
 " map control-backspace to delete the previous word
-imap <C-BS> <C-W>
+" imap <C-BS> <C-W>
 
 " Escape is far...
 imap jk <ESC>
@@ -506,7 +495,7 @@ nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
-nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd  -default-action=lcd directory<CR>
+nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
 nnoremap <silent> [unite]D
       \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 nnoremap <silent> [unite]<C-d>
@@ -534,9 +523,9 @@ nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
-
+ 
 " Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
 " Fuzzy search from current buffer
 " nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
@@ -621,10 +610,14 @@ if executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
+nnoremap <silent> [unite]<space> :call AceJumpWord()<CR>
+nnoremap <silent> [unite]k       :call AceJumpLine()<CR>
+nnoremap <silent> [unite]j       :call AceJumpChar()<CR>
+
 "===============================================================================
 " => Functions
 "===============================================================================
-map <F4> :call Premake()<CR>
+map <F7> :call Premake()<CR>
 map <F5> :call CompileAndRun(0)<CR>
 map <F6> :call CompileAndRun(1)<CR>
 
