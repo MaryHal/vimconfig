@@ -1,8 +1,10 @@
+AceJump.vim
 YouCompleteMe
 a.vim
 ag.vim
 base16-vim
 bufkill.vim
+gundo.vim
 neobundle.vim
 tcomment_vim
 unite-help
