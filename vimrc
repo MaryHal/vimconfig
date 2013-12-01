@@ -238,7 +238,7 @@ set splitbelow
 "set switchbuf=useopen
 set switchbuf=usetab
 
-" Mapleader and localleader. Keep in mind I use most leader stuff with unite.
+" Mapleader and localleader.
 let mapleader = ","
 let maplocalleader = ","
 
@@ -476,7 +476,7 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 
-" Quick buffer and mru
+" Quick buffer
 nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer<CR>
 
 " Quick yank history
@@ -486,13 +486,13 @@ nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
 
 " Quick sessions (projects)
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+" nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
 
 " Quick sources
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 
 " Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+" nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
@@ -506,6 +506,9 @@ nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
 nnoremap <silent> [unite]<C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
+" Quick Recursive File Search
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec/async <CR>
+
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
@@ -516,7 +519,7 @@ nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
 nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
 
 " Quick MRU search
-nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
+" nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
 
 " Quick find
 nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
@@ -591,7 +594,7 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
 
 " Data directory location
-let g:unite_data_directory = '~/.vim/unite'
+let g:unite_data_directory = expand('~/.vim/unite')
 
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
