@@ -428,9 +428,6 @@ autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 "===============================================================================
 nmap <F1> [unite]h
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = '~/.vim/vimfiler'
-
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
@@ -616,6 +613,23 @@ endif
 nnoremap <silent> [unite]<space> :call AceJumpWord()<CR>
 nnoremap <silent> [unite]k       :call AceJumpLine()<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar()<CR>
+
+"===============================================================================
+" => VimFiler
+"===============================================================================
+
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_data_directory = expand('~/.vim/vimfiler')
+
+" Icons
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+" let g:vimfiler_file_icon = ' '
+let g:vimfiler_marked_file_icon = '✓'
+" let g:vimfiler_readonly_file_icon = ' '
+
+nmap <F2> :<C-u>VimFiler<CR>
 
 "===============================================================================
 " => Functions
