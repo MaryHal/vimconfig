@@ -196,7 +196,7 @@ set nobackup
 set noswapfile
 
 if has('persistent_undo')
-    set undodir='~/.vim/tmp/undo/'
+    set undodir='~/.vim/cache/undo/'
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -591,7 +591,7 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
 
 " Data directory location
-let g:unite_data_directory = expand('~/.vim/unite')
+let g:unite_data_directory = expand('~/.vim/cache/unite')
 
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
@@ -619,7 +619,7 @@ nnoremap <silent> [unite]j       :call AceJumpChar()<CR>
 "===============================================================================
 
 let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = expand('~/.vim/vimfiler')
+let g:vimfiler_data_directory = expand('~/.vim/cache/vimfiler')
 
 " Icons
 let g:vimfiler_tree_leaf_icon = ' '
