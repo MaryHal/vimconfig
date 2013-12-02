@@ -54,6 +54,7 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
+NeoBundle 'justinmk/vim-sneak'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
