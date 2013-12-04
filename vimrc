@@ -667,10 +667,6 @@ function! CompileAndRun(runProgram)
         setl makeprg=javac\ %
         let l:progname = 'java ' . expand('%:t:r')
         let l:interpreter = 1
-    elseif &filetype == 'matlab'
-        let l:progname = 'octave ' . expand('%') . ' | less'
-        let l:interpreter = 1
-        let l:domake = 0
     elseif &filetype == 'tex'
         setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
     else
