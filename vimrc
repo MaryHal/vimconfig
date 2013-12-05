@@ -244,7 +244,10 @@ let mapleader = ","
 let maplocalleader = ","
 
 " When pressing <leader>cd switch to the directory of the open buffer
-" map <leader>cd :cd %:p:h<cr>
+nnoremap <leader>cd :cd %:p:h<CR>
+
+" Open terminal in current directory
+nnoremap <leader>t :!$TERMINAL<CR><CR>
 
 " Easy buffer navigation
 nmap <silent> <C-h> :wincmd h<CR>
