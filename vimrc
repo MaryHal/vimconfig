@@ -614,9 +614,10 @@ if executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-nnoremap <silent> [unite]<space> :call AceJumpWord()<CR>
-nnoremap <silent> [unite]k       :call AceJumpLine()<CR>
-nnoremap <silent> [unite]j       :call AceJumpChar()<CR>
+" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
+nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
+nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 
 "===============================================================================
 " => VimFiler
