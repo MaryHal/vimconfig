@@ -488,6 +488,7 @@ g:vimfiler_tree_closed_icon	vimfiler.txt	/*g:vimfiler_tree_closed_icon*
 g:vimfiler_tree_indentation	vimfiler.txt	/*g:vimfiler_tree_indentation*
 g:vimfiler_tree_leaf_icon	vimfiler.txt	/*g:vimfiler_tree_leaf_icon*
 g:vimfiler_tree_opened_icon	vimfiler.txt	/*g:vimfiler_tree_opened_icon*
+g:vimproc#disable	vimproc.txt	/*g:vimproc#disable*
 g:vimproc#dll_path	vimproc.txt	/*g:vimproc#dll_path*
 g:vimproc#password_pattern	vimproc.txt	/*g:vimproc#password_pattern*
 g:vimproc#popen2_commands	vimproc.txt	/*g:vimproc#popen2_commands*
@@ -498,6 +499,7 @@ g:ycm_add_preview_to_completeopt	youcompleteme.txt	/*g:ycm_add_preview_to_comple
 g:ycm_allow_changing_updatetime	youcompleteme.txt	/*g:ycm_allow_changing_updatetime*
 g:ycm_auto_start_csharp_server	youcompleteme.txt	/*g:ycm_auto_start_csharp_server*
 g:ycm_auto_stop_csharp_server	youcompleteme.txt	/*g:ycm_auto_stop_csharp_server*
+g:ycm_auto_trigger	youcompleteme.txt	/*g:ycm_auto_trigger*
 g:ycm_autoclose_preview_window_after_completion	youcompleteme.txt	/*g:ycm_autoclose_preview_window_after_completion*
 g:ycm_autoclose_preview_window_after_insertion	youcompleteme.txt	/*g:ycm_autoclose_preview_window_after_insertion*
 g:ycm_cache_omnifunc	youcompleteme.txt	/*g:ycm_cache_omnifunc*
@@ -525,7 +527,6 @@ g:ycm_path_to_python_interpreter	youcompleteme.txt	/*g:ycm_path_to_python_interp
 g:ycm_register_as_syntastic_checker	youcompleteme.txt	/*g:ycm_register_as_syntastic_checker*
 g:ycm_seed_identifiers_with_syntax	youcompleteme.txt	/*g:ycm_seed_identifiers_with_syntax*
 g:ycm_semantic_triggers	youcompleteme.txt	/*g:ycm_semantic_triggers*
-g:ycm_server_idle_suicide_seconds	youcompleteme.txt	/*g:ycm_server_idle_suicide_seconds*
 g:ycm_server_keep_logfiles	youcompleteme.txt	/*g:ycm_server_keep_logfiles*
 g:ycm_server_log_level	youcompleteme.txt	/*g:ycm_server_log_level*
 g:ycm_server_use_vim_stdout	youcompleteme.txt	/*g:ycm_server_use_vim_stdout*
@@ -1202,11 +1203,11 @@ yP	unimpaired.txt	/*yP*
 yS	surround.txt	/*yS*
 ySS	surround.txt	/*ySS*
 yo	unimpaired.txt	/*yo*
-youcompleteme	youcompleteme.txt	/*youcompleteme*
 youcompleteme-c-family-semantic-completion-engine-usage	youcompleteme.txt	/*youcompleteme-c-family-semantic-completion-engine-usage*
 youcompleteme-c-semantic-completion	youcompleteme.txt	/*youcompleteme-c-semantic-completion*
 youcompleteme-client-server-architecture	youcompleteme.txt	/*youcompleteme-client-server-architecture*
 youcompleteme-commands	youcompleteme.txt	/*youcompleteme-commands*
+youcompleteme-completion-doesnt-work-with-c-standard-library-headers	youcompleteme.txt	/*youcompleteme-completion-doesnt-work-with-c-standard-library-headers*
 youcompleteme-completion-string-ranking	youcompleteme.txt	/*youcompleteme-completion-string-ranking*
 youcompleteme-contact	youcompleteme.txt	/*youcompleteme-contact*
 youcompleteme-faq	youcompleteme.txt	/*youcompleteme-faq*
@@ -1224,6 +1225,7 @@ youcompleteme-is-there-sort-of-ycm-mailing-list-i-have-questions	youcompleteme.t
 youcompleteme-it-appears-that-ycm-is-not-working	youcompleteme.txt	/*youcompleteme-it-appears-that-ycm-is-not-working*
 youcompleteme-license	youcompleteme.txt	/*youcompleteme-license*
 youcompleteme-mac-os-x-super-quick-installation	youcompleteme.txt	/*youcompleteme-mac-os-x-super-quick-installation*
+youcompleteme-on-very-rare-occasions-vim-crashes-when-i-tab-through-completion-menu	youcompleteme.txt	/*youcompleteme-on-very-rare-occasions-vim-crashes-when-i-tab-through-completion-menu*
 youcompleteme-options	youcompleteme.txt	/*youcompleteme-options*
 youcompleteme-python-semantic-completion	youcompleteme.txt	/*youcompleteme-python-semantic-completion*
 youcompleteme-references	youcompleteme.txt	/*youcompleteme-references*
@@ -1242,6 +1244,7 @@ youcompleteme-ycm-auto-inserts-completion-strings-i-dont-want	youcompleteme.txt	
 youcompleteme-ycm-conflicts-with-ultisnips-tab-key-usage	youcompleteme.txt	/*youcompleteme-ycm-conflicts-with-ultisnips-tab-key-usage*
 youcompleteme-ycm-does-not-read-identifiers-from-my-tags-files	youcompleteme.txt	/*youcompleteme-ycm-does-not-read-identifiers-from-my-tags-files*
 youcompleteme-ycmcompleter-subcommands	youcompleteme.txt	/*youcompleteme-ycmcompleter-subcommands*
+youcompleteme.txt	youcompleteme.txt	/*youcompleteme.txt*
 yp	unimpaired.txt	/*yp*
 ys	surround.txt	/*ys*
 yss	surround.txt	/*yss*

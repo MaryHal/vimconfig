@@ -305,8 +305,11 @@ cnoremap s/ s/\v
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
 
-" Less chording
-"nnoremap ; :
+" Less chording, swap ; and :
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 
 " Sudo to write
 "cmap W!! w !sudo tee % >/dev/null
