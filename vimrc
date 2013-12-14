@@ -68,7 +68,7 @@ NeoBundle 'jceb/vim-orgmode'
 " Load local plugins
 execute 'NeoBundleLocal' '~/.vim/local'
 
-filetype plugin indent on " required! 
+filetype plugin indent on " required!
 
 NeoBundleCheck            " Installation check.
 
@@ -221,7 +221,7 @@ set smartindent
 " set cindent
 
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,eol:¬,trail:·
 set showbreak=↪
 
 set wrap
@@ -285,7 +285,7 @@ xnoremap > >gv
 
 " Bracket matching made easy?
 "nnoremap <tab> %
-"vnoremap <tab> % 
+"vnoremap <tab> %
 
 " Tab Switching (non-terminal vim only)
 "nmap <C-S-tab> :tabp<CR>
@@ -534,7 +534,7 @@ nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
- 
+
 " Quick bookmarks
 " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
@@ -704,5 +704,9 @@ function! CompileAndRun(runProgram)
             exec '!' . l:progname
         endif
     endif
+endfunction
+
+function! DeleteTrailingWhiteSpace()
+    %s/\s\+$//e
 endfunction
 
