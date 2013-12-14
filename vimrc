@@ -306,10 +306,14 @@ cnoremap s/ s/\v
 nnoremap Y y$
 
 " Less chording, swap ; and :
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
+" nnoremap ; :
+" nnoremap : ;
+" vnoremap ; :
+" vnoremap : ;
+
+" Leader keys
+nnoremap <leader>w :w<CR>
+nnoremap <leader>x :x<CR>
 
 " Sudo to write
 "cmap W!! w !sudo tee % >/dev/null
