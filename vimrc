@@ -163,7 +163,6 @@ set ruler "Always show current position
 
 " Set backspace config
 set backspace=eol,start,indent
-" set whichwrap+=<,>,h,l
 
 " Searching
 set ignorecase "Ignore case when searching
@@ -344,11 +343,26 @@ imap kj <ESC>
 " => Autocommands
 "===============================================================================
 if has('autocmd')
-    " Resize splits when window is resized
-    au VimResized * exe "normal! \<c-w>="
+    " Set augroup
+    augroup MyAutoCmd
+        autocmd!
+    augroup END
 
-    " Html settings
-    autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    " Cursorline can sometimes be super slow, especially with a ton of
+    " syntax highlighting
+    augroup MyAutoCmd
+        " Turn on cursorline only on active window
+        " autocmd WinLeave * setlocal nocursorline
+        " autocmd WinEnter,BufRead * setlocal cursorline
+    augroup END
+
+    augroup MyAutoCmd
+        " Resize splits when window is resized
+        autocmd VimResized * exe "normal! \<c-w>="
+
+        " Html settings
+        autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    augroup END
 endif
 
 "===============================================================================
@@ -421,24 +435,6 @@ let g:airline_mode_map = {
 " Smart Tabline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-
-"===============================================================================
-" => Autocommands
-"===============================================================================
-
-augroup MyAutoCmd
-    " Turn on cursorline only on active window
-    " autocmd WinLeave * setlocal nocursorline
-    " autocmd WinEnter,BufRead * setlocal cursorline
-augroup END
-
-" q quits in certain page types. Don't map esc, that interferes with mouse input
-autocmd MyAutoCmd FileType help,quickrun
-      \ if (!&modifiable || &ft==#'quickrun') |
-      \ nnoremap <silent> <buffer> q :q<cr>|
-      \ nnoremap <silent> <buffer> <esc><esc> :q<cr>|
-      \ endif
-autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 
 "===============================================================================
 " => Plugin Settings
