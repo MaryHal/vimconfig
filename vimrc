@@ -54,7 +54,6 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
-NeoBundle 'justinmk/vim-sneak'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -122,6 +121,9 @@ set guicursor=a:blinkon0
 "===============================================================================
 set shortmess=Iat
 
+" Solid line for vsplit separator
+set fcs=vert:│
+
 " Ask for confirmation for various things
 set confirm
 
@@ -175,6 +177,8 @@ set gdefault "substitute default = all matches on line
 
 set showmatch "Show matching bracets when text indicator is over them
 set matchtime=5
+
+set virtualedit=onemore
 
 " Show incomplete commands
 set showcmd
@@ -302,6 +306,8 @@ nnoremap ? ?\v
 vnoremap ? ?\v
 cnoremap s/ s/\v
 
+" set magic
+
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
 
@@ -417,7 +423,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 "===============================================================================
-" Autocommands
+" => Autocommands
 "===============================================================================
 
 augroup MyAutoCmd
@@ -435,14 +441,20 @@ autocmd MyAutoCmd FileType help,quickrun
 autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 
 "===============================================================================
-" Plugin Settings
+" => Plugin Settings
 "===============================================================================
 nmap <F1> [unite]h
+nmap <F2> :<C-u>VimFiler<CR>
+nmap <F3> :<C-u>GundoToggle<CR>
+
+map <F5> :call CompileAndRun(0)<CR>
+map <F6> :call CompileAndRun(1)<CR>
+map <F7> :call Premake()<CR>
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
-" YCM
+" => YCM
 "===============================================================================
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
@@ -456,7 +468,7 @@ let g:ycm_filetype_blacklist = {
       \}
 
 "===============================================================================
-" Unite
+" => Unite
 "===============================================================================
 
 " Use the fuzzy matcher for everything
@@ -641,15 +653,9 @@ let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_marked_file_icon = '✓'
 " let g:vimfiler_readonly_file_icon = ' '
 
-nmap <F2> :<C-u>VimFiler<CR>
-
 "===============================================================================
 " => Functions
 "===============================================================================
-map <F7> :call Premake()<CR>
-map <F5> :call CompileAndRun(0)<CR>
-map <F6> :call CompileAndRun(1)<CR>
-
 function! Premake()
     exec '!premake4 gmake'
 endfunction
