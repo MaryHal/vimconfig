@@ -343,18 +343,18 @@ imap kj <ESC>
 " => Autocommands
 "===============================================================================
 if has('autocmd')
-    " Set augroup
+    " Reset autogroup
     augroup MyAutoCmd
         autocmd!
     augroup END
 
     " Cursorline can sometimes be super slow, especially with a ton of
     " syntax highlighting
-    augroup MyAutoCmd
-        " Turn on cursorline only on active window
-        " autocmd WinLeave * setlocal nocursorline
-        " autocmd WinEnter,BufRead * setlocal cursorline
-    augroup END
+    " augroup MyAutoCmd
+    "     " Turn on cursorline only on active window
+    "     autocmd WinLeave * setlocal nocursorline
+    "     autocmd WinEnter,BufRead * setlocal cursorline
+    " augroup END
 
     augroup MyAutoCmd
         " Resize splits when window is resized
@@ -434,7 +434,10 @@ let g:airline_mode_map = {
 
 " Smart Tabline
 let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#buffer_min_count = 2
+" let g:airline#extensions#tabline#tab_nr_type = 1
 
 "===============================================================================
 " => Plugin Settings
@@ -556,45 +559,44 @@ nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
 function! s:unite_settings()
+    nmap <buffer> <ESC> <Plug>(unite_exit)
+    imap <buffer> <ESC> <Plug>(unite_exit)
+    " imap <buffer> <c-j> <Plug>(unite_select_next_line)
+    imap <buffer> <c-j> <Plug>(unite_insert_leave)
+    nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
+    nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
+    imap <buffer> <c-a> <Plug>(unite_choose_action)
+    imap <buffer> <Tab> <Plug>(unite_exit_insert)
+    imap <buffer> jj <Plug>(unite_insert_leave)
+    imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
+    imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
+    imap <buffer> ' <Plug>(unite_quick_match_default_action)
+    nmap <buffer> ' <Plug>(unite_quick_match_default_action)
+    nmap <buffer> <C-r> <Plug>(unite_redraw)
+    imap <buffer> <C-r> <Plug>(unite_redraw)
+    inoremap <silent><buffer><expr> <C-x> unite#do_action('split')
+    nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
+    inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+    nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
 
-  nmap <buffer> <ESC> <Plug>(unite_exit)
-  imap <buffer> <ESC> <Plug>(unite_exit)
-" imap <buffer> <c-j> <Plug>(unite_select_next_line)
-  imap <buffer> <c-j> <Plug>(unite_insert_leave)
-  nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
-  nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
-  imap <buffer> <c-a> <Plug>(unite_choose_action)
-  imap <buffer> <Tab> <Plug>(unite_exit_insert)
-  imap <buffer> jj <Plug>(unite_insert_leave)
-  imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
-  imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
-  imap <buffer> ' <Plug>(unite_quick_match_default_action)
-  nmap <buffer> ' <Plug>(unite_quick_match_default_action)
-  nmap <buffer> <C-r> <Plug>(unite_redraw)
-  imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <C-x> unite#do_action('split')
-  nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
-  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+    let unite = unite#get_current_unite()
+    if unite.buffer_name =~# '^search'
+        nnoremap <silent><buffer><expr> r unite#do_action('replace')
+    else
+        nnoremap <silent><buffer><expr> r unite#do_action('rename')
+    endif
 
-  let unite = unite#get_current_unite()
-  if unite.buffer_name =~# '^search'
-    nnoremap <silent><buffer><expr> r unite#do_action('replace')
-  else
-    nnoremap <silent><buffer><expr> r unite#do_action('rename')
-  endif
+    nnoremap <silent><buffer><expr> cd unite#do_action('lcd')
 
-  nnoremap <silent><buffer><expr> cd unite#do_action('lcd')
+    " Using Ctrl-\ to trigger outline, so close it using the same keystroke
+    if unite.buffer_name =~# '^outline'
+        imap <buffer> <C-\> <Plug>(unite_exit)
+    endif
 
-" Using Ctrl-\ to trigger outline, so close it using the same keystroke
-  if unite.buffer_name =~# '^outline'
-    imap <buffer> <C-\> <Plug>(unite_exit)
-  endif
-
-" Using Ctrl-/ to trigger line, close it using same keystroke
-  if unite.buffer_name =~# '^search_file'
-    imap <buffer> <C-_> <Plug>(unite_exit)
-  endif
+    " Using Ctrl-/ to trigger line, close it using same keystroke
+    if unite.buffer_name =~# '^search_file'
+        imap <buffer> <C-_> <Plug>(unite_exit)
+    endif
 endfunction
 
 " Start in insert mode
@@ -629,7 +631,7 @@ if executable('ag')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
 nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
 nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
