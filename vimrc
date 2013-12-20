@@ -450,6 +450,11 @@ map <F5> :call CompileAndRun(0)<CR>
 map <F6> :call CompileAndRun(1)<CR>
 map <F7> :call Premake()<CR>
 
+vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
+nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
+nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
+
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
@@ -630,11 +635,6 @@ if executable('ag')
   let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
   let g:unite_source_grep_recursive_opt = ''
 endif
-
-vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
-nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
-nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 
 "===============================================================================
 " => VimFiler
