@@ -88,6 +88,7 @@ set encoding=utf-8
 " Set to auto read when a file is changed from the outside
 set autoread
 
+" Allow changing buffer without saving first
 set hidden
 
 " Allow Mouse Usage
@@ -182,7 +183,7 @@ set virtualedit=onemore
 " Show incomplete commands
 set showcmd
 
-" No need to show mode due to Powerline / Statusline modifications
+" No need to show mode due to statusline modifications
 set noshowmode
 
 set modelines=0
@@ -249,6 +250,10 @@ let maplocalleader = ","
 " When pressing <leader>cd switch to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<CR>
 
+" Copy the full path of the current file to the clipboard
+nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+      \ path '".expand("%:p")."' to clipboard"<cr>
+
 " Open terminal in current directory
 nnoremap <leader>t :!$TERMINAL<CR><CR>
 
@@ -299,13 +304,12 @@ xnoremap > >gv
 "===============================================================================
 
 " Fix broken vim regexes when searching
-nnoremap / /\v
-vnoremap / /\v
-nnoremap ? ?\v
-vnoremap ? ?\v
-cnoremap s/ s/\v
-
-" set magic
+" nnoremap / /\v
+" vnoremap / /\v
+" nnoremap ? ?\v
+" vnoremap ? ?\v
+" cnoremap s/ s/\v
+set magic
 
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
@@ -321,7 +325,7 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
 
 " Sudo to write
-"cmap W!! w !sudo tee % >/dev/null
+cmap W!! w !sudo tee % >/dev/null
 
 " Avoid Typos
 silent! command -nargs=0 W w
@@ -363,6 +367,10 @@ if has('autocmd')
         " Html settings
         autocmd FileType html setlocal shiftwidth=2 tabstop=2
     augroup END
+
+    " Reload vimrc when edited
+    " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
+    "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 endif
 
 "===============================================================================
@@ -391,12 +399,30 @@ set guioptions=acg
 set fileformat=unix
 set ffs=unix,dos,mac "Default file types
 
+" Always show the statusline
+set laststatus=2
+
+"===============================================================================
+" => Plugin Settings
+"===============================================================================
+nmap <F1> [unite]h
+nmap <F2> :<C-u>VimFiler<CR>
+nmap <F3> :<C-u>GundoToggle<CR>
+
+map <F5> :call CompileAndRun(0)<CR>
+map <F6> :call CompileAndRun(1)<CR>
+map <F7> :call Premake()<CR>
+
+vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
+nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
+nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
+
+" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
 "===============================================================================
 " => Statusline
 "===============================================================================
-
-" Always show the statusline
-set laststatus=2
 
 " Airline
 let g:airline_enable_branch=0
@@ -434,28 +460,13 @@ let g:airline_mode_map = {
 
 " Smart Tabline
 let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" Show tab number instead of number of splits in tab
+let g:airline#extensions#tabline#tab_nr_type = 1
+
 let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#buffer_min_count = 2
-" let g:airline#extensions#tabline#tab_nr_type = 1
-
-"===============================================================================
-" => Plugin Settings
-"===============================================================================
-nmap <F1> [unite]h
-nmap <F2> :<C-u>VimFiler<CR>
-nmap <F3> :<C-u>GundoToggle<CR>
-
-map <F5> :call CompileAndRun(0)<CR>
-map <F6> :call CompileAndRun(1)<CR>
-map <F7> :call Premake()<CR>
-
-vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
-nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
-nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
-
-" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
 " => YCM
