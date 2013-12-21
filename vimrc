@@ -54,6 +54,8 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'terryma/vim-expand-region'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -419,6 +421,12 @@ nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"===============================================================================
+" => Expand Region
+"===============================================================================
+" map K <Plug>(expand_region_expand)
+" map J <Plug>(expand_region_shrink)
 
 "===============================================================================
 " => Statusline
