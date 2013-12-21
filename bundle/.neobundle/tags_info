@@ -11,8 +11,10 @@ unite-help
 unite-outline
 unite.vim
 vim-airline
+vim-expand-region
 vim-hybrid
 vim-markdown
+vim-multiple-cursors
 vim-orgmode
 vim-repeat
 vim-rsi
