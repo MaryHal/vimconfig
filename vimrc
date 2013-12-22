@@ -513,8 +513,8 @@ nnoremap [unite] <Nop>
 nmap <space> [unite]
 
 " General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files buffer file_mru bookmark file<CR>
+" nnoremap <silent> [unite]<space> :<C-u>Unite
+"       \ -buffer-name=files buffer file_mru bookmark file<CR>
 
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
