@@ -64,8 +64,8 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'terryma/vim-expand-region'
+" NeoBundle 'terryma/vim-multiple-cursors'
+" NeoBundle 'terryma/vim-expand-region'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
