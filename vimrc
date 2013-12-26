@@ -1,10 +1,17 @@
-﻿"===============================================================================
+"===============================================================================
 " => Pre-init
 "===============================================================================
-set nocompatible               " Be iMproved
+set nocompatible    " Be iMproved
 
-" Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
+" Detect OS
+let s:is_windows = has('win32') || has('win64')
+let s:is_cygwin  = has('win32unix')
+let s:is_macvim  = has('gui_macvim')
+
+" ensure correct shell in gvim
+if s:is_windows && !s:is_cygwin
+    set shell=c:\windows\system32\cmd.exe
+endif
 
 " In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
 let $DOTVIM = expand('~/.vim')
@@ -13,6 +20,9 @@ let $DOTVIM = expand('~/.vim')
 " => Plugins
 "===============================================================================
 if has('vim_starting')
+    if s:is_windows
+        set runtimepath+=~/.vim
+    endif
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
@@ -87,9 +97,6 @@ filetype indent on
 
 set encoding=utf-8
 
-" Set to auto read when a file is changed from the outside
-set autoread
-
 " Allow changing buffer without saving first
 set hidden
 
@@ -113,6 +120,7 @@ set ttyfast
 set ttimeout
 set ttimeoutlen=50
 
+" Auto reload if file is saved externally.
 set autoread
 set autowrite
 
@@ -140,8 +148,10 @@ set sidescrolloff=5
 " Auto complete setting
 set completeopt=longest,menuone
 
-set wildmenu " Turn on Wild menu
-set wildmode=list:longest,full
+"show list for autocomplete
+set wildmenu
+set wildmode=list:full
+set wildignorecase
 
 set wildignore=*.o,*.pyc,*.hi
 set wildignore+=.hg,.git,.svn,.gitignore         " Version control
@@ -164,21 +174,36 @@ set ruler "Always show current position
 " Line Numbers
 " set number
 
-" Set backspace config
-set backspace=eol,start,indent
+" Allow backspacing everything in insert mode
+set backspace=indent,eol,start
 
 " Searching
-set ignorecase "Ignore case when searching
-set smartcase  "If there are any capitalized letters, case sensitive search
+set ignorecase " Ignore case when searching
+set smartcase  " If there are any capitalized letters, case sensitive search
 
-set nohlsearch "Don't Highlight search things
-set incsearch  "Make search act like search in modern browsers
+set nohlsearch " Don't Highlight search things
+set incsearch  " Make search act like search in modern browsers
 set wrapscan   " Search wraps around the end of the file
+
+if executable('ack')
+    set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+    set grepformat=%f:%l:%c:%m
+endif
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+    set grepformat=%f:%l:%c:%m
+endif
+
+
+if has('conceal')
+    set conceallevel=1
+    set listchars+=conceal:Δ
+endif
 
 set gdefault "substitute default = all matches on line
 
-set showmatch "Show matching bracets when text indicator is over them
-set matchtime=5
+set showmatch " Show matching bracets when text indicator is over them
+set matchtime=2
 
 set virtualedit=onemore
 
@@ -188,20 +213,19 @@ set showcmd
 " No need to show mode due to statusline modifications
 set noshowmode
 
+set modeline
 set modelines=0
 
 " Disable all bells
-set noerrorbells novisualbell t_vb=
+set noerrorbells
+set novisualbell
+set t_vb=
 
 set lazyredraw
 
 "===============================================================================
 " => Files and backups
 "===============================================================================
-set nowritebackup
-set nobackup
-set noswapfile
-
 if has('persistent_undo')
     set undodir='~/.vim/cache/undo/'
     "set undofile
@@ -210,8 +234,15 @@ if has('persistent_undo')
         set undoreload=1000
     endif
 endif
+
+" Backups
 set backupdir=~/.vim/tmp/backup/ " backups
-set directory=~/.vim/tmp/swap/   " swap files
+set nowritebackup
+set nobackup
+
+" Swap Files
+set directory=~/.vim/tmp/swap/
+set noswapfile
 
 "===============================================================================
 " => Text, tab and indent related
@@ -227,7 +258,7 @@ set smartindent
 " set cindent
 
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,eol:¬,trail:·
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,eol:¬,trail:•
 set showbreak=↪
 
 set wrap
@@ -321,6 +352,9 @@ nnoremap Y y$
 " nnoremap : ;
 " vnoremap ; :
 " vnoremap : ;
+
+" hide annoying quit message
+nnoremap <C-c> <C-c>:echo<cr>
 
 " Leader keys
 nnoremap <leader>w :w<CR>
@@ -473,7 +507,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
 
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#buffer_nr_show = 1
 " let g:airline#extensions#tabline#buffer_min_count = 2
 
 "===============================================================================
