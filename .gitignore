@@ -1,4 +1,6 @@
 bundle/
+!bundle/neobundle.vim
+
 tmp/
 unite/
 vimfiler/
