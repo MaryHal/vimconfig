@@ -1,6 +1,6 @@
-bundle/
+bundle
 !bundle/neobundle.vim
 
-cache/
+cache
 .netrwhist
 ycm_extra_conf.pyc
