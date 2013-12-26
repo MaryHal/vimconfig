@@ -64,6 +64,7 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
+NeoBundle 'kana/vim-arpeggio'
 " NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'terryma/vim-expand-region'
 
@@ -353,9 +354,6 @@ nnoremap Y y$
 " vnoremap ; :
 " vnoremap : ;
 
-" hide annoying quit message
-nnoremap <C-c> <C-c>:echo<cr>
-
 " Leader keys
 nnoremap <leader>w :w<CR>
 nnoremap <leader>x :x<CR>
@@ -376,8 +374,8 @@ silent! command -nargs=0 Wq x
 " imap <C-BS> <C-W>
 
 " Escape is far...
-imap jk <ESC>
-imap kj <ESC>
+" imap jk <ESC>
+" imap kj <ESC>
 
 "===============================================================================
 " => Autocommands
@@ -455,6 +453,12 @@ nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"===============================================================================
+" => Plugin Settings
+"===============================================================================
+call arpeggio#load()
+Arpeggio inoremap jk <Esc>
 
 "===============================================================================
 " => Expand Region
@@ -730,7 +734,7 @@ function! CompileAndRun(runProgram)
     elseif &filetype == 'c'
         setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
     elseif &filetype == 'cpp'
-        setl makeprg=g++\ -Wall\ -std=c++11\ -o\ %<\ %
+        setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
     elseif &filetype == 'java'
         setl makeprg=javac\ %
         let l:progname = 'java ' . expand('%:t:r')
