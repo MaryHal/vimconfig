@@ -85,6 +85,36 @@ filetype plugin indent on " required!
 NeoBundleCheck            " Installation check.
 
 "===============================================================================
+" => Autocommands
+"===============================================================================
+if has('autocmd')
+    " Reset autogroup
+    augroup MyAutoCmd
+        autocmd!
+    augroup END
+
+    " Cursorline can sometimes be super slow, especially with a ton of
+    " syntax highlighting
+    " augroup MyAutoCmd
+    "     " Turn on cursorline only on active window
+    "     autocmd WinLeave * setlocal nocursorline
+    "     autocmd WinEnter,BufRead * setlocal cursorline
+    " augroup END
+
+    augroup MyAutoCmd
+        " Resize splits when window is resized
+        autocmd VimResized * exe "normal! \<c-w>="
+
+        " Html settings
+        autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    augroup END
+
+    " Reload vimrc when edited
+    " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
+    "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+endif
+
+"===============================================================================
 " => General
 "===============================================================================
 set nocompatible
@@ -376,36 +406,6 @@ silent! command -nargs=0 Wq x
 " Escape is far...
 " imap jk <ESC>
 " imap kj <ESC>
-
-"===============================================================================
-" => Autocommands
-"===============================================================================
-if has('autocmd')
-    " Reset autogroup
-    augroup MyAutoCmd
-        autocmd!
-    augroup END
-
-    " Cursorline can sometimes be super slow, especially with a ton of
-    " syntax highlighting
-    " augroup MyAutoCmd
-    "     " Turn on cursorline only on active window
-    "     autocmd WinLeave * setlocal nocursorline
-    "     autocmd WinEnter,BufRead * setlocal cursorline
-    " augroup END
-
-    augroup MyAutoCmd
-        " Resize splits when window is resized
-        autocmd VimResized * exe "normal! \<c-w>="
-
-        " Html settings
-        autocmd FileType html setlocal shiftwidth=2 tabstop=2
-    augroup END
-
-    " Reload vimrc when edited
-    " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-    "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-endif
 
 "===============================================================================
 " => Colors and Fonts
