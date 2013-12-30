@@ -452,7 +452,7 @@ nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
-" => Plugin Settings
+" => Arpeggio
 "===============================================================================
 call arpeggio#load()
 Arpeggio inoremap jk <Esc>
@@ -536,7 +536,7 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'ignore_pattern', join([
       \ '\.git/',
       \ 'git5/.*/review/',
@@ -688,6 +688,9 @@ if executable('ag')
     let g:unite_source_grep_command='ag'
     let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
     let g:unite_source_grep_recursive_opt=''
+
+    " Set up ignores for ag when using file_rec/async
+    let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
 elseif executable('ack')
     let g:unite_source_grep_command='ack'
     let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
