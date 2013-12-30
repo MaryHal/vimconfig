@@ -683,12 +683,20 @@ let g:unite_cursor_line_highlight = 'TabLineSel'
 let g:unite_source_file_mru_filename_format = ':~:.'
 let g:unite_source_file_mru_time_format = ''
 
-" Use ag for search
+" Use ack/ag for search
 if executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-  let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_command='ag'
+    let g:unite_source_grep_default_opts='--nocolor --nogroup -S -C4'
+    let g:unite_source_grep_recursive_opt=''
+elseif executable('ack')
+    let g:unite_source_grep_command='ack'
+    let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
+    let g:unite_source_grep_recursive_opt=''
 endif
+
+" Icons, try to match it with VimFiler
+let g:unite_prompt = '» '
+let g:unite_marked_icon = '✓'
 
 "===============================================================================
 " => VimFiler
@@ -709,6 +717,7 @@ let g:vimfiler_marked_file_icon = '✓'
 " => Functions
 "===============================================================================
 function! Premake()
+    exec '!premake4 clean'
     exec '!premake4 gmake'
 endfunction
 
