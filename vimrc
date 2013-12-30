@@ -1,7 +1,7 @@
 "===============================================================================
 " => Pre-init
 "===============================================================================
-set nocompatible    " Be iMproved
+set nocompatible
 
 " Detect OS
 let s:is_windows = has('win32') || has('win64')
@@ -134,11 +134,8 @@ set hidden
 " Allow Mouse Usage
 set mouse=a
 
-" Let's use ag instead of grep!
-set grepprg=ag
-
 " Make with 2 cores
-set makeprg=make\ -j2
+set makeprg=make\ -j\ -k
 
 if has ('unnamedplus')
   set clipboard=unnamedplus
