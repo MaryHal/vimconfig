@@ -178,7 +178,7 @@ set completeopt=longest,menuone
 
 "show list for autocomplete
 set wildmenu
-set wildmode=list:full
+set wildmode=list:longest,full
 set wildignorecase
 
 set wildignore=*.o,*.pyc,*.hi
@@ -503,6 +503,7 @@ let g:airline_mode_map = {
 
 " Smart Tabline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
 
 " Show tab number instead of number of splits in tab
 let g:airline#extensions#tabline#tab_nr_type = 1
@@ -603,7 +604,7 @@ nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file li
 nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
 
 " Quick bookmarks
 " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
