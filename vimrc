@@ -47,6 +47,8 @@ NeoBundle 'Shougo/vimfiler.vim'
 " Completion
 " NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'osyo-manga/vim-reunions'
+NeoBundle 'osyo-manga/vim-marching'
 
 " Commenter
 NeoBundle 'tomtom/tcomment_vim'
@@ -599,6 +601,49 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+"===============================================================================
+" => Vim-marching (C++ completion)
+"===============================================================================
+" オプションを追加する場合
+let g:marching_clang_command_option="-std=c++11"
+
+if s:is_windows
+    let g:marching_clang_command = "C:/clang.exe"
+    let g:marching_include_paths = [
+                \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
+                \   "C:/cpp/boost"
+                \]
+else
+    let g:marching_clang_command = "clang"
+    let g:marching_include_paths = [
+                \   "/usr/include/c++/4.8.2"
+                \]
+endif
+
+" neocomplete.vim と併用して使用する場合
+let g:marching_enable_neocomplete = 1
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+
+let g:neocomplete#force_omni_input_patterns.cpp =
+    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+
+" 処理のタイミングを制御する
+" 短いほうがより早く補完ウィンドウが表示される
+set updatetime=200
+
+" オムニ補完時に補完ワードを挿入したくない場合
+imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+
+" キャッシュを削除してからオムに補完を行う
+imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+
+
+" 非同期ではなくて、同期処理でコード補完を行う場合
+" let g:marching_backend = "sync_clang_command"
 
 "===============================================================================
 " => YCM
