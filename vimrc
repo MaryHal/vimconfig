@@ -134,6 +134,9 @@ set hidden
 " Allow Mouse Usage
 set mouse=a
 
+" Hide mouse when typing
+set mousehide
+
 " Make with 2 cores
 set makeprg=make\ -j\ -k
 
@@ -178,7 +181,7 @@ set completeopt=longest,menuone
 
 "show list for autocomplete
 set wildmenu
-set wildmode=list:longest,full
+set wildmode=list:longest
 set wildignorecase
 
 set wildignore=*.o,*.pyc,*.hi
@@ -264,7 +267,7 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/.vim/tmp/backup/ " backups
+set backupdir=~/.vim/tmp/backup/
 set nowritebackup
 set nobackup
 
@@ -286,7 +289,7 @@ set smartindent
 " set cindent
 
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,eol:¬,trail:•
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
 set showbreak=↪
 
 set wrap
@@ -586,7 +589,11 @@ nnoremap <silent> [unite]F :<C-u>UniteWithCurrentDir -buffer-name=files file fil
 nnoremap <silent> [unite]<C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
 " Quick Recursive File Search
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec/async <CR>
+if s:is_windows
+    nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec<CR>
+else
+    nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec/async<CR>
+endif
 
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
@@ -677,6 +684,7 @@ let g:unite_data_directory = expand('~/.vim/cache/unite')
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
 
+let g:unite_source_rec_max_cache_files=5000
 let g:unite_source_file_mru_limit = 1000
 let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_abbr_highlight = 'TabLine'
