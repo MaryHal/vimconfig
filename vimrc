@@ -67,6 +67,7 @@ NeoBundle 'sjl/gundo.vim'
 NeoBundle 'kana/vim-arpeggio'
 " NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'terryma/vim-expand-region'
+" NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
@@ -612,6 +613,9 @@ nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
 nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
+
+" Unicode insert
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Quick bookmarks
 " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
