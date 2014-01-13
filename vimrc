@@ -270,7 +270,7 @@ set lazyredraw
 " => Files and backups
 "===============================================================================
 if has('persistent_undo')
-    set undodir='~/.vim/cache/undo/'
+    set undodir=~/.vim/cache/undo/
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -279,13 +279,23 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/.vim/tmp/backup/
+set backupdir=~/.vim/cache/backup/
 set nowritebackup
 set nobackup
 
 " Swap Files
-set directory=~/.vim/tmp/swap/
+set directory=~/.vim/cache/swap/
 set noswapfile
+
+function! EnsureExists(path)
+    if !isdirectory(expand(a:path))
+        call mkdir(expand(a:path))
+    endif
+endfunction
+call EnsureExists('~/.vim/cache')
+call EnsureExists(&undodir)
+call EnsureExists(&backupdir)
+call EnsureExists(&directory)
 
 "===============================================================================
 " => Text, tab and indent related
@@ -928,3 +938,4 @@ function! CloseWindowOrKillBuffer()
         bdelete
     endif
 endfunction
+
