@@ -48,13 +48,9 @@ NeoBundle 'Shougo/vimfiler.vim'
 let s:autocomplete_plugin = "none"
 if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
     let s:autocomplete_plugin = "ycm"
+    NeoBundle 'Valloric/YouCompleteMe'
 elseif has('lua')
     let s:autocomplete_plugin = "neo"
-endif
-
-if s:autocomplete_plugin == "ycm"
-    NeoBundle 'Valloric/YouCompleteMe'
-elseif s:autocomplete_plugin == "neo"
     NeoBundle 'Shougo/neocomplete.vim'
 endif
 
@@ -386,7 +382,7 @@ xnoremap > >gv
 "nmap <C-tab>   :tabn<CR>
 
 " Q will kill buffer if only window with buffer open, otherwise just close the window
-nnoremap Q :call CloseWindowOrKillBuffer()<CR>
+nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 
 "===============================================================================
 " => Other Key Remapping
