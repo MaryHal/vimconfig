@@ -915,7 +915,7 @@ function! Preserve(command)
     call cursor(l, c)
 endfunction
 
-function! StripTrailingWhitespace()
+function! DeleteTrailingWhitespace()
     call Preserve("%s/\\s\\+$//e")
 endfunction
 
