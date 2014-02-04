@@ -726,6 +726,7 @@ nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
 nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=unicode unicode<CR>
