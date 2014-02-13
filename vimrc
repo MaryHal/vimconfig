@@ -72,6 +72,7 @@ NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'kana/vim-arpeggio'
 NeoBundle 'justinmk/vim-sneak'
+NeoBundle 'Lokaltog/vim-easymotion'
 " NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'terryma/vim-expand-region'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -473,7 +474,7 @@ nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
 nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
 
-let g:sneak#streak = 1
+" let g:sneak#streak = 1
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
@@ -544,8 +545,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " YouCompleteMe
 if s:autocomplete_plugin == "ycm"
-    let g:EclimCompletionMethod = 'omnifunc'
-
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
     let g:EclimCompletionMethod = 'omnifunc'
