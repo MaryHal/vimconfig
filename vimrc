@@ -72,7 +72,7 @@ NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'kana/vim-arpeggio'
 NeoBundle 'justinmk/vim-sneak'
-NeoBundle 'Lokaltog/vim-easymotion'
+" NeoBundle 'Lokaltog/vim-easymotion'
 " NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'terryma/vim-expand-region'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -473,6 +473,8 @@ vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
 nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
 nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
 nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
+
+nnoremap <silent> [unite]t       :!$TERMINAL<CR><CR>
 
 " let g:sneak#streak = 1
 
