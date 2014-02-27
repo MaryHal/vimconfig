@@ -732,7 +732,7 @@ nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=unicode unicode<CR>
+" nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Quick bookmarks
 " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
@@ -750,10 +750,10 @@ function! s:unite_settings()
     nmap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> <ESC> <Plug>(unite_exit)
     " imap <buffer> <c-j> <Plug>(unite_select_next_line)
-    imap <buffer> <c-j> <Plug>(unite_insert_leave)
-    nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
-    nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
-    imap <buffer> <c-a> <Plug>(unite_choose_action)
+    imap <buffer> <C-j> <Plug>(unite_insert_leave)
+    nmap <buffer> <C-j> <Plug>(unite_loop_cursor_down)
+    nmap <buffer> <C-k> <Plug>(unite_loop_cursor_up)
+    imap <buffer> <C-a> <Plug>(unite_choose_action)
     " imap <buffer> <Tab> <Plug>(unite_exit_insert)
     imap <buffer> jj <Plug>(unite_insert_leave)
     imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
