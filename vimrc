@@ -331,14 +331,11 @@ let mapleader = ","
 let maplocalleader = ","
 
 " When pressing <leader>cd switch to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<CR>
+" nnoremap <leader>cd :cd %:p:h<CR>
 
 " Copy the full path of the current file to the clipboard
-nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-      \ path '".expand("%:p")."' to clipboard"<cr>
-
-" Open terminal in current directory
-nnoremap <leader>t :!$TERMINAL<CR><CR>
+" nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+"       \ path '".expand("%:p")."' to clipboard"<cr>
 
 " Easy buffer navigation
 nmap <silent> <C-h> :wincmd h<CR>
@@ -465,16 +462,20 @@ nmap <F1> [unite]h
 nmap <F2> :<C-u>VimFiler<CR>
 nmap <F3> :<C-u>GundoToggle<CR>
 
-map <F5> :call CompileAndRun(0)<CR>
-map <F6> :call CompileAndRun(1)<CR>
-map <F7> :call Premake()<CR>
+map <F5>  :<C-u>call CompileAndRun(0)<CR>
+map <F6>  :<C-u>call CompileAndRun(1)<CR>
+map <F7>  :<C-u>call Premake()<CR>
 
-vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> [unite]<space> :call AceJumpWord(0)<CR>
-nnoremap <silent> [unite]k       :call AceJumpLine(0)<CR>
-nnoremap <silent> [unite]j       :call AceJumpChar(0)<CR>
+" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
+nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
+nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
 
-nnoremap <silent> [unite]t       :!$TERMINAL<CR><CR>
+" Open terminal in current directory
+nnoremap <silent> [unite]t       :<C-u>!$TERMINAL<CR><CR>
+
+" Change cwd to current buffer directory
+nnoremap          [unite]c       :<C-u>cd %:p:h<CR>
 
 " let g:sneak#streak = 1
 
