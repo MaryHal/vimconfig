@@ -477,6 +477,8 @@ nnoremap <silent> [unite]t       :<C-u>!$TERMINAL<CR><CR>
 " Change cwd to current buffer directory
 nnoremap          [unite]c       :<C-u>cd %:p:h<CR>
 
+command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
+
 " let g:sneak#streak = 1
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -546,7 +548,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => Auto-complete
 "===============================================================================
 
-" YouCompleteMe
 if s:autocomplete_plugin == "ycm"
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
@@ -557,8 +558,6 @@ if s:autocomplete_plugin == "ycm"
                 \ 'text' : 1,
                 \ 'unite' : 1
                 \}
-
-    " NeoComplete
 elseif s:autocomplete_plugin == "neo"
     " Note: This option must set it in .vimrc(_vimrc). NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
