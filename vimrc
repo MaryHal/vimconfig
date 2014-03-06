@@ -479,9 +479,16 @@ nnoremap          [unite]c       :<C-u>cd %:p:h<CR>
 
 command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 
+" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+"===============================================================================
+" => Sneak
+"===============================================================================
+" Use acejump/easymotion-like hint hitting.
 " let g:sneak#streak = 1
 
-" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+" Case insensitive sneaks
+let g:sneak#use_ic_scs = 1
 
 "===============================================================================
 " => Arpeggio
