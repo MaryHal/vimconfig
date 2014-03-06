@@ -327,8 +327,8 @@ set splitbelow
 set switchbuf=usetab
 
 " Mapleader and localleader.
-let mapleader = ","
-let maplocalleader = ","
+let mapleader = "\\"
+let maplocalleader = "\\"
 
 " When pressing <leader>cd switch to the directory of the open buffer
 " nnoremap <leader>cd :cd %:p:h<CR>
@@ -404,8 +404,8 @@ nnoremap Y y$
 " vnoremap : ;
 
 " Leader keys
-nnoremap <leader>w :w<CR>
-nnoremap <leader>x :x<CR>
+" nnoremap <leader>w :w<CR>
+" nnoremap <leader>x :x<CR>
 
 " Sudo to write
 cmap W!! w !sudo tee % >/dev/null
