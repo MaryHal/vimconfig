@@ -45,14 +45,9 @@ NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/vimfiler.vim'
 
 " Completion
-let s:autocomplete_plugin = "none"
-if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
-    let s:autocomplete_plugin = "ycm"
-    NeoBundle 'Valloric/YouCompleteMe'
-elseif has('lua')
-    let s:autocomplete_plugin = "neo"
-    NeoBundle 'Shougo/neocomplete.vim'
-endif
+let s:autocomplete_plugin = "ycm"
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Shougo/neocomplete.vim'
 
 " Commenter
 NeoBundle 'tomtom/tcomment_vim'
@@ -67,7 +62,6 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tpope/vim-speeddating'
 NeoBundle 'tpope/vim-rsi'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'justinmk/vim-sneak'
@@ -84,7 +78,9 @@ NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
 NeoBundle 'tpope/vim-markdown'
-NeoBundle 'jceb/vim-orgmode'
+
+" NeoBundle 'tpope/vim-speeddating'
+" NeoBundle 'jceb/vim-orgmode'
 
 " Load local plugins
 execute 'NeoBundleLocal' '~/.vim/local'
