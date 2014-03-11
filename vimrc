@@ -877,10 +877,10 @@ function! CompileAndRun(runProgram)
         setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
     elseif &filetype == 'cpp'
         setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
-    elseif &filetype == 'java'
-        setl makeprg=javac\ %
-        let l:progname = 'java ' . expand('%:t:r')
-        let l:interpreter = 1
+    " elseif &filetype == 'java'
+    "     setl makeprg=javac\ %
+    "     let l:progname = 'java ' . expand('%:t:r')
+    "     let l:interpreter = 1
     elseif &filetype == 'tex'
         setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
     else
