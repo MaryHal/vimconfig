@@ -1,3 +1,3 @@
-mkdir "%HOMEDRIVE%%HOMEPATH%\vimfiles"
-xcopy /E /Y * "%HOMEDRIVE%%HOMEPATH%\vimfiles"
+mkdir "%HOMEDRIVE%%HOMEPATH%\.vim"
+xcopy /E /Y * "%HOMEDRIVE%%HOMEPATH%\.vim"
 

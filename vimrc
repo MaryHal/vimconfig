@@ -1,28 +1,40 @@
 "===============================================================================
 " => Pre-init
 "===============================================================================
-set nocompatible
-
-" Detect OS
-let s:is_windows = has('win32') || has('win64')
-let s:is_cygwin  = has('win32unix')
-let s:is_macvim  = has('gui_macvim')
-
-" ensure correct shell in gvim
-if s:is_windows && !s:is_cygwin
-    set shell=c:\windows\system32\cmd.exe
+let s:starting = has('vim_starting')
+if s:starting
+" ensure that we always start with Vim defaults (as opposed to those set by the current system)
+  set all&
+" caution: this resets many settings, eg 'history'
+  set nocompatible
 endif
 
-" In Windows/Linux, take in a difference of ".vim" and "$VIM/vimfiles".
-let $DOTVIM = expand('~/.vim')
+let s:is_cygwin = has('win32unix') || has('win64unix')
+let s:is_windows = has('win32') || has('win64')
+let s:is_mac = has('gui_macvim') || has('mac')
+let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
+let s:is_tmux = !empty($TMUX)
+let s:is_ssh = !empty($SSH_TTY)
+let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+" let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
+" let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
+
+if s:starting && s:is_windows && !s:is_cygwin && !s:is_msysgit
+  set runtimepath+=~/.vim/
+endif
+
+" 'is GUI' means vim is _not_ running within the terminal.
+" sample values:
+" &term = win32 //vimrc running in msysgit terminal
+" $TERM = xterm-color , cygwin
+" &term = builtin_gui //*after* vimrc but *before* gvimrc
+" &shell = C:\Windows\system32\cmd.exe , /bin/bash
+let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gui'
 
 "===============================================================================
 " => Plugins
 "===============================================================================
-if has('vim_starting')
-    if s:is_windows
-        set runtimepath+=~/.vim
-    endif
+if s:starting
     set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
@@ -31,12 +43,14 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Shougo/vimproc', { 'build': {
-      \ 'windows': 'make -f make_mingw32.mak',
-      \ 'cygwin': 'make -f make_cygwin.mak',
-      \ 'mac': 'make -f make_mac.mak',
-      \ 'unix': 'make -f make_unix.mak',
-      \ } }
+if !s:is_windows
+    NeoBundle 'Shougo/vimproc', { 'build': {
+                \ 'windows': 'make -f make_mingw32.mak',
+                \ 'cygwin': 'make -f make_cygwin.mak',
+                \ 'mac': 'make -f make_mac.mak',
+                \ 'unix': 'make -f make_unix.mak',
+                \ } }
+endif
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
@@ -46,6 +60,10 @@ NeoBundle 'Shougo/vimfiler.vim'
 
 " Completion
 let s:autocomplete_plugin = "ycm"
+if s:is_windows
+    let s:autocomplete_plugin = "neo"
+endif
+
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'Shougo/neocomplete.vim'
 
@@ -427,7 +445,7 @@ silent! command -nargs=0 Wq x
 "===============================================================================
 syntax enable
 
-if !has('gui_running')
+if !s:is_gui
   set t_Co=256
 endif
 
@@ -438,7 +456,7 @@ let g:hybrid_use_Xresources = 1
 colorscheme hybrid
 
 " Set font
-if has("win32") || has('win64')
+if s:is_windows
     set guifont=Consolas:h8:cANSI
 else
     set guifont=Inconsolata\ 10
