@@ -3,10 +3,10 @@
 "===============================================================================
 let s:starting = has('vim_starting')
 if s:starting
-" ensure that we always start with Vim defaults (as opposed to those set by the current system)
-  set all&
-" caution: this resets many settings, eg 'history'
-  set nocompatible
+    " ensure that we always start with Vim defaults (as opposed to those set by the current system)
+    set all&
+    " caution: this resets many settings, eg 'history'
+    set nocompatible
 endif
 
 let s:is_cygwin = has('win32unix') || has('win64unix')
@@ -20,7 +20,7 @@ let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has(
 " let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
 if s:starting && s:is_windows && !s:is_cygwin && !s:is_msysgit
-  set runtimepath+=~/.vim/
+    set runtimepath+=~/.vim/
 endif
 
 " 'is GUI' means vim is _not_ running within the terminal.
@@ -63,7 +63,6 @@ let s:autocomplete_plugin = "ycm"
 if s:is_windows
     let s:autocomplete_plugin = "neo"
 endif
-
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'Shougo/neocomplete.vim'
 
@@ -101,7 +100,7 @@ NeoBundle 'tpope/vim-markdown'
 " NeoBundle 'jceb/vim-orgmode'
 
 " Load local plugins
-execute 'NeoBundleLocal' '~/.vim/local'
+" execute 'NeoBundleLocal' '~/.vim/local'
 
 filetype plugin indent on " required!
 
@@ -164,9 +163,9 @@ set mousehide
 set makeprg=make\ -j\ -k
 
 if has ('unnamedplus')
-  set clipboard=unnamedplus
+    set clipboard=unnamedplus
 else
-  set clipboard=unnamed
+    set clipboard=unnamed
 endif
 
 set ttyfast
@@ -446,7 +445,7 @@ silent! command -nargs=0 Wq x
 syntax enable
 
 if !s:is_gui
-  set t_Co=256
+    set t_Co=256
 endif
 
 " set background=dark
@@ -481,9 +480,9 @@ map <F6>  :<C-u>call CompileAndRun(1)<CR>
 map <F7>  :<C-u>call Premake()<CR>
 
 " vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
-nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
-nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
+" nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
+" nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
+" nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
 
 " Open terminal in current directory
 nnoremap <silent> [unite]t       :<C-u>!$TERMINAL<CR><CR>
@@ -679,11 +678,11 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 
 " Set up some custom ignores
 call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'git5/.*/review/',
-      \ 'google/obj/',
-      \ ], '\|'))
+            \ 'ignore_pattern', join([
+            \ '\.git/',
+            \ 'git5/.*/review/',
+            \ 'google/obj/',
+            \ ], '\|'))
 
 " Map space to the prefix for Unite
 nnoremap [unite] <Nop>
@@ -717,9 +716,9 @@ nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 " Quickly switch lcd
 nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
 nnoremap <silent> [unite]D
-      \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
+            \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 nnoremap <silent> [unite]<C-d>
-      \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
+            \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
 " Quick file search
 nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
@@ -895,10 +894,10 @@ function! CompileAndRun(runProgram)
         setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
     elseif &filetype == 'cpp'
         setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
-    " elseif &filetype == 'java'
-    "     setl makeprg=javac\ %
-    "     let l:progname = 'java ' . expand('%:t:r')
-    "     let l:interpreter = 1
+        " elseif &filetype == 'java'
+        "     setl makeprg=javac\ %
+        "     let l:progname = 'java ' . expand('%:t:r')
+        "     let l:interpreter = 1
     elseif &filetype == 'tex'
         setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
     else
