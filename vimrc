@@ -60,9 +60,10 @@ NeoBundle 'Shougo/vimfiler.vim'
 
 " Completion
 let s:autocomplete_plugin = "ycm"
-if s:is_windows
+if s:is_windows && s:lua_patch885
     let s:autocomplete_plugin = "neo"
 endif
+
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'Shougo/neocomplete.vim'
 
@@ -90,7 +91,7 @@ NeoBundle 'justinmk/vim-sneak'
 
 " Color Scheme plugins and appearance
 NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'chriskempson/base16-vim'
+" NeoBundle 'chriskempson/base16-vim'
 NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
@@ -130,6 +131,10 @@ if has('autocmd')
         " Html settings
         autocmd FileType html setlocal shiftwidth=2 tabstop=2
     augroup END
+
+    " augroup MyAutoCmd
+    "     autocmd ColorScheme * call RemoveBackground()
+    " augroup END
 
     " Reload vimrc when edited
     " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
@@ -956,6 +961,28 @@ function! CloseWindowOrKillBuffer()
         wincmd c
     else
         bdelete
+    endif
+endfunction
+
+function! RemoveBackground()
+    if !s:is_gui
+        "Remove background set by colorscheme
+        hi Normal ctermbg=NONE
+        hi Comment ctermbg=NONE
+        hi Constant ctermbg=NONE
+        hi Special ctermbg=NONE
+        hi Identifier ctermbg=NONE
+        hi Statement ctermbg=NONE
+        hi PreProc ctermbg=NONE
+        hi Type ctermbg=NONE
+        hi Underlined ctermbg=NONE
+        hi Todo ctermbg=NONE
+        hi String ctermbg=NONE
+        hi Function ctermbg=NONE
+        hi Conditional ctermbg=NONE
+        hi Repeat ctermbg=NONE
+        hi Operator ctermbg=NONE
+        hi Structure ctermbg=NONE
     endif
 endfunction
 
