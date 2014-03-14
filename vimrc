@@ -426,13 +426,13 @@ nnoremap Y y$
 " nnoremap <leader>x :x<CR>
 
 " Sudo to write
-cmap W!! w !sudo tee % >/dev/null
+" cmap W!! w !sudo tee % >/dev/null
 
 " Avoid Typos
-silent! command -nargs=0 W w
-silent! command -nargs=0 Q q
-silent! command -nargs=0 WQ x
-silent! command -nargs=0 Wq x
+" silent! command -nargs=0 W w
+" silent! command -nargs=0 Q q
+" silent! command -nargs=0 WQ x
+" silent! command -nargs=0 Wq x
 
 "===============================================================================
 " => Insert Mode Key Remapping
