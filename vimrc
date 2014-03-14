@@ -216,7 +216,7 @@ set wildignore=*.o,*.pyc,*.hi
 set wildignore+=.hg,.git,.svn,.gitignore         " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.o,*.obj,*.dll,*.manifest       " compiled object files
 set wildignore+=*.d                              " dependency files
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
@@ -225,8 +225,14 @@ set wildignore+=*.DS_Store                       " OSX BS
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=*.pyc                            " Python byte code
 
+set wildignore+=*.wav,*.mp3,*.ogg
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*.pdf
+
+set wildignore+=*.exe,*.jar,*.class
+
+" Files with these suffixes get a lower priority when matching a wildcard
+set suffixes=.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 
 set ruler "Always show current position
 
