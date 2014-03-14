@@ -81,6 +81,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'tpope/vim-rsi'
+NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'justinmk/vim-sneak'
 " NeoBundle 'kana/vim-arpeggio'
@@ -164,7 +165,7 @@ set mouse=a
 " Hide mouse when typing
 set mousehide
 
-" Make with 2 cores
+" Make with n cores
 set makeprg=make\ -j\ -k
 
 if has ('unnamedplus')
@@ -251,7 +252,6 @@ if executable('ag')
     set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
     set grepformat=%f:%l:%c:%m
 endif
-
 
 if has('conceal')
     set conceallevel=1
