@@ -102,7 +102,7 @@ NeoBundle 'tpope/vim-markdown'
 " NeoBundle 'jceb/vim-orgmode'
 
 " Load local plugins
-" execute 'NeoBundleLocal' '~/.vim/local'
+execute 'NeoBundleLocal' '~/.vim/local'
 
 filetype plugin indent on " required!
 
@@ -490,10 +490,10 @@ map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
 map <F7>  :<C-u>call Premake()<CR>
 
-" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-" nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
-" nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
-" nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
+vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
+nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
+nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
 
 " Open terminal in current directory
 nnoremap <silent> [unite]t       :<C-u>!$TERMINAL<CR><CR>
@@ -763,7 +763,7 @@ nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
-" nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=unicode unicode<CR>
+nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Quick bookmarks
 " nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
