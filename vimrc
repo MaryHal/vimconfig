@@ -59,13 +59,14 @@ NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/vimfiler.vim'
 
 " Completion
-let s:autocomplete_plugin = "ycm"
-if s:is_windows && s:lua_patch885
+let s:autocomplete_plugin = "none"
+if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
+    let s:autocomplete_plugin = "ycm"
+    NeoBundle 'Valloric/YouCompleteMe'
+elseif s:is_windows && s:lua_patch885
     let s:autocomplete_plugin = "neo"
+    NeoBundle 'Shougo/neocomplete.vim'
 endif
-
-NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'Shougo/neocomplete.vim'
 
 " Commenter
 NeoBundle 'tomtom/tcomment_vim'
