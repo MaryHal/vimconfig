@@ -59,13 +59,14 @@ NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/vimfiler.vim'
 
 " Completion
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Shougo/neocomplete.vim'
+
 let s:autocomplete_plugin = "none"
 if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
     let s:autocomplete_plugin = "ycm"
-    NeoBundle 'Valloric/YouCompleteMe'
 elseif s:is_windows && s:lua_patch885
     let s:autocomplete_plugin = "neo"
-    NeoBundle 'Shougo/neocomplete.vim'
 endif
 
 " Commenter
@@ -92,8 +93,10 @@ NeoBundle 'justinmk/vim-sneak'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " Color Scheme plugins and appearance
-NeoBundle 'w0ng/vim-hybrid'
+" NeoBundle 'w0ng/vim-hybrid'
 " NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'noahfrederick/vim-noctu'
+NeoBundle 'noahfrederick/vim-hemisu'
 NeoBundle 'bling/vim-airline'
 
 " Filetype plugins
@@ -458,13 +461,11 @@ syntax enable
 
 if !s:is_gui
     set t_Co=256
+    colorscheme noctu
+else
+    set background=dark
+    colorscheme hemisu
 endif
-
-" set background=dark
-" colorscheme base16-default
-
-let g:hybrid_use_Xresources = 1
-colorscheme hybrid
 
 " Set font
 if s:is_windows
