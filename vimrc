@@ -113,6 +113,121 @@ filetype plugin indent on " required!
 NeoBundleCheck            " Installation check.
 
 "===============================================================================
+" => Functions
+"===============================================================================
+function! Premake()
+    exec '!premake4 clean'
+    exec '!premake4 gmake'
+endfunction
+
+function! CompileAndRun(runProgram)
+    let l:progname = './' . expand('%:t:r')
+    let l:interpreter = 0
+    let l:domake = 1
+    let l:runner = './run'
+
+    " Otherwise :make won't return a proper exit status.
+    setl shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
+
+    " Find out how to build the program.
+    if filereadable("SConstruct")
+        setl makeprg=scons
+    elseif filereadable("Makefile") || filereadable("makefile")
+        setl makeprg=make\ -j\ -k
+    elseif filereadable("build.xml")
+        setl makeprg=ant
+    elseif &filetype == 'c'
+        setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
+    elseif &filetype == 'cpp'
+        setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
+        " elseif &filetype == 'java'
+        "     setl makeprg=javac\ %
+        "     let l:progname = 'java ' . expand('%:t:r')
+        "     let l:interpreter = 1
+    elseif &filetype == 'tex'
+        setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
+    else
+        " Assume it's a simple script.
+        let l:progname = './' . expand('%')
+        let l:domake = 0
+    endif
+
+    write
+    if l:domake == 1
+        silent !echo -e "\n\nBuilding..."
+        make
+        cw
+    else
+        silent !echo -e "\n\nNot running build tool."
+    endif
+
+    if v:shell_error == 0 && a:runProgram == 1
+        if executable(l:runner)
+            silent !echo -e "\n\nExecuting run script..."
+            exec '!' . l:runner
+        elseif executable(l:progname) || l:interpreter == 1
+            silent exec '!echo -e "\n\nExecuting \"' . l:progname . '\""...'
+            exec '!' . l:progname
+        endif
+    endif
+endfunction
+
+function! Preserve(command)
+    " preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " do the business:
+    execute a:command
+
+    " clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+function! DeleteTrailingWhitespace()
+    call Preserve("%s/\\s\\+$//e")
+endfunction
+
+function! CloseWindowOrKillBuffer()
+    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
+
+    " never bdelete a nerd tree
+    if matchstr(expand("%"), 'NERD') == 'NERD'
+        wincmd c
+        return
+    endif
+
+    if number_of_windows_to_this_buffer > 1
+        wincmd c
+    else
+        bdelete
+    endif
+endfunction
+
+function! RemoveBackground()
+    if !s:is_gui
+        "Remove background set by colorscheme
+        hi Normal ctermbg=NONE
+        hi Comment ctermbg=NONE
+        hi Constant ctermbg=NONE
+        hi Special ctermbg=NONE
+        hi Identifier ctermbg=NONE
+        hi Statement ctermbg=NONE
+        hi PreProc ctermbg=NONE
+        hi Type ctermbg=NONE
+        hi Underlined ctermbg=NONE
+        hi Todo ctermbg=NONE
+        hi String ctermbg=NONE
+        hi Function ctermbg=NONE
+        hi Conditional ctermbg=NONE
+        hi Repeat ctermbg=NONE
+        hi Operator ctermbg=NONE
+        hi Structure ctermbg=NONE
+    endif
+endfunction
+
+"===============================================================================
 " => Autocommands
 "===============================================================================
 if has('autocmd')
@@ -137,9 +252,11 @@ if has('autocmd')
         autocmd FileType html setlocal shiftwidth=2 tabstop=2
     augroup END
 
-    " augroup MyAutoCmd
-    "     autocmd ColorScheme * call RemoveBackground()
-    " augroup END
+    augroup MyAutoCmd
+        if !s:is_gui
+            autocmd ColorScheme * call RemoveBackground()
+        endif
+    augroup END
 
     " Reload vimrc when edited
     " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
@@ -461,7 +578,9 @@ syntax enable
 
 if !s:is_gui
     set t_Co=256
-    colorscheme noctu
+    " colorscheme noctu
+    set background=dark
+    colorscheme hemisu
 else
     set background=dark
     colorscheme hemisu
@@ -878,119 +997,4 @@ let g:vimfiler_tree_closed_icon = '▸'
 " let g:vimfiler_file_icon = ' '
 let g:vimfiler_marked_file_icon = '✓'
 " let g:vimfiler_readonly_file_icon = ' '
-
-"===============================================================================
-" => Functions
-"===============================================================================
-function! Premake()
-    exec '!premake4 clean'
-    exec '!premake4 gmake'
-endfunction
-
-function! CompileAndRun(runProgram)
-    let l:progname = './' . expand('%:t:r')
-    let l:interpreter = 0
-    let l:domake = 1
-    let l:runner = './run'
-
-    " Otherwise :make won't return a proper exit status.
-    setl shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
-
-    " Find out how to build the program.
-    if filereadable("SConstruct")
-        setl makeprg=scons
-    elseif filereadable("Makefile") || filereadable("makefile")
-        setl makeprg=make\ -j\ -k
-    elseif filereadable("build.xml")
-        setl makeprg=ant
-    elseif &filetype == 'c'
-        setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
-    elseif &filetype == 'cpp'
-        setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
-        " elseif &filetype == 'java'
-        "     setl makeprg=javac\ %
-        "     let l:progname = 'java ' . expand('%:t:r')
-        "     let l:interpreter = 1
-    elseif &filetype == 'tex'
-        setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
-    else
-        " Assume it's a simple script.
-        let l:progname = './' . expand('%')
-        let l:domake = 0
-    endif
-
-    write
-    if l:domake == 1
-        silent !echo -e "\n\nBuilding..."
-        make
-        cw
-    else
-        silent !echo -e "\n\nNot running build tool."
-    endif
-
-    if v:shell_error == 0 && a:runProgram == 1
-        if executable(l:runner)
-            silent !echo -e "\n\nExecuting run script..."
-            exec '!' . l:runner
-        elseif executable(l:progname) || l:interpreter == 1
-            silent exec '!echo -e "\n\nExecuting \"' . l:progname . '\""...'
-            exec '!' . l:progname
-        endif
-    endif
-endfunction
-
-function! Preserve(command)
-    " preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    execute a:command
-
-    " clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-function! DeleteTrailingWhitespace()
-    call Preserve("%s/\\s\\+$//e")
-endfunction
-
-function! CloseWindowOrKillBuffer()
-    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-    " never bdelete a nerd tree
-    if matchstr(expand("%"), 'NERD') == 'NERD'
-        wincmd c
-        return
-    endif
-
-    if number_of_windows_to_this_buffer > 1
-        wincmd c
-    else
-        bdelete
-    endif
-endfunction
-
-function! RemoveBackground()
-    if !s:is_gui
-        "Remove background set by colorscheme
-        hi Normal ctermbg=NONE
-        hi Comment ctermbg=NONE
-        hi Constant ctermbg=NONE
-        hi Special ctermbg=NONE
-        hi Identifier ctermbg=NONE
-        hi Statement ctermbg=NONE
-        hi PreProc ctermbg=NONE
-        hi Type ctermbg=NONE
-        hi Underlined ctermbg=NONE
-        hi Todo ctermbg=NONE
-        hi String ctermbg=NONE
-        hi Function ctermbg=NONE
-        hi Conditional ctermbg=NONE
-        hi Repeat ctermbg=NONE
-        hi Operator ctermbg=NONE
-        hi Structure ctermbg=NONE
-    endif
-endfunction
 
