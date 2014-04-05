@@ -34,83 +34,20 @@ let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gu
 "===============================================================================
 " => Plugins
 "===============================================================================
-if s:starting
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+" if s:starting
+"     set runtimepath+=~/.vim/bundle/neobundle.vim/
+" endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-if !s:is_windows
-    NeoBundle 'Shougo/vimproc', { 'build': {
-                \ 'windows': 'make -f make_mingw32.mak',
-                \ 'cygwin': 'make -f make_cygwin.mak',
-                \ 'mac': 'make -f make_mac.mak',
-                \ 'unix': 'make -f make_unix.mak',
-                \ } }
-endif
-
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'Shougo/unite-help'
-
-NeoBundle 'Shougo/vimfiler.vim'
-
-" Completion
-NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'Shougo/neocomplete.vim'
+execute pathogen#infect('bundle/{}', 'local/{}')
+syntax on
+filetype plugin indent on
 
 let s:autocomplete_plugin = "none"
-if filereadable(expand("~/.vim/bundle/YouCompleteMe/python/ycm_core.*"))
+if !s:is_windows
     let s:autocomplete_plugin = "ycm"
 elseif s:is_windows && s:lua_patch885
     let s:autocomplete_plugin = "neo"
 endif
-
-" Commenter
-NeoBundle 'tomtom/tcomment_vim'
-
-" Buffers, Tabs, and such
-NeoBundle 'a.vim'
-NeoBundle 'bufkill.vim'
-
-NeoBundle 'rking/ag.vim'
-
-" Usability
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'tpope/vim-rsi'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'justinmk/vim-sneak'
-" NeoBundle 'kana/vim-arpeggio'
-" NeoBundle 'Lokaltog/vim-easymotion'
-" NeoBundle 'terryma/vim-multiple-cursors'
-" NeoBundle 'terryma/vim-expand-region'
-" NeoBundle 'nathanaelkane/vim-indent-guides'
-
-" Color Scheme plugins and appearance
-" NeoBundle 'w0ng/vim-hybrid'
-" NeoBundle 'chriskempson/base16-vim'
-NeoBundle 'noahfrederick/vim-noctu'
-NeoBundle 'noahfrederick/vim-hemisu'
-NeoBundle 'bling/vim-airline'
-
-" Filetype plugins
-NeoBundle 'tpope/vim-markdown'
-
-" NeoBundle 'tpope/vim-speeddating'
-" NeoBundle 'jceb/vim-orgmode'
-
-" Load local plugins
-execute 'NeoBundleLocal' '~/.vim/local'
-
-filetype plugin indent on " required!
-
-NeoBundleCheck            " Installation check.
 
 "===============================================================================
 " => Functions
@@ -191,12 +128,6 @@ endfunction
 
 function! CloseWindowOrKillBuffer()
     let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-    " never bdelete a nerd tree
-    if matchstr(expand("%"), 'NERD') == 'NERD'
-        wincmd c
-        return
-    endif
 
     if number_of_windows_to_this_buffer > 1
         wincmd c
