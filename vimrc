@@ -42,7 +42,7 @@ execute pathogen#infect('bundle/{}', 'local/{}')
 syntax on
 filetype plugin indent on
 
-let s:autocomplete_plugin = "ycm"
+let s:autocomplete_plugin = "neo"
 " if !s:is_windows
 "     let s:autocomplete_plugin = "ycm"
 " elseif s:is_windows && s:lua_patch885
@@ -512,6 +512,11 @@ if !s:is_gui
     " colorscheme noctu
     set background=dark
     colorscheme hemisu
+
+    " Fix Search/IncSearch highlights by specifying a specific foreground
+    " color.
+    highlight Search cterm=NONE ctermfg=grey
+    highlight IncSearch cterm=NONE ctermfg=grey
 else
     set background=dark
     colorscheme hemisu
