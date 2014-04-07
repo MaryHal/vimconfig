@@ -42,12 +42,12 @@ execute pathogen#infect('bundle/{}', 'local/{}')
 syntax on
 filetype plugin indent on
 
-let s:autocomplete_plugin = "none"
-if !s:is_windows
-    let s:autocomplete_plugin = "ycm"
-elseif s:is_windows && s:lua_patch885
-    let s:autocomplete_plugin = "neo"
-endif
+let s:autocomplete_plugin = "ycm"
+" if !s:is_windows
+"     let s:autocomplete_plugin = "ycm"
+" elseif s:is_windows && s:lua_patch885
+"     let s:autocomplete_plugin = "neo"
+" endif
 
 "===============================================================================
 " => Functions
@@ -631,10 +631,11 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => Auto-complete
 "===============================================================================
 
+let g:EclimCompletionMethod = 'omnifunc'
+
 if s:autocomplete_plugin == "ycm"
     let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
-    let g:EclimCompletionMethod = 'omnifunc'
     let g:ycm_filetype_blacklist = {
                 \ 'notes' : 1,
                 \ 'markdown' : 1,
