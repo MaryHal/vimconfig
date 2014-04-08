@@ -34,10 +34,6 @@ let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gu
 "===============================================================================
 " => Plugins
 "===============================================================================
-" if s:starting
-"     set runtimepath+=~/.vim/bundle/neobundle.vim/
-" endif
-
 execute pathogen#infect('bundle/{}', 'local/{}')
 syntax on
 filetype plugin indent on
@@ -653,6 +649,9 @@ elseif s:autocomplete_plugin == "neo"
     let g:acp_enableAtStartup = 0
     " Use neocomplete.
     let g:neocomplete#enable_at_startup = 1
+
+    let g:neocomplete#data_directory='~/.vim/cache/neocomplete'
+
     " Use smartcase.
     let g:neocomplete#enable_smart_case = 1
     " Set minimum syntax keyword length.
