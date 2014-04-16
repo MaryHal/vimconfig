@@ -398,10 +398,6 @@ set splitbelow
 "set switchbuf=useopen
 set switchbuf=usetab
 
-" Mapleader and localleader.
-let mapleader = "\\"
-let maplocalleader = "\\"
-
 " When pressing <leader>cd switch to the directory of the open buffer
 " nnoremap <leader>cd :cd %:p:h<CR>
 
@@ -457,6 +453,9 @@ nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 "===============================================================================
 " => Other Key Remapping
 "===============================================================================
+" Mapleader and localleader.
+let mapleader = " "
+let maplocalleader = " "
 
 " Fix broken vim regexes when searching
 " nnoremap / /\v
@@ -537,24 +536,24 @@ set laststatus=2
 "===============================================================================
 " => Plugin Settings
 "===============================================================================
-nmap <F1> [unite]h
+nmap <F1> <leader>h
 nmap <F2> :<C-u>VimFiler<CR>
 nmap <F3> :<C-u>GundoToggle<CR>
 
 map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
-map <F7>  :<C-u>call Premake()<CR>
+" map <F7>  :<C-u>call Premake()<CR>
 
 vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> [unite]<space> :<C-u>call AceJumpWord(0)<CR>
-nnoremap <silent> [unite]k       :<C-u>call AceJumpLine(0)<CR>
-nnoremap <silent> [unite]j       :<C-u>call AceJumpChar(0)<CR>
+nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
+nnoremap <silent> <leader>k       :<C-u>call AceJumpLine(0)<CR>
+nnoremap <silent> <leader>j       :<C-u>call AceJumpChar(0)<CR>
 
 " Open terminal in current directory
-nnoremap <silent> [unite]t       :<C-u>!$TERMINAL<CR><CR>
+nnoremap <silent> <leader>t       :<C-u>!$TERMINAL<CR><CR>
 
 " Change cwd to current buffer directory
-nnoremap          [unite]c       :<C-u>cd %:p:h<CR>
+nnoremap          <leader>c       :<C-u>cd %:p:h<CR>
 
 command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 
@@ -754,84 +753,84 @@ call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
             \ ], '\|'))
 
 " Map space to the prefix for Unite
-nnoremap [unite] <Nop>
-nmap <space> [unite]
+" nnoremap <leader> <Nop>
+" nmap <space> <leader>
 
 " General fuzzy search
-" nnoremap <silent> [unite]<space> :<C-u>Unite
+" nnoremap <silent> <leader><space> :<C-u>Unite
 "       \ -buffer-name=files buffer file_mru bookmark file<CR>
 
 " Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> <leader>r :<C-u>Unite -buffer-name=register register<CR>
 
 " Quick buffer
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer<CR>
+nnoremap <silent> <leader>u :<C-u>Unite -buffer-name=buffers buffer<CR>
 
 " Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+nnoremap <silent> <leader>y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 
 " Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
+nnoremap <silent> <leader>o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
 
 " Quick sessions (projects)
-" nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+" nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=sessions session<CR>
 
 " Quick sources
-nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
+nnoremap <silent> <leader>a :<C-u>Unite -buffer-name=sources source<CR>
 
 " Quick snippet
-" nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+" nnoremap <silent> <leader>s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
-nnoremap <silent> [unite]d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
-nnoremap <silent> [unite]D
+nnoremap <silent> <leader>d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
+nnoremap <silent> <leader>D
             \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
-nnoremap <silent> [unite]<C-d>
+nnoremap <silent> <leader><C-d>
             \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
 " Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file file/new<CR>
-nnoremap <silent> [unite]F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
-nnoremap <silent> [unite]<C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
+nnoremap <silent> <leader>f :<C-u>Unite -buffer-name=files file file/new<CR>
+nnoremap <silent> <leader>F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
+nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
 " Quick Recursive File Search
 if s:is_windows
-    nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec<CR>
+    nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec<CR>
 else
-    nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=files file_rec/async<CR>
+    nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec/async<CR>
 endif
 
 " Quick grep from cwd
-nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
+nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
 " Quick help
-nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+nnoremap <silent> <leader>h :<C-u>Unite -buffer-name=help help<CR>
 
 " Quick line using the word under cursor
-nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
+nnoremap <silent> <leader>l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
 
 " Quick MRU search
-" nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
+" nnoremap <silent> <leader>m :<C-u>Unite -buffer-name=mru file_mru<CR>
 
 " Quick find
-nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
+nnoremap <silent> <leader>n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
-nnoremap <silent> [unite]x :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
-nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=unicode unicode<CR>
+nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Quick bookmarks
-" nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" nnoremap <silent> <leader>b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
 " Fuzzy search from current buffer
-" nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
+" nnoremap <silent> <leader>b :<C-u>UniteWithBufferDir
 " \ -buffer-name=files -prompt=%\ buffer file_mru bookmark file<CR>
 
 " Quick commands
-" nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
+" nnoremap <silent> <leader>; :<C-u>Unite -buffer-name=history history/command command<CR>
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
