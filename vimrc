@@ -514,6 +514,9 @@ if !s:is_gui
     highlight IncSearch cterm=NONE ctermfg=black ctermbg=magenta
 
     highlight Visual cterm=NONE ctermfg=white ctermbg=24
+
+    highlight Pmenu cterm=NONE,reverse ctermfg=250 ctermbg=237
+    highlight PmenuSel cterm=NONE ctermfg=250 ctermbg=237
 else
     set background=dark
     colorscheme hemisu
