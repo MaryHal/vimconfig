@@ -188,6 +188,17 @@ if has('autocmd')
     " Reload vimrc when edited
     " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
     "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+
+    " listchar=trail is not as flexible, use the below to highlight trailing
+    " whitespace. Don't do it for unite windows or readonly files
+    " highlight ExtraWhitespace ctermbg=red guibg=red
+    " match ExtraWhitespace /\s\+$/
+    " augroup MyAutoCmd
+    "     autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+    "     autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
+    "     autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+    "     autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
+    " augroup END
 endif
 
 "===============================================================================
@@ -380,7 +391,7 @@ set smartindent
 " set cindent
 
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 set showbreak=↪
 
 set wrap
@@ -515,8 +526,8 @@ if !s:is_gui
 
     highlight Visual cterm=NONE ctermfg=white ctermbg=24
 
-    highlight Pmenu cterm=NONE,reverse ctermfg=250 ctermbg=237
-    highlight PmenuSel cterm=NONE ctermfg=250 ctermbg=237
+    " highlight Pmenu cterm=NONE,reverse ctermfg=250 ctermbg=237
+    " highlight PmenuSel cterm=NONE ctermfg=250 ctermbg=237
 else
     set background=dark
     colorscheme hemisu
