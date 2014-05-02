@@ -391,7 +391,7 @@ set smartindent
 " set cindent
 
 set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
 set showbreak=↪
 
 set wrap
