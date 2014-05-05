@@ -563,6 +563,8 @@ nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
 nnoremap <silent> <leader>k       :<C-u>call AceJumpLine(0)<CR>
 nnoremap <silent> <leader>j       :<C-u>call AceJumpChar(0)<CR>
 
+onoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
+
 " Open terminal in current directory
 nnoremap <silent> <leader>t       :<C-u>!$TERMINAL<CR><CR>
 
