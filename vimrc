@@ -558,12 +558,12 @@ map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
 " map <F7>  :<C-u>call Premake()<CR>
 
-vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
-nnoremap <silent> <leader>k       :<C-u>call AceJumpLine(0)<CR>
-nnoremap <silent> <leader>j       :<C-u>call AceJumpChar(0)<CR>
+" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
+" nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
+" nnoremap <silent> <leader>k       :<C-u>call AceJumpLine(0)<CR>
+" nnoremap <silent> <leader>j       :<C-u>call AceJumpChar(0)<CR>
 
-onoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
+" onoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
 
 " Open terminal in current directory
 nnoremap <silent> <leader>t       :<C-u>!$TERMINAL<CR><CR>
@@ -583,6 +583,17 @@ command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 
 " Case insensitive sneaks
 let g:sneak#use_ic_scs = 1
+
+"===============================================================================
+" => Easymotion
+"===============================================================================
+let g:EasyMotion_do_mapping = 0
+
+nmap <leader><space> <Plug>(easymotion-s)
+omap <leader><space> <Plug>(easymotion-s)
+
+" Turn on case sensitive feature
+let g:EasyMotion_smartcase = 1
 
 "===============================================================================
 " => Arpeggio
