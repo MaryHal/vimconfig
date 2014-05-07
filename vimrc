@@ -48,11 +48,6 @@ let s:autocomplete_plugin = "ycm"
 "===============================================================================
 " => Functions
 "===============================================================================
-function! Premake()
-    exec '!premake4 clean'
-    exec '!premake4 gmake'
-endfunction
-
 function! CompileAndRun(runProgram)
     let l:progname = './' . expand('%:t:r')
     let l:interpreter = 0
@@ -556,7 +551,6 @@ nmap <F3> :<C-u>GundoToggle<CR>
 
 map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
-" map <F7>  :<C-u>call Premake()<CR>
 
 " vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
 " nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
@@ -864,17 +858,23 @@ autocmd MyAutoCmd FileType unite call s:unite_settings()
 function! s:unite_settings()
     nmap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> <ESC> <Plug>(unite_exit)
-    " imap <buffer> <c-j> <Plug>(unite_select_next_line)
+
+    imap <buffer> jj <Plug>(unite_insert_leave)
     imap <buffer> <C-j> <Plug>(unite_insert_leave)
+
     nmap <buffer> <C-j> <Plug>(unite_loop_cursor_down)
     nmap <buffer> <C-k> <Plug>(unite_loop_cursor_up)
+    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+
     imap <buffer> <C-a> <Plug>(unite_choose_action)
-    " imap <buffer> <Tab> <Plug>(unite_exit_insert)
-    imap <buffer> jj <Plug>(unite_insert_leave)
+
     imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
     imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
+    " imap <buffer> <BS>  <Plug>(unite_delete_backward_path)
+
     imap <buffer> ' <Plug>(unite_quick_match_default_action)
     nmap <buffer> ' <Plug>(unite_quick_match_default_action)
+
     nmap <buffer> <C-r> <Plug>(unite_redraw)
     imap <buffer> <C-r> <Plug>(unite_redraw)
     inoremap <silent><buffer><expr> <C-x> unite#do_action('split')
