@@ -38,12 +38,12 @@ execute pathogen#infect('bundle/{}', 'local/{}')
 syntax on
 filetype plugin indent on
 
-let s:autocomplete_plugin = "ycm"
-" if !s:is_windows
-"     let s:autocomplete_plugin = "ycm"
-" elseif s:is_windows && s:lua_patch885
-"     let s:autocomplete_plugin = "neo"
-" endif
+let s:autocomplete_plugin = "none"
+if !s:is_windows
+    let s:autocomplete_plugin = "ycm"
+elseif s:is_windows && s:lua_patch885
+    let s:autocomplete_plugin = "neo"
+endif
 
 "===============================================================================
 " => Functions
@@ -186,6 +186,7 @@ if has('autocmd')
 
     " listchar=trail is not as flexible, use the below to highlight trailing
     " whitespace. Don't do it for unite windows or readonly files
+
     " highlight ExtraWhitespace ctermbg=red guibg=red
     " match ExtraWhitespace /\s\+$/
     " augroup MyAutoCmd
@@ -664,6 +665,10 @@ if s:autocomplete_plugin == "ycm"
                 \ 'text' : 1,
                 \ 'unite' : 1
                 \}
+
+    let g:ycm_show_diagnostics_ui = 1
+    let g:ycm_enable_diagnostic_highlighting = 1
+
 elseif s:autocomplete_plugin == "neo"
     " Note: This option must set it in .vimrc(_vimrc). NOT IN .gvimrc(_gvimrc)!
     " Disable AutoComplPop.
@@ -752,8 +757,6 @@ elseif s:autocomplete_plugin == "neo"
     " https://github.com/c9s/perlomni.vim
     let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 endif
-
-
 
 "===============================================================================
 " => Unite
