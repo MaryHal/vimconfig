@@ -66,7 +66,10 @@ function! CompileAndRun(runProgram)
         "     let l:progname = 'java ' . expand('%:t:r')
         "     let l:interpreter = 1
     elseif &filetype == 'tex'
-        setl makeprg=pdflatex\ %\ \-file\-line\-error\ \-interaction=nonstopmode
+        " Background process of:
+        " latexmk -pdf -pvc main.tex
+        " will allow automatic compilation on write.
+        setl makeprg=latexmk\ -pdf\ %
     else
         " Assume it's a simple script.
         let l:progname = './' . expand('%')
