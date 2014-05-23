@@ -746,6 +746,28 @@ let g:neocomplete#force_omni_input_patterns.java =
 let g:neocomplete#force_omni_input_patterns.cpp =
     \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
+" Vim-marching
+
+" clang コマンドの設定
+let g:marching_clang_command = "clang"
+let g:marching_clang_command_option="-std=c++1y"
+
+let g:marching_include_paths = filter(
+            \       split(glob('/usr/include/c++/*'), '\n') +
+            \       split(glob('/usr/include/*/c++/*'), '\n') +
+            \       split(glob('/usr/include/*/'), '\n'),
+            \       'isdirectory(v:val)')
+
+" Use Neocomplete
+let g:marching_enable_neocomplete = 1
+
+set updatetime=200
+
+imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+
+" let g:marching_backend = "sync_clang_command"
+
 "===============================================================================
 " => Unite
 "===============================================================================
