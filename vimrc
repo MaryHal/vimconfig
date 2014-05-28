@@ -749,33 +749,33 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 " Vim-marching
 
 " clang コマンドの設定
-if s:is_windows
-    let g:marching_clang_command = "C:/clang.exe"
-    let g:marching_clang_command_option="-std=c++1y"
+" if s:is_windows
+"     let g:marching_clang_command = "C:/clang.exe"
+"     let g:marching_clang_command_option="-std=c++1y"
 
-    let g:marching_include_paths = [
-                \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
-                \]
-else
-    let g:marching_clang_command = "clang"
-    let g:marching_clang_command_option="-std=c++1y"
+"     let g:marching_include_paths = [
+"                 \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
+"                 \]
+" else
+"     let g:marching_clang_command = "clang"
+"     let g:marching_clang_command_option="-std=c++1y"
 
-    let g:marching_include_paths = filter(
-                \       split(glob('/usr/include/c++/*'), '\n') +
-                \       split(glob('/usr/include/*/c++/*'), '\n') +
-                \       split(glob('/usr/include/*/'), '\n'),
-                \       'isdirectory(v:val)')
-endif
+"     let g:marching_include_paths = filter(
+"                 \       split(glob('/usr/include/c++/*'), '\n') +
+"                 \       split(glob('/usr/include/*/c++/*'), '\n') +
+"                 \       split(glob('/usr/include/*/'), '\n'),
+"                 \       'isdirectory(v:val)')
+" endif
 
-" Use Neocomplete
-let g:marching_enable_neocomplete = 1
+" " Use Neocomplete
+" let g:marching_enable_neocomplete = 1
 
-set updatetime=200
+" set updatetime=200
 
-imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+" imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+" imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 
-" let g:marching_backend = "sync_clang_command"
+" " let g:marching_backend = "sync_clang_command"
 
 "===============================================================================
 " => Unite
@@ -863,7 +863,7 @@ nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
-nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
+" nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Unite Neobundle update
 " nnoremap <silent> <leader>z :<C-u>Unite neobundle/update -log -wrap -vertical -auto-quit<CR>
