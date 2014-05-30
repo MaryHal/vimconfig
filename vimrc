@@ -795,10 +795,6 @@ call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
             \ 'google/obj/',
             \ ], '\|'))
 
-" Map space to the prefix for Unite
-" nnoremap <leader> <Nop>
-" nmap <space> <leader>
-
 " General fuzzy search
 " nnoremap <silent> <leader><space> :<C-u>Unite
 "       \ -buffer-name=files buffer file_mru bookmark file<CR>
@@ -884,12 +880,15 @@ function! s:unite_settings()
     nmap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> <ESC> <Plug>(unite_exit)
 
+    nmap <buffer> <nowait> <C-g> <Plug>(unite_exit)
+    imap <buffer> <nowait> <C-g> <Plug>(unite_exit)
+
     imap <buffer> jj <Plug>(unite_insert_leave)
     imap <buffer> <C-j> <Plug>(unite_insert_leave)
 
     nmap <buffer> <C-j> <Plug>(unite_loop_cursor_down)
     nmap <buffer> <C-k> <Plug>(unite_loop_cursor_up)
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <TAB> <Plug>(unite_select_next_line)
 
     imap <buffer> <C-a> <Plug>(unite_choose_action)
 
