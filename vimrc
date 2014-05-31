@@ -242,8 +242,8 @@ set guicursor=a:blinkon0
 "===============================================================================
 set shortmess=Iat
 
-" Solid line for vsplit separator
-set fcs=vert:│
+" Blank vsplit separator
+set fillchars+=vert:\ 
 
 " Ask for confirmation for various things
 set confirm
@@ -525,6 +525,8 @@ else
     colorscheme hemisu
 endif
 
+highlight VertSplit cterm=NONE ctermbg=234
+
 " Set font
 if s:is_windows
     set guifont=Consolas:h8:cANSI
@@ -601,7 +603,6 @@ let g:EasyMotion_smartcase = 1
 "===============================================================================
 " => Statusline
 "===============================================================================
-
 " Airline
 let g:airline_enable_branch=0
 let g:airline_enable_syntastic=0
@@ -742,9 +743,11 @@ endif
 let g:EclimCompletionMethod = 'omnifunc'
 " let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
 let g:neocomplete#force_omni_input_patterns.java =
-    \ '\%(\h\w*\|)\)\.\w*'
+            \ '\%(\h\w*\|)\)\.\w*'
+let g:neocomplete#force_omni_input_patterns.c =
+            \ '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#force_omni_input_patterns.cpp =
-    \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
 " Vim-marching
 
