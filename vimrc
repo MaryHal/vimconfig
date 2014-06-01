@@ -182,15 +182,6 @@ if has('autocmd')
 
     " listchar=trail is not as flexible, use the below to highlight trailing
     " whitespace. Don't do it for unite windows or readonly files
-
-    " highlight ExtraWhitespace ctermbg=red guibg=red
-    " match ExtraWhitespace /\s\+$/
-    " augroup MyAutoCmd
-    "     autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-    "     autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
-    "     autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-    "     autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
-    " augroup END
 endif
 
 "===============================================================================
@@ -507,25 +498,14 @@ syntax enable
 
 if !s:is_gui
     set t_Co=256
+
     " colorscheme noctu
     set background=dark
     colorscheme hemisu
-
-    " Fix Search/IncSearch highlights by specifying a specific foreground
-    " color.
-    highlight Search cterm=NONE ctermfg=black ctermbg=magenta
-    highlight IncSearch cterm=NONE ctermfg=black ctermbg=magenta
-
-    highlight Visual cterm=NONE ctermfg=white ctermbg=24
-
-    " highlight Pmenu cterm=NONE,reverse ctermfg=250 ctermbg=237
-    " highlight PmenuSel cterm=NONE ctermfg=250 ctermbg=237
 else
     set background=dark
     colorscheme hemisu
 endif
-
-highlight VertSplit cterm=NONE ctermbg=234
 
 " Set font
 if s:is_windows
@@ -603,50 +583,11 @@ let g:EasyMotion_smartcase = 1
 "===============================================================================
 " => Statusline
 "===============================================================================
-" Airline
-let g:airline_enable_branch=0
-let g:airline_enable_syntastic=0
-let g:airline_enable_tagbar=0
-let g:airline_detect_modified=1
-let g:airline_detect_paste=1
-let g:airline_detect_whitespace=0
-let g:airline_detect_iminsert=0
-
-" Theme
-let g:airline_inactive_collapse=1
-let g:airline_powerline_fonts=0
-let g:airline_theme='wombat'
-
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline_left_alt_sep=''
-let g:airline_right_alt_sep=''
-let g:airline_linecolumn_prefix = '¶ '
-
-let g:airline_mode_map = {
-            \ '__' : '-',
-            \ 'n'  : 'Normal',
-            \ 'i'  : 'Insert',
-            \ 'R'  : 'Replace',
-            \ 'c'  : 'Command',
-            \ 'v'  : 'Visual',
-            \ 'V'  : 'Visual-Line',
-            \ '' : 'Visual-Block',
-            \ 's'  : 'Select',
-            \ 'S'  : 'Select-Line',
-            \ '' : 'Select-Block',
-            \ }
-
-" Smart Tabline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-
-" Show tab number instead of number of splits in tab
-let g:airline#extensions#tabline#tab_nr_type = 1
-
-let g:airline#extensions#tabline#fnamemod = ':t'
-" let g:airline#extensions#tabline#buffer_nr_show = 1
-" let g:airline#extensions#tabline#buffer_min_count = 2
+let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+      \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+      \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
+      \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
+      \ . "%{printf(' %4d/%d',line('.'),line('$'))}"
 
 "===============================================================================
 " => Auto-complete
