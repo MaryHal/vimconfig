@@ -313,13 +313,7 @@ set matchtime=2
 
 set virtualedit=onemore
 
-" Show incomplete commands
-set showcmd
-
-" No need to show mode due to statusline modifications
-set noshowmode
-
-set modeline
+set nomodeline
 set modelines=0
 
 " Disable all bells
@@ -518,8 +512,23 @@ set guioptions=acg
 set fileformat=unix
 set ffs=unix,dos,mac "Default file types
 
+"===============================================================================
+" => Statusline
+"===============================================================================
+let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+            \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+            \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
+            \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
+            \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
+
 " Always show the statusline
 set laststatus=2
+
+" Show incomplete commands
+set showcmd
+
+" No need to show mode due to statusline modifications
+set noshowmode
 
 "===============================================================================
 " => Plugin Settings
@@ -579,15 +588,6 @@ let g:EasyMotion_smartcase = 1
 "===============================================================================
 " map K <Plug>(expand_region_expand)
 " map J <Plug>(expand_region_shrink)
-
-"===============================================================================
-" => Statusline
-"===============================================================================
-let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-      \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-      \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
-      \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
-      \ . "%{printf(' %4d/%d',line('.'),line('$'))}"
 
 "===============================================================================
 " => Auto-complete
@@ -693,33 +693,33 @@ let g:neocomplete#force_omni_input_patterns.cpp =
 " Vim-marching
 
 " clang コマンドの設定
-" if s:is_windows
-"     let g:marching_clang_command = "C:/clang.exe"
-"     let g:marching_clang_command_option="-std=c++1y"
+if s:is_windows
+    let g:marching_clang_command = "C:/clang.exe"
+    let g:marching_clang_command_option="-std=c++1y"
 
-"     let g:marching_include_paths = [
-"                 \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
-"                 \]
-" else
-"     let g:marching_clang_command = "clang"
-"     let g:marching_clang_command_option="-std=c++1y"
+    let g:marching_include_paths = [
+                \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
+                \]
+else
+    let g:marching_clang_command = "clang"
+    let g:marching_clang_command_option="-std=c++1y"
 
-"     let g:marching_include_paths = filter(
-"                 \       split(glob('/usr/include/c++/*'), '\n') +
-"                 \       split(glob('/usr/include/*/c++/*'), '\n') +
-"                 \       split(glob('/usr/include/*/'), '\n'),
-"                 \       'isdirectory(v:val)')
-" endif
+    let g:marching_include_paths = filter(
+                \       split(glob('/usr/include/c++/*'), '\n') +
+                \       split(glob('/usr/include/*/c++/*'), '\n') +
+                \       split(glob('/usr/include/*/'), '\n'),
+                \       'isdirectory(v:val)')
+endif
 
-" " Use Neocomplete
-" let g:marching_enable_neocomplete = 1
+" Use Neocomplete
+let g:marching_enable_neocomplete = 1
 
-" set updatetime=200
+set updatetime=200
 
-" imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-" imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
 
-" " let g:marching_backend = "sync_clang_command"
+" let g:marching_backend = "sync_clang_command"
 
 "===============================================================================
 " => Unite
