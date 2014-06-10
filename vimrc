@@ -179,9 +179,6 @@ if has('autocmd')
     " Reload vimrc when edited
     " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
     "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-
-    " listchar=trail is not as flexible, use the below to highlight trailing
-    " whitespace. Don't do it for unite windows or readonly files
 endif
 
 "===============================================================================
@@ -558,15 +555,6 @@ command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 "===============================================================================
-" => Sneak
-"===============================================================================
-" Use acejump/easymotion-like hint hitting.
-" let g:sneak#streak = 1
-
-" Case insensitive sneaks
-let g:sneak#use_ic_scs = 1
-
-"===============================================================================
 " => Easymotion
 "===============================================================================
 let g:EasyMotion_do_mapping = 0
@@ -576,18 +564,6 @@ omap <leader><space> <Plug>(easymotion-s)
 
 " Turn on case sensitive feature
 let g:EasyMotion_smartcase = 1
-
-"===============================================================================
-" => Arpeggio
-"===============================================================================
-" call arpeggio#load()
-" Arpeggio inoremap jk <Esc>
-
-"===============================================================================
-" => Expand Region
-"===============================================================================
-" map K <Plug>(expand_region_expand)
-" map J <Plug>(expand_region_shrink)
 
 "===============================================================================
 " => Auto-complete
@@ -925,7 +901,7 @@ let g:vimfiler_data_directory = expand('~/.vim/cache/vimfiler')
 let g:vimfiler_tree_leaf_icon = ' '
 let g:vimfiler_tree_opened_icon = '▾'
 let g:vimfiler_tree_closed_icon = '▸'
-" let g:vimfiler_file_icon = ' '
+let g:vimfiler_file_icon = ' '
 let g:vimfiler_marked_file_icon = '✓'
-" let g:vimfiler_readonly_file_icon = ' '
+let g:vimfiler_readonly_file_icon = '✗'
 
