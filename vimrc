@@ -545,7 +545,7 @@ map <F6>  :<C-u>call CompileAndRun(1)<CR>
 " onoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
 
 " Open terminal in current directory
-nnoremap <silent> <leader>t       :<C-u>!$TERMINAL<CR><CR>
+nnoremap <silent> <leader>t       :<C-u>!$TERMINAL -e fish<CR><CR>
 
 " Change cwd to current buffer directory
 nnoremap          <leader>c       :<C-u>cd %:p:h<CR>
