@@ -323,6 +323,10 @@ set lazyredraw
 "===============================================================================
 " => Files and backups
 "===============================================================================
+" Do not store global/local values in a session.
+set ssop-=options
+set ssop-=folds
+
 if has('persistent_undo')
     set undodir=~/.vim/cache/undo/
     "set undofile
