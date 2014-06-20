@@ -380,6 +380,11 @@ set linebreak
 "===============================================================================
 " => Moving around, tabs and buffers
 "===============================================================================
+
+" Shift-tab on GNU screen
+" http://superuser.com/questions/195794/gnu-screen-shift-tab-issue
+set t_kB=[Z
+
 set splitright
 set splitbelow
 
@@ -433,8 +438,8 @@ xnoremap > >gv
 "vnoremap <tab> %
 
 " Tab Switching (non-terminal vim only)
-"nmap <C-S-tab> :tabp<CR>
-"nmap <C-tab>   :tabn<CR>
+" nmap <C-S-tab> :tabp<CR>
+" nmap <C-tab>   :tabn<CR>
 
 " Q will kill buffer if only window with buffer open, otherwise just close the window
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
