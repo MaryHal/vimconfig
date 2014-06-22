@@ -175,10 +175,6 @@ if has('autocmd')
             autocmd ColorScheme * call RemoveBackground()
         endif
     augroup END
-
-    " Reload vimrc when edited
-    " autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-    "            \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 endif
 
 "===============================================================================
@@ -289,10 +285,6 @@ set nohlsearch " Don't Highlight search things
 set incsearch  " Make search act like search in modern browsers
 set wrapscan   " Search wraps around the end of the file
 
-if executable('ack')
-    set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
-    set grepformat=%f:%l:%c:%m
-endif
 if executable('ag')
     set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
     set grepformat=%f:%l:%c:%m
@@ -380,11 +372,6 @@ set linebreak
 "===============================================================================
 " => Moving around, tabs and buffers
 "===============================================================================
-
-" Shift-tab on GNU screen
-" http://superuser.com/questions/195794/gnu-screen-shift-tab-issue
-set t_kB=[Z
-
 set splitright
 set splitbelow
 
@@ -431,8 +418,6 @@ xnoremap > >gv
 "map H ^
 "map L g_
 
-"nmap <silent> <C-S-w> :wincmd<Space>
-
 " Bracket matching made easy?
 "nnoremap <tab> %
 "vnoremap <tab> %
@@ -461,16 +446,6 @@ set magic
 
 " Make Y consistent with C and D. See :help Y.
 nnoremap Y y$
-
-" Less chording, swap ; and :
-" nnoremap ; :
-" nnoremap : ;
-" vnoremap ; :
-" vnoremap : ;
-
-" Leader keys
-" nnoremap <leader>w :w<CR>
-" nnoremap <leader>x :x<CR>
 
 " Sudo to write
 " cmap W!! w !sudo tee % >/dev/null
@@ -541,23 +516,15 @@ set noshowmode
 "===============================================================================
 nmap <F1> <leader>h
 nmap <F2> :<C-u>VimFiler<CR>
-nmap <F3> :<C-u>GundoToggle<CR>
 
 map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
 
-" vnoremap <silent> <leader><space> :call AceJumpWord(1)<CR>
-" nnoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
-" nnoremap <silent> <leader>k       :<C-u>call AceJumpLine(0)<CR>
-" nnoremap <silent> <leader>j       :<C-u>call AceJumpChar(0)<CR>
-
-" onoremap <silent> <leader><space> :<C-u>call AceJumpWord(0)<CR>
-
 " Open terminal in current directory
-nnoremap <silent> <leader>t       :<C-u>!$TERMINAL -e fish<CR><CR>
+nnoremap <silent> <leader>t :<C-u>!$TERMINAL -e fish<CR><CR>
 
 " Change cwd to current buffer directory
-nnoremap          <leader>c       :<C-u>cd %:p:h<CR>
+nnoremap          <leader>c :<C-u>cd %:p:h<CR>
 
 command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 
