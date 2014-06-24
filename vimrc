@@ -379,22 +379,11 @@ set splitbelow
 "set switchbuf=useopen
 set switchbuf=usetab
 
-" When pressing <leader>cd switch to the directory of the open buffer
-" nnoremap <leader>cd :cd %:p:h<CR>
-
-" Copy the full path of the current file to the clipboard
-" nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-"       \ path '".expand("%:p")."' to clipboard"<cr>
-
 " Easy buffer navigation
-nmap <silent> <C-h> :wincmd h<CR>
-nmap <silent> <C-j> :wincmd j<CR>
-nmap <silent> <C-k> :wincmd k<CR>
-nmap <silent> <C-l> :wincmd l<CR>
-
-" Fast Tab Switching?
-" nmap <silent> J gT
-" nmap <silent> K gt
+" nmap <silent> <C-h> :wincmd h<CR>
+" nmap <silent> <C-j> :wincmd j<CR>
+" nmap <silent> <C-k> :wincmd k<CR>
+" nmap <silent> <C-l> :wincmd l<CR>
 
 " Make K match J
 nmap K kJ
