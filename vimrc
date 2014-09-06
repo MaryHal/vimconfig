@@ -41,6 +41,11 @@ filetype plugin indent on
 "===============================================================================
 " => Functions
 "===============================================================================
+function! Premake()
+    exec '!premake4 clean'
+    exec '!premake4 gmake'
+endfunction
+
 function! CompileAndRun(runProgram)
     let l:progname = './' . expand('%:t:r')
     let l:interpreter = 0
@@ -54,7 +59,7 @@ function! CompileAndRun(runProgram)
     if filereadable("SConstruct")
         setl makeprg=scons
     elseif filereadable("Makefile") || filereadable("makefile")
-        setl makeprg=make\ -j\ -k
+        setl makeprg=make
     elseif filereadable("build.xml")
         setl makeprg=ant
     elseif &filetype == 'c'
@@ -170,6 +175,10 @@ if has('autocmd')
         autocmd FileType html setlocal shiftwidth=2 tabstop=2
     augroup END
 
+    " " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+    " autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
+    " autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+
     augroup MyAutoCmd
         if !s:is_gui
             autocmd ColorScheme * call RemoveBackground()
@@ -227,7 +236,7 @@ set guicursor=a:blinkon0
 set shortmess=Iat
 
 " Blank vsplit separator
-set fillchars+=vert:\ 
+set fillchars+=vert:\|
 
 " Ask for confirmation for various things
 set confirm
@@ -291,7 +300,8 @@ if executable('ag')
 endif
 
 if has('conceal')
-    set conceallevel=1
+    set conceallevel=2
+    set concealcursor=i
     set listchars+=conceal:Δ
 endif
 
@@ -356,9 +366,13 @@ set softtabstop=4
 set expandtab
 set smarttab
 
+set copyindent
+
 set autoindent
 set smartindent
 " set cindent
+
+set cinoptions+=(0
 
 set list
 set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
@@ -368,6 +382,9 @@ set wrap
 set whichwrap+=h,l,<,>,[,]
 set linebreak
 " set tw=500
+
+set formatoptions=ql
+
 
 "===============================================================================
 " => Moving around, tabs and buffers
@@ -463,12 +480,17 @@ syntax enable
 if !s:is_gui
     set t_Co=256
 
-    " colorscheme noctu
     set background=dark
     colorscheme hemisu
+
+    " let g:seoul256_background = 233
+    " colorscheme seoul256
 else
     set background=dark
     colorscheme hemisu
+
+    " let g:seoul256_background = 233
+    " colorscheme seoul256
 endif
 
 " Set font
@@ -503,11 +525,14 @@ set noshowmode
 "===============================================================================
 " => Plugin Settings
 "===============================================================================
+" nnoremap <silent> <leader>e :<C-u>so %<CR>
+
 nmap <F1> <leader>h
 nmap <F2> :<C-u>VimFiler<CR>
 
 map <F5>  :<C-u>call CompileAndRun(0)<CR>
 map <F6>  :<C-u>call CompileAndRun(1)<CR>
+map <F7>  :<C-u>call Premake()<CR>
 
 " Open terminal in current directory
 nnoremap <silent> <leader>t :<C-u>!$TERMINAL -e fish<CR><CR>
@@ -519,148 +544,176 @@ command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-"===============================================================================
-" => Easymotion
-"===============================================================================
-let g:EasyMotion_do_mapping = 0
+" Sneak case sensitivity is determined by 'ignorecase' and 'smartcase'.
+let g:sneak#use_ic_scs = 1
 
-nmap <leader><space> <Plug>(easymotion-s)
-omap <leader><space> <Plug>(easymotion-s)
-
-" Turn on case sensitive feature
-let g:EasyMotion_smartcase = 1
+" fzf
+nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 
 "===============================================================================
 " => Auto-complete
 "===============================================================================
 
-" Note: This option must set it in .vimrc(_vimrc). NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
+let g:EclimCompletionMethod = 'omnifunc'
+let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_filetype_blacklist = {
+            \ 'notes' : 1,
+            \ 'markdown' : 1,
+            \ 'text' : 1,
+            \ 'unite' : 1
+            \}
 
-let g:neocomplete#data_directory='~/.vim/cache/neocomplete'
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_highlighting = 1
 
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+" " Note: This option must set it in .vimrc(_vimrc). NOT IN .gvimrc(_gvimrc)!
+" " Disable AutoComplPop.
+" let g:acp_enableAtStartup = 0
+" " Use neocomplete.
+" let g:neocomplete#enable_at_startup = 1
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+" let g:neocomplete#data_directory='~/.vim/cache/neocomplete'
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" " Use smartcase.
+" let g:neocomplete#enable_smart_case = 1
+" " Set minimum syntax keyword length.
+" let g:neocomplete#sources#syntax#min_keyword_length = 3
+" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" Plugin key-mappings.
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><C-l> neocomplete#complete_common_string()
+" " Define dictionary.
+" let g:neocomplete#sources#dictionary#dictionaries = {
+"             \ 'default' : '',
+"             \ 'vimshell' : $HOME.'/.vimshell_hist',
+"             \ 'scheme' : $HOME.'/.gosh_completions'
+"             \ }
 
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return neocomplete#smart_close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-" Close popup by <Space>.
-" inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+" " Define keyword.
+" if !exists('g:neocomplete#keyword_patterns')
+"     let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" For cursor moving in insert mode(Not recommended)
-" inoremap <expr><Left> neocomplete#close_popup() . "\<Left>"
-" inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-" inoremap <expr><Up> neocomplete#close_popup() . "\<Up>"
-" inoremap <expr><Down> neocomplete#close_popup() . "\<Down>"
-" Or set this.
-" let g:neocomplete#enable_cursor_hold_i = 1
-" Or set this.
-" let g:neocomplete#enable_insert_char_pre = 1
+" " Plugin key-mappings.
+" inoremap <expr><C-g> neocomplete#undo_completion()
+" inoremap <expr><C-l> neocomplete#complete_common_string()
 
-" AutoComplPop like behavior.
-" let g:neocomplete#enable_auto_select = 1
+" " Recommended key-mappings.
+" " <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"     return neocomplete#smart_close_popup() . "\<CR>"
+"     " For no inserting <CR> key.
+"     "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+" endfunction
+" " <TAB>: completion.
+" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y> neocomplete#close_popup()
+" inoremap <expr><C-e> neocomplete#cancel_popup()
+" " Close popup by <Space>.
+" " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
-" Shell like behavior(not recommended).
-" set completeopt+=longest
-" let g:neocomplete#enable_auto_select = 1
-" let g:neocomplete#disable_auto_complete = 1
-" inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+" " For cursor moving in insert mode(Not recommended)
+" " inoremap <expr><Left> neocomplete#close_popup() . "\<Left>"
+" " inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+" " inoremap <expr><Up> neocomplete#close_popup() . "\<Up>"
+" " inoremap <expr><Down> neocomplete#close_popup() . "\<Down>"
+" " Or set this.
+" " let g:neocomplete#enable_cursor_hold_i = 1
+" " Or set this.
+" " let g:neocomplete#enable_insert_char_pre = 1
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" " AutoComplPop like behavior.
+" " let g:neocomplete#enable_auto_select = 1
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-endif
-" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" " Shell like behavior(not recommended).
+" " set completeopt+=longest
+" " let g:neocomplete#enable_auto_select = 1
+" " let g:neocomplete#disable_auto_complete = 1
+" " inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" " Enable omni completion.
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" " Enable heavy omni completion.
+" if !exists('g:neocomplete#sources#omni#input_patterns')
+"     let g:neocomplete#sources#omni#input_patterns = {}
+" endif
+" " let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 " let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 " let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+" " let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
+" if !exists('g:neocomplete#force_omni_input_patterns')
+"     let g:neocomplete#force_omni_input_patterns = {}
+" endif
 
-let g:EclimCompletionMethod = 'omnifunc'
-" let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
-let g:neocomplete#force_omni_input_patterns.java =
-            \ '\%(\h\w*\|)\)\.\w*'
-let g:neocomplete#force_omni_input_patterns.c =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#force_omni_input_patterns.cpp =
-            \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+" " let g:EclimCompletionMethod = 'omnifunc'
+" " let g:EclimTempFilesEnable = 0
+" " let g:EclimLoggingDisabled = 1
 
-" Vim-marching
+" " let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
+" " let g:neocomplete#force_omni_input_patterns.java =
+" "             \ '\%(\h\w*\|)\)\.\w*'
+" let g:neocomplete#force_omni_input_patterns.c =
+"             \ '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplete#force_omni_input_patterns.cpp =
+"             \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
-" clang コマンドの設定
-if s:is_windows
-    let g:marching_clang_command = "C:/clang.exe"
-    let g:marching_clang_command_option="-std=c++1y"
+" " Vim-marching
 
-    let g:marching_include_paths = [
-                \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
-                \]
-else
-    let g:marching_clang_command = "clang"
-    let g:marching_clang_command_option="-std=c++1y"
+" " clang コマンドの設定
+" if s:is_windows
+"     let g:marching_clang_command = "C:/clang.exe"
+"     let g:marching_clang_command_option="-std=c++1y"
 
-    let g:marching_include_paths = filter(
-                \       split(glob('/usr/include/c++/*'), '\n') +
-                \       split(glob('/usr/include/*/c++/*'), '\n') +
-                \       split(glob('/usr/include/*/'), '\n'),
-                \       'isdirectory(v:val)')
-endif
+"     let g:marching_include_paths = [
+"                 \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
+"                 \]
+" else
+"     let g:marching_clang_command = "clang"
+"     let g:marching_clang_command_option="-std=c++1y"
 
-" Use Neocomplete
-let g:marching_enable_neocomplete = 1
+"     let g:marching_include_paths = filter(
+"                 \       split(glob('/usr/include/c++/*'), '\n') +
+"                 \       split(glob('/usr/include/*/c++/*'), '\n') +
+"                 \       split(glob('/usr/include/*/'), '\n'),
+"                 \       'isdirectory(v:val)')
+" endif
 
-set updatetime=200
+" " Use Neocomplete
+" let g:marching_enable_neocomplete = 1
 
-imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+" set updatetime=200
 
-" let g:marching_backend = "sync_clang_command"
+" imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
+" imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
+
+" " let g:marching_backend = "sync_clang_command"
+
+"===============================================================================
+" => NeoSnippet
+"===============================================================================
+
+" " Plugin key-mappings.
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" " SuperTab like snippets behavior.
+" imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"             \ "\<Plug>(neosnippet_expand_or_jump)"
+"             \: pumvisible() ? "\<C-n>" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"             \ "\<Plug>(neosnippet_expand_or_jump)"
+"             \: "\<TAB>"
 
 "===============================================================================
 " => Unite
