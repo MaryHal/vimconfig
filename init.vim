@@ -16,11 +16,11 @@ let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
 let s:is_tmux = !empty($TMUX)
 let s:is_ssh = !empty($SSH_TTY)
 let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-" let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
-" let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
+" let s:has_eclim = isdirectory(expand("~/.nvim/eclim", 1))
+" let s:plugins=isdirectory(expand("~/.nvim/bundle/vundle", 1))
 
 if s:starting && s:is_windows && !s:is_cygwin && !s:is_msysgit
-    set runtimepath+=~/.vim/
+    set runtimepath+=~/.config/nvim/
 endif
 
 " 'is GUI' means vim is _not_ running within the terminal.
@@ -159,8 +159,8 @@ if has('autocmd')
         autocmd!
     augroup END
 
-    " Cursorline can sometimes be super slow, especially with a ton of
-    " syntax highlighting
+    " " Cursorline can sometimes be super slow, especially with a ton of
+    " " syntax highlighting
     " augroup MyAutoCmd
     "     " Turn on cursorline only on active window
     "     autocmd WinLeave * setlocal nocursorline
@@ -173,6 +173,11 @@ if has('autocmd')
 
         " Html settings
         autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    augroup END
+
+    " Move quickfix to the bottom always
+    augroup MyAutoCmd
+        autocmd FileType qf wincmd J
     augroup END
 
     " " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
@@ -189,7 +194,6 @@ endif
 "===============================================================================
 " => General
 "===============================================================================
-set nocompatible
 
 " Sets how many lines of history VIM has to remember
 set history=1000
@@ -198,7 +202,7 @@ set history=1000
 filetype plugin on
 filetype indent on
 
-set encoding=utf-8
+" set encoding=utf-8
 
 " Allow changing buffer without saving first
 set hidden
@@ -236,7 +240,7 @@ set guicursor=a:blinkon0
 set shortmess=Iat
 
 " Blank vsplit separator
-set fillchars+=vert:\|
+set fillchars+=vert:\ 
 
 " Ask for confirmation for various things
 set confirm
@@ -330,7 +334,7 @@ set ssop-=options
 set ssop-=folds
 
 if has('persistent_undo')
-    set undodir=~/.vim/cache/undo/
+    set undodir=~/.config/nvim/cache/undo/
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -339,12 +343,12 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/.vim/cache/backup/
+set backupdir=~/.config/nvim/cache/backup/
 set nowritebackup
 set nobackup
 
 " Swap Files
-set directory=~/.vim/cache/swap/
+set directory=~/.config/nvim/cache/swap/
 set noswapfile
 
 function! EnsureExists(path)
@@ -352,7 +356,7 @@ function! EnsureExists(path)
         call mkdir(expand(a:path))
     endif
 endfunction
-call EnsureExists('~/.vim/cache')
+call EnsureExists('~/.config/nvim/cache')
 call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
@@ -477,21 +481,22 @@ nnoremap Y y$
 "===============================================================================
 syntax enable
 
-if !s:is_gui
-    set t_Co=256
+" if !s:is_gui
+"     set t_Co=256
 
-    set background=dark
-    colorscheme hemisu
+"     " set background=dark
+"     " colorscheme hemisu
+"     colorscheme default
 
-    " let g:seoul256_background = 233
-    " colorscheme seoul256
-else
-    set background=dark
-    colorscheme hemisu
+"     " let g:seoul256_background = 233
+"     " colorscheme seoul256
+" else
+"     set background=dark
+"     colorscheme hemisu
 
-    " let g:seoul256_background = 233
-    " colorscheme seoul256
-endif
+"     " let g:seoul256_background = 233
+"     " colorscheme seoul256
+" endif
 
 " Set font
 if s:is_windows
@@ -513,6 +518,23 @@ let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
             \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
             \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
 
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
+" let g:airline_detect_modified=1
+" let g:airline_detect_iminsert=1
+" let g:airline_theme="wombat"
+
+" let g:airline#extensions#bufferline#enabled = 0
+
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#show_close_button = 0
+" let g:airline#extensions#tabline#show_buffers = 0
+" let g:airline#extensions#tabline#tab_nr_type = 0 " # of splits (default)
+
+" let g:airline#extensions#branch#enabled = 0
+" let g:airline#extensions#syntastic#enabled = 0
+" let g:airline#extensions#whitespace#enabled = 0
+
 " Always show the statusline
 set laststatus=2
 
@@ -527,7 +549,7 @@ set noshowmode
 "===============================================================================
 " nnoremap <silent> <leader>e :<C-u>so %<CR>
 
-nmap <F1> <leader>h
+" nmap <F1> <leader>h
 nmap <F2> :<C-u>VimFiler<CR>
 
 map <F5>  :<C-u>call CompileAndRun(0)<CR>
@@ -535,7 +557,7 @@ map <F6>  :<C-u>call CompileAndRun(1)<CR>
 map <F7>  :<C-u>call Premake()<CR>
 
 " Open terminal in current directory
-nnoremap <silent> <leader>t :<C-u>!$TERMINAL -e fish<CR><CR>
+nnoremap <silent> <leader>t :<C-u>!eval $TERMINAL<CR><CR>
 
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
@@ -554,149 +576,23 @@ nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 " => Auto-complete
 "===============================================================================
 
-let g:EclimCompletionMethod = 'omnifunc'
-let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_filetype_blacklist = {
-            \ 'notes' : 1,
-            \ 'markdown' : 1,
-            \ 'text' : 1,
-            \ 'unite' : 1
-            \}
+" " YouCompleteMe
+" "
+" let g:EclimCompletionMethod = 'omnifunc'
+" let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
+" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_filetype_blacklist = {
+"             \ 'notes' : 1,
+"             \ 'markdown' : 1,
+"             \ 'text' : 1,
+"             \ 'unite' : 1
+"             \}
+" 
+" let g:ycm_show_diagnostics_ui = 1
+" let g:ycm_enable_diagnostic_highlighting = 1
 
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_highlighting = 1
-
-" " Note: This option must set it in .vimrc(_vimrc). NOT IN .gvimrc(_gvimrc)!
-" " Disable AutoComplPop.
-" let g:acp_enableAtStartup = 0
-" " Use neocomplete.
-" let g:neocomplete#enable_at_startup = 1
-
-" let g:neocomplete#data_directory='~/.vim/cache/neocomplete'
-
-" " Use smartcase.
-" let g:neocomplete#enable_smart_case = 1
-" " Set minimum syntax keyword length.
-" let g:neocomplete#sources#syntax#min_keyword_length = 3
-" let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" " Define dictionary.
-" let g:neocomplete#sources#dictionary#dictionaries = {
-"             \ 'default' : '',
-"             \ 'vimshell' : $HOME.'/.vimshell_hist',
-"             \ 'scheme' : $HOME.'/.gosh_completions'
-"             \ }
-
-" " Define keyword.
-" if !exists('g:neocomplete#keyword_patterns')
-"     let g:neocomplete#keyword_patterns = {}
-" endif
-" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" " Plugin key-mappings.
-" inoremap <expr><C-g> neocomplete#undo_completion()
-" inoremap <expr><C-l> neocomplete#complete_common_string()
-
-" " Recommended key-mappings.
-" " <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-"     return neocomplete#smart_close_popup() . "\<CR>"
-"     " For no inserting <CR> key.
-"     "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-" endfunction
-" " <TAB>: completion.
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-" " <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y> neocomplete#close_popup()
-" inoremap <expr><C-e> neocomplete#cancel_popup()
-" " Close popup by <Space>.
-" " inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" " For cursor moving in insert mode(Not recommended)
-" " inoremap <expr><Left> neocomplete#close_popup() . "\<Left>"
-" " inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-" " inoremap <expr><Up> neocomplete#close_popup() . "\<Up>"
-" " inoremap <expr><Down> neocomplete#close_popup() . "\<Down>"
-" " Or set this.
-" " let g:neocomplete#enable_cursor_hold_i = 1
-" " Or set this.
-" " let g:neocomplete#enable_insert_char_pre = 1
-
-" " AutoComplPop like behavior.
-" " let g:neocomplete#enable_auto_select = 1
-
-" " Shell like behavior(not recommended).
-" " set completeopt+=longest
-" " let g:neocomplete#enable_auto_select = 1
-" " let g:neocomplete#disable_auto_complete = 1
-" " inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" " Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" " Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-"     let g:neocomplete#sources#omni#input_patterns = {}
-" endif
-" " let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" " let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-" if !exists('g:neocomplete#force_omni_input_patterns')
-"     let g:neocomplete#force_omni_input_patterns = {}
-" endif
-
-" " let g:EclimCompletionMethod = 'omnifunc'
-" " let g:EclimTempFilesEnable = 0
-" " let g:EclimLoggingDisabled = 1
-
-" " let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
-" " let g:neocomplete#force_omni_input_patterns.java =
-" "             \ '\%(\h\w*\|)\)\.\w*'
-" let g:neocomplete#force_omni_input_patterns.c =
-"             \ '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#force_omni_input_patterns.cpp =
-"             \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
-" " Vim-marching
-
-" " clang コマンドの設定
-" if s:is_windows
-"     let g:marching_clang_command = "C:/clang.exe"
-"     let g:marching_clang_command_option="-std=c++1y"
-
-"     let g:marching_include_paths = [
-"                 \   "C:/MinGW/lib/gcc/mingw32/4.6.2/include/c++"
-"                 \]
-" else
-"     let g:marching_clang_command = "clang"
-"     let g:marching_clang_command_option="-std=c++1y"
-
-"     let g:marching_include_paths = filter(
-"                 \       split(glob('/usr/include/c++/*'), '\n') +
-"                 \       split(glob('/usr/include/*/c++/*'), '\n') +
-"                 \       split(glob('/usr/include/*/'), '\n'),
-"                 \       'isdirectory(v:val)')
-" endif
-
-" " Use Neocomplete
-" let g:marching_enable_neocomplete = 1
-
-" set updatetime=200
-
-" imap <buffer> <C-x><C-o> <Plug>(marching_start_omni_complete)
-" imap <buffer> <C-x><C-x><C-o> <Plug>(marching_force_start_omni_complete)
-
-" " let g:marching_backend = "sync_clang_command"
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
 "===============================================================================
 " => NeoSnippet
@@ -733,6 +629,16 @@ call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
             \ 'google/obj/',
             \ ], '\|'))
 
+call unite#custom#profile('default', 'context', {
+      \ 'winheight'      : 12,
+      \ 'direction'      : 'botright',
+      \ 'start_insert'   : 1,
+      \ 'update_time'    : 200,
+      \ 'prompt'         : '» ',
+      \ 'marked_icon'    : '✓',
+      \ 'max_candidates' : 5000
+      \ })
+
 " General fuzzy search
 " nnoremap <silent> <leader><space> :<C-u>Unite
 "       \ -buffer-name=files buffer file_mru bookmark file<CR>
@@ -747,7 +653,7 @@ nnoremap <silent> <leader>u :<C-u>Unite -buffer-name=buffers buffer<CR>
 nnoremap <silent> <leader>y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 
 " Quick outline
-nnoremap <silent> <leader>o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
+" nnoremap <silent> <leader>o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
 
 " Quick sessions (projects)
 " nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=sessions session<CR>
@@ -781,10 +687,10 @@ endif
 nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
 " Quick help
-nnoremap <silent> <leader>h :<C-u>Unite -buffer-name=help help<CR>
+" nnoremap <silent> <leader>h :<C-u>Unite -buffer-name=help help<CR>
 
 " Quick line using the word under cursor
-nnoremap <silent> <leader>l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
+nnoremap <silent> <leader>l :<C-u>Unite -buffer-name=search_file line<CR>
 
 " Quick MRU search
 " nnoremap <silent> <leader>m :<C-u>Unite -buffer-name=mru file_mru<CR>
@@ -797,7 +703,7 @@ nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
 nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
-" nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
+nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
 
 " Unite Neobundle update
 " nnoremap <silent> <leader>z :<C-u>Unite neobundle/update -log -wrap -vertical -auto-quit<CR>
@@ -864,31 +770,11 @@ function! s:unite_settings()
     endif
 endfunction
 
-" Start in insert mode
-let g:unite_enable_start_insert = 1
-
-" Enable short source name in window
-" let g:unite_enable_short_source_names = 1
-
 " Enable history yank source
 let g:unite_source_history_yank_enable = 1
 
-" Open in bottom right
-let g:unite_split_rule = "botright"
-
 " Data directory location
-let g:unite_data_directory = expand('~/.vim/cache/unite')
-
-" Shorten the default update date of 500ms
-let g:unite_update_time = 200
-
-let g:unite_source_rec_max_cache_files=5000
-let g:unite_source_file_mru_limit = 1000
-let g:unite_cursor_line_highlight = 'TabLineSel'
-" let g:unite_abbr_highlight = 'TabLine'
-
-let g:unite_source_file_mru_filename_format = ':~:.'
-let g:unite_source_file_mru_time_format = ''
+let g:unite_data_directory = expand('~/.config/nvim/cache/unite')
 
 " Use ack/ag for search
 if executable('ag')
@@ -904,22 +790,56 @@ elseif executable('ack')
     let g:unite_source_grep_recursive_opt=''
 endif
 
-" Icons, try to match it with VimFiler
-let g:unite_prompt = '» '
-let g:unite_marked_icon = '✓'
+" "===============================================================================
+" " => VimFiler
+" "===============================================================================
 
-"===============================================================================
-" => VimFiler
-"===============================================================================
+" let g:vimfiler_as_default_explorer = 1
+" let g:vimfiler_data_directory = expand('~/.config/nvim/cache/vimfiler')
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = expand('~/.vim/cache/vimfiler')
+" " Icons
+" let g:vimfiler_tree_leaf_icon = ' '
+" let g:vimfiler_tree_opened_icon = '▾'
+" let g:vimfiler_tree_closed_icon = '▸'
+" let g:vimfiler_file_icon = ' '
+" let g:vimfiler_marked_file_icon = '✓'
+" let g:vimfiler_readonly_file_icon = '✗'
 
-" Icons
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = ' '
-let g:vimfiler_marked_file_icon = '✓'
-let g:vimfiler_readonly_file_icon = '✗'
+" "===============================================================================
+" " => FZF
+" "===============================================================================
 
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" " In Neovim, you can set up fzf window using a Vim command
+" let g:fzf_layout = { 'window': 'enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+
+" " Customize fzf colors to match your color scheme
+" let g:fzf_colors =
+" \ { 'fg':      ['fg', 'Normal'],
+"   \ 'bg':      ['bg', 'Normal'],
+"   \ 'hl':      ['fg', 'Comment'],
+"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"   \ 'hl+':     ['fg', 'Statement'],
+"   \ 'info':    ['fg', 'PreProc'],
+"   \ 'prompt':  ['fg', 'Conditional'],
+"   \ 'pointer': ['fg', 'Exception'],
+"   \ 'marker':  ['fg', 'Keyword'],
+"   \ 'spinner': ['fg', 'Label'],
+"   \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+let g:fzf_history_dir = '~/.fzf-history'
