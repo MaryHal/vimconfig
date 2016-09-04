@@ -498,6 +498,8 @@ syntax enable
 "     " colorscheme seoul256
 " endif
 
+colorscheme apprentice
+
 " Set font
 if s:is_windows
     set guifont=Consolas:h8:cANSI
