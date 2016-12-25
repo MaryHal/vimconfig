@@ -16,11 +16,11 @@ let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
 let s:is_tmux = !empty($TMUX)
 let s:is_ssh = !empty($SSH_TTY)
 let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-" let s:has_eclim = isdirectory(expand("~/.nvim/eclim", 1))
-" let s:plugins=isdirectory(expand("~/.nvim/bundle/vundle", 1))
+" let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
+" let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
 if s:starting && s:is_windows && !s:is_cygwin && !s:is_msysgit
-    set runtimepath+=~/.config/nvim/
+    set runtimepath+=~/.vim/
 endif
 
 " 'is GUI' means vim is _not_ running within the terminal.
@@ -234,6 +234,8 @@ set autowrite
 " Turn off cursor blinking
 set guicursor=a:blinkon0
 
+set foldcolumn=1
+
 "===============================================================================
 " => VIM user interface
 "===============================================================================
@@ -298,7 +300,11 @@ set nohlsearch " Don't Highlight search things
 set incsearch  " Make search act like search in modern browsers
 set wrapscan   " Search wraps around the end of the file
 
-if executable('ag')
+
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+    set grepformat=%f:%l:%c:%m
+elseif executable('ag')
     set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
     set grepformat=%f:%l:%c:%m
 endif
@@ -334,7 +340,7 @@ set ssop-=options
 set ssop-=folds
 
 if has('persistent_undo')
-    set undodir=~/.config/nvim/cache/undo/
+    set undodir=~/.vim/cache/undo/
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -343,12 +349,12 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/.config/nvim/cache/backup/
+set backupdir=~/.vim/cache/backup/
 set nowritebackup
 set nobackup
 
 " Swap Files
-set directory=~/.config/nvim/cache/swap/
+set directory=~/.vim/cache/swap/
 set noswapfile
 
 function! EnsureExists(path)
@@ -356,7 +362,7 @@ function! EnsureExists(path)
         call mkdir(expand(a:path))
     endif
 endfunction
-call EnsureExists('~/.config/nvim/cache')
+call EnsureExists('~/.vim/cache')
 call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
@@ -499,6 +505,7 @@ syntax enable
 " endif
 
 colorscheme apprentice
+highlight FoldColumn ctermbg=NONE
 
 " Set font
 if s:is_windows
@@ -581,7 +588,7 @@ nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 " " YouCompleteMe
 " "
 " let g:EclimCompletionMethod = 'omnifunc'
-" let g:ycm_global_ycm_extra_conf = '~/.config/nvim/ycm_extra_conf.py'
+" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
 " let g:ycm_confirm_extra_conf = 0
 " let g:ycm_filetype_blacklist = {
 "             \ 'notes' : 1,
@@ -776,7 +783,7 @@ endfunction
 let g:unite_source_history_yank_enable = 1
 
 " Data directory location
-let g:unite_data_directory = expand('~/.config/nvim/cache/unite')
+let g:unite_data_directory = expand('~/.vim/cache/unite')
 
 " Use ack/ag for search
 if executable('ag')
@@ -797,7 +804,7 @@ endif
 " "===============================================================================
 
 " let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_data_directory = expand('~/.config/nvim/cache/vimfiler')
+" let g:vimfiler_data_directory = expand('~/.vim/cache/vimfiler')
 
 " " Icons
 " let g:vimfiler_tree_leaf_icon = ' '
