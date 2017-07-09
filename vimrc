@@ -1,14 +1,6 @@
 "===============================================================================
 " => Pre-init
 "===============================================================================
-let s:starting = has('vim_starting')
-if s:starting
-    " ensure that we always start with Vim defaults (as opposed to those set by the current system)
-    set all&
-    " caution: this resets many settings, eg 'history'
-    set nocompatible
-endif
-
 let s:is_cygwin = has('win32unix') || has('win64unix')
 let s:is_windows = has('win32') || has('win64')
 let s:is_mac = has('gui_macvim') || has('mac')
@@ -19,8 +11,8 @@ let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has(
 " let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
 " let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
-if s:starting && s:is_windows && !s:is_cygwin && !s:is_msysgit
-    set runtimepath+=~/.vim/
+if s:is_windows && !s:is_cygwin && !s:is_msysgit
+    set runtimepath+=~/vimfiles/
 endif
 
 " 'is GUI' means vim is _not_ running within the terminal.
@@ -32,168 +24,14 @@ endif
 let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gui'
 
 "===============================================================================
-" => Plugins
-"===============================================================================
-execute pathogen#infect('bundle/{}')
-syntax on
-filetype plugin indent on
-
-"===============================================================================
-" => Functions
-"===============================================================================
-function! Premake()
-    exec '!premake4 clean'
-    exec '!premake4 gmake'
-endfunction
-
-function! CompileAndRun(runProgram)
-    let l:progname = './' . expand('%:t:r')
-    let l:interpreter = 0
-    let l:domake = 1
-    let l:runner = './run'
-
-    " Otherwise :make won't return a proper exit status.
-    setl shellpipe=2>&1\ \|\ tee\ %s;exit\ \${PIPESTATUS[0]}
-
-    " Find out how to build the program.
-    if filereadable("SConstruct")
-        setl makeprg=scons
-    elseif filereadable("Makefile") || filereadable("makefile")
-        setl makeprg=make
-    elseif filereadable("build.xml")
-        setl makeprg=ant
-    elseif &filetype == 'c'
-        setl makeprg=gcc\ -Wall\ -std=c99\ \ -o\ %<\ %
-    elseif &filetype == 'cpp'
-        setl makeprg=g++\ -Wall\ -std=c++1y\ -o\ %<\ %
-        " elseif &filetype == 'java'
-        "     setl makeprg=javac\ %
-        "     let l:progname = 'java ' . expand('%:t:r')
-        "     let l:interpreter = 1
-    elseif &filetype == 'tex'
-        " Background process of:
-        " latexmk -pdf -pvc main.tex
-        " will allow automatic compilation on write.
-        setl makeprg=latexmk\ -pdf\ %
-    else
-        " Assume it's a simple script.
-        let l:progname = './' . expand('%')
-        let l:domake = 0
-    endif
-
-    write
-    if l:domake == 1
-        silent !echo -e "\n\nBuilding..."
-        make
-        cw
-    else
-        silent !echo -e "\n\nNot running build tool."
-    endif
-
-    if v:shell_error == 0 && a:runProgram == 1
-        if executable(l:runner)
-            silent !echo -e "\n\nExecuting run script..."
-            exec '!' . l:runner
-        elseif executable(l:progname) || l:interpreter == 1
-            silent exec '!echo -e "\n\nExecuting \"' . l:progname . '\""...'
-            exec '!' . l:progname
-        endif
-    endif
-endfunction
-
-function! Preserve(command)
-    " preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " do the business:
-    execute a:command
-
-    " clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
-endfunction
-
-function! DeleteTrailingWhitespace()
-    call Preserve("%s/\\s\\+$//e")
-endfunction
-
-function! CloseWindowOrKillBuffer()
-    let number_of_windows_to_this_buffer = len(filter(range(1, winnr('$')), "winbufnr(v:val) == bufnr('%')"))
-
-    if number_of_windows_to_this_buffer > 1
-        wincmd c
-    else
-        bdelete
-    endif
-endfunction
-
-function! RemoveBackground()
-    if !s:is_gui
-        "Remove background set by colorscheme
-        hi Normal ctermbg=NONE
-        hi Comment ctermbg=NONE
-        hi Constant ctermbg=NONE
-        hi Special ctermbg=NONE
-        hi Identifier ctermbg=NONE
-        hi Statement ctermbg=NONE
-        hi PreProc ctermbg=NONE
-        hi Type ctermbg=NONE
-        hi Underlined ctermbg=NONE
-        hi Todo ctermbg=NONE
-        hi String ctermbg=NONE
-        hi Function ctermbg=NONE
-        hi Conditional ctermbg=NONE
-        hi Repeat ctermbg=NONE
-        hi Operator ctermbg=NONE
-        hi Structure ctermbg=NONE
-    endif
-endfunction
-
-"===============================================================================
-" => Autocommands
+" => General
 "===============================================================================
 if has('autocmd')
     " Reset autogroup
     augroup MyAutoCmd
         autocmd!
     augroup END
-
-    " " Cursorline can sometimes be super slow, especially with a ton of
-    " " syntax highlighting
-    " augroup MyAutoCmd
-    "     " Turn on cursorline only on active window
-    "     autocmd WinLeave * setlocal nocursorline
-    "     autocmd WinEnter,BufRead * setlocal cursorline
-    " augroup END
-
-    augroup MyAutoCmd
-        " Resize splits when window is resized
-        autocmd VimResized * exe "normal! \<c-w>="
-
-        " Html settings
-        autocmd FileType html setlocal shiftwidth=2 tabstop=2
-    augroup END
-
-    " Move quickfix to the bottom always
-    augroup MyAutoCmd
-        autocmd FileType qf wincmd J
-    augroup END
-
-    " " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-    " autocmd BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
-    " autocmd InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
-
-    augroup MyAutoCmd
-        if !s:is_gui
-            autocmd ColorScheme * call RemoveBackground()
-        endif
-    augroup END
-endif
-
-"===============================================================================
-" => General
-"===============================================================================
+end
 
 " Sets how many lines of history VIM has to remember
 set history=1000
@@ -202,7 +40,7 @@ set history=1000
 filetype plugin on
 filetype indent on
 
-" set encoding=utf-8
+set encoding=utf-8
 
 " Allow changing buffer without saving first
 set hidden
@@ -309,11 +147,11 @@ elseif executable('ag')
     set grepformat=%f:%l:%c:%m
 endif
 
-if has('conceal')
-    set conceallevel=2
-    set concealcursor=i
-    set listchars+=conceal:Δ
-endif
+" if has('conceal')
+"     set conceallevel=2
+"     set concealcursor=i
+"     set listchars+=conceal:Δ
+" endif
 
 set gdefault "substitute default = all matches on line
 
@@ -340,7 +178,7 @@ set ssop-=options
 set ssop-=folds
 
 if has('persistent_undo')
-    set undodir=~/.vim/cache/undo/
+    set undodir=~/vimfiles/cache/undo/
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -349,12 +187,12 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/.vim/cache/backup/
+set backupdir=~/vimfiles/cache/backup/
 set nowritebackup
 set nobackup
 
 " Swap Files
-set directory=~/.vim/cache/swap/
+set directory=~/vimfiles/cache/swap/
 set noswapfile
 
 function! EnsureExists(path)
@@ -362,7 +200,7 @@ function! EnsureExists(path)
         call mkdir(expand(a:path))
     endif
 endfunction
-call EnsureExists('~/.vim/cache')
+call EnsureExists('~/vimfiles/cache')
 call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
@@ -384,9 +222,9 @@ set smartindent
 
 set cinoptions+=(0
 
-set list
-set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
-set showbreak=↪
+" set list
+" set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
+" set showbreak=↪
 
 set wrap
 set whichwrap+=h,l,<,>,[,]
@@ -446,180 +284,194 @@ xnoremap > >gv
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 
 "===============================================================================
+" => Plugins
+"===============================================================================
+call plug#begin('~/vimfiles/plugged')
+
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimfiler.vim'
+
+Plug 'romainl/Apprentice'
+Plug 'itchyny/lightline.vim'
+
+Plug 'editorconfig/editorconfig-vim'
+
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+
+" Initialize plugin system
+call plug#end()
+
+"===============================================================================
 " => Other Key Remapping
 "===============================================================================
 " Mapleader and localleader.
-let mapleader = " "
+
+let mapleader = "\<Space>"
 let maplocalleader = " "
 
-" Fix broken vim regexes when searching
-" nnoremap / /\v
-" vnoremap / /\v
-" nnoremap ? ?\v
-" vnoremap ? ?\v
-" cnoremap s/ s/\v
-set magic
-
-" Make Y consistent with C and D. See :help Y.
-nnoremap Y y$
-
-" Sudo to write
-" cmap W!! w !sudo tee % >/dev/null
-
-" Avoid Typos
-" silent! command -nargs=0 W w
-" silent! command -nargs=0 Q q
-" silent! command -nargs=0 WQ x
-" silent! command -nargs=0 Wq x
-
-"===============================================================================
-" => Insert Mode Key Remapping
-"===============================================================================
-" map control-backspace to delete the previous word
-" imap <C-BS> <C-W>
-
-" Escape is far...
-" imap jk <ESC>
-" imap kj <ESC>
-
-"===============================================================================
-" => Colors and Fonts
-"===============================================================================
+" " Fix broken vim regexes when searching
+" " nnoremap / /\v
+" " vnoremap / /\v
+" " nnoremap ? ?\v
+" " vnoremap ? ?\v
+" " cnoremap s/ s/\v
+" set magic
+" 
+" " Make Y consistent with C and D. See :help Y.
+" nnoremap Y y$
+" 
+" " Sudo to write
+" " cmap W!! w !sudo tee % >/dev/null
+" 
+" " Avoid Typos
+" " silent! command -nargs=0 W w
+" " silent! command -nargs=0 Q q
+" " silent! command -nargs=0 WQ x
+" " silent! command -nargs=0 Wq x
+" 
+" "===============================================================================
+" " => Insert Mode Key Remapping
+" "===============================================================================
+" " map control-backspace to delete the previous word
+" " imap <C-BS> <C-W>
+" 
+" " Escape is far...
+" " imap jk <ESC>
+" " imap kj <ESC>
+" 
+" "===============================================================================
+" " => Colors and Fonts
+" "===============================================================================
 syntax enable
 
-" if !s:is_gui
-"     set t_Co=256
-
-"     " set background=dark
-"     " colorscheme hemisu
-"     colorscheme default
-
-"     " let g:seoul256_background = 233
-"     " colorscheme seoul256
-" else
-"     set background=dark
-"     colorscheme hemisu
-
-"     " let g:seoul256_background = 233
-"     " colorscheme seoul256
-" endif
-
+" " if !s:is_gui
+" "     set t_Co=256
+" 
+" "     " set background=dark
+" "     " colorscheme hemisu
+" "     colorscheme default
+" 
+" "     " let g:seoul256_background = 233
+" "     " colorscheme seoul256
+" " else
+" "     set background=dark
+" "     colorscheme hemisu
+" 
+" "     " let g:seoul256_background = 233
+" "     " colorscheme seoul256
+" " endif
+" 
 colorscheme apprentice
 highlight FoldColumn ctermbg=NONE
-
-" Set font
-if s:is_windows
-    set guifont=Consolas:h8:cANSI
-else
-    set guifont=Inconsolata\ 10
-endif
-
+ 
+set guifont=PragmataPro:h9:cANSI
+ 
 set guioptions=acg
 set fileformat=unix
 set ffs=unix,dos,mac "Default file types
 
 "===============================================================================
-" => Statusline
-"===============================================================================
-let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-            \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-            \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
-            \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
-            \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
+" " => Statusline
+" "===============================================================================
+" let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+"             \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+"             \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
+"             \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
+"             \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
+" 
+" " let g:airline_left_sep=''
+" " let g:airline_right_sep=''
+" " let g:airline_detect_modified=1
+" " let g:airline_detect_iminsert=1
+" " let g:airline_theme="wombat"
+" 
+" " let g:airline#extensions#bufferline#enabled = 0
+" 
+" " let g:airline#extensions#tabline#enabled = 1
+" " let g:airline#extensions#tabline#show_close_button = 0
+" " let g:airline#extensions#tabline#show_buffers = 0
+" " let g:airline#extensions#tabline#tab_nr_type = 0 " # of splits (default)
+" 
+" " let g:airline#extensions#branch#enabled = 0
+" " let g:airline#extensions#syntastic#enabled = 0
+" " let g:airline#extensions#whitespace#enabled = 0
 
-" let g:airline_left_sep=''
-" let g:airline_right_sep=''
-" let g:airline_detect_modified=1
-" let g:airline_detect_iminsert=1
-" let g:airline_theme="wombat"
-
-" let g:airline#extensions#bufferline#enabled = 0
-
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#show_close_button = 0
-" let g:airline#extensions#tabline#show_buffers = 0
-" let g:airline#extensions#tabline#tab_nr_type = 0 " # of splits (default)
-
-" let g:airline#extensions#branch#enabled = 0
-" let g:airline#extensions#syntastic#enabled = 0
-" let g:airline#extensions#whitespace#enabled = 0
+let g:lightline = {
+    \ 'colorscheme' : 'wombat'
+    \ }
 
 " Always show the statusline
 set laststatus=2
-
+" 
 " Show incomplete commands
 set showcmd
 
 " No need to show mode due to statusline modifications
 set noshowmode
+" 
+" "===============================================================================
+" " => Plugin Settings
+" "===============================================================================
+nnoremap <silent> <leader>eb :<C-u>so %<CR>
 
-"===============================================================================
-" => Plugin Settings
-"===============================================================================
-" nnoremap <silent> <leader>e :<C-u>so %<CR>
-
-" nmap <F1> <leader>h
-nmap <F2> :<C-u>VimFiler<CR>
-
-map <F5>  :<C-u>call CompileAndRun(0)<CR>
-map <F6>  :<C-u>call CompileAndRun(1)<CR>
-map <F7>  :<C-u>call Premake()<CR>
+nnoremap <F2> :<C-u>VimFiler<CR>
 
 " Open terminal in current directory
 nnoremap <silent> <leader>t :<C-u>!eval $TERMINAL<CR><CR>
-
+ 
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
 
 command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
-
+ 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
-" Sneak case sensitivity is determined by 'ignorecase' and 'smartcase'.
-let g:sneak#use_ic_scs = 1
-
-" fzf
-nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
+" " fzf
+" nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 
 "===============================================================================
-" => Auto-complete
-"===============================================================================
-
-" " YouCompleteMe
-" "
-" let g:EclimCompletionMethod = 'omnifunc'
-" let g:ycm_global_ycm_extra_conf = '~/.vim/ycm_extra_conf.py'
-" let g:ycm_confirm_extra_conf = 0
-" let g:ycm_filetype_blacklist = {
-"             \ 'notes' : 1,
-"             \ 'markdown' : 1,
-"             \ 'text' : 1,
-"             \ 'unite' : 1
-"             \}
+" " => Auto-complete
+" "===============================================================================
 " 
-" let g:ycm_show_diagnostics_ui = 1
-" let g:ycm_enable_diagnostic_highlighting = 1
-
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-
-"===============================================================================
-" => NeoSnippet
-"===============================================================================
-
-" " Plugin key-mappings.
-" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" " SuperTab like snippets behavior.
-" imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-"             \ "\<Plug>(neosnippet_expand_or_jump)"
-"             \: pumvisible() ? "\<C-n>" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-"             \ "\<Plug>(neosnippet_expand_or_jump)"
-"             \: "\<TAB>"
-
+" " " YouCompleteMe
+" " "
+" " let g:EclimCompletionMethod = 'omnifunc'
+" " let g:ycm_global_ycm_extra_conf = '~/vimfiles/ycm_extra_conf.py'
+" " let g:ycm_confirm_extra_conf = 0
+" " let g:ycm_filetype_blacklist = {
+" "             \ 'notes' : 1,
+" "             \ 'markdown' : 1,
+" "             \ 'text' : 1,
+" "             \ 'unite' : 1
+" "             \}
+" " 
+" " let g:ycm_show_diagnostics_ui = 1
+" " let g:ycm_enable_diagnostic_highlighting = 1
+" 
+" " Deoplete
+" let g:deoplete#enable_at_startup = 1
+" 
+" "===============================================================================
+" " => NeoSnippet
+" "===============================================================================
+" 
+" " " Plugin key-mappings.
+" " imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" " smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" " xmap <C-k>     <Plug>(neosnippet_expand_target)
+" 
+" " " SuperTab like snippets behavior.
+" " imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" "             \ "\<Plug>(neosnippet_expand_or_jump)"
+" "             \: pumvisible() ? "\<C-n>" : "\<TAB>"
+" " smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" "             \ "\<Plug>(neosnippet_expand_or_jump)"
+" "             \: "\<TAB>"
+" 
 "===============================================================================
 " => Unite
 "===============================================================================
@@ -643,8 +495,8 @@ call unite#custom#profile('default', 'context', {
       \ 'direction'      : 'botright',
       \ 'start_insert'   : 1,
       \ 'update_time'    : 200,
-      \ 'prompt'         : '» ',
-      \ 'marked_icon'    : '✓',
+      \ 'prompt'         : '> ',
+      \ 'marked_icon'    : '* ',
       \ 'max_candidates' : 5000
       \ })
 
@@ -685,12 +537,12 @@ nnoremap <silent> <leader>f :<C-u>Unite -buffer-name=files file file/new<CR>
 nnoremap <silent> <leader>F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
 nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
-" Quick Recursive File Search
-if s:is_windows
-    nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec<CR>
-else
-    nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec/async<CR>
-endif
+" " Quick Recursive File Search
+" if s:is_windows
+"     nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec<CR>
+" else
+"     nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec/async<CR>
+" endif
 
 " Quick grep from cwd
 nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
@@ -709,7 +561,7 @@ nnoremap <silent> <leader>n :<C-u>Unite -buffer-name=find find:.<CR>
 
 " Quick commands
 nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
-nnoremap <silent> <M-x> :<C-u>Unite -buffer-name=commands command<CR>
+nnoremap <silent> <M-x>     :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
 nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
@@ -736,14 +588,14 @@ function! s:unite_settings()
     nmap <buffer> <nowait> <C-g> <Plug>(unite_exit)
     imap <buffer> <nowait> <C-g> <Plug>(unite_exit)
 
-    imap <buffer> jj <Plug>(unite_insert_leave)
-    imap <buffer> <C-j> <Plug>(unite_insert_leave)
+    " imap <buffer> jj <Plug>(unite_insert_leave)
+    " imap <buffer> <C-j> <Plug>(unite_insert_leave)
 
     nmap <buffer> <C-j> <Plug>(unite_loop_cursor_down)
     nmap <buffer> <C-k> <Plug>(unite_loop_cursor_up)
     imap <buffer> <TAB> <Plug>(unite_select_next_line)
 
-    imap <buffer> <C-a> <Plug>(unite_choose_action)
+    imap <buffer> <M-o> <Plug>(unite_choose_action)
 
     imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
     imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
@@ -783,10 +635,17 @@ endfunction
 let g:unite_source_history_yank_enable = 1
 
 " Data directory location
-let g:unite_data_directory = expand('~/.vim/cache/unite')
+let g:unite_data_directory = expand('~/vimfiles/cache/unite')
 
 " Use ack/ag for search
-if executable('ag')
+if executable('rg')
+    let g:unite_source_grep_command='rg'
+    let g:unite_source_grep_default_opts='--vimgrep'
+    let g:unite_source_grep_recursive_opt=''
+
+    " Set up ignores for ag when using file_rec/async
+    " let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
+elseif executable('ag')
     let g:unite_source_grep_command='ag'
     let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
     let g:unite_source_grep_recursive_opt=''
@@ -799,39 +658,43 @@ elseif executable('ack')
     let g:unite_source_grep_recursive_opt=''
 endif
 
-" "===============================================================================
-" " => VimFiler
-" "===============================================================================
+"===============================================================================
+" => VimFiler
+"===============================================================================
 
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_data_directory = expand('~/.vim/cache/vimfiler')
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_data_directory = expand('~/vimfiles/cache/vimfiler')
 
-" " Icons
-" let g:vimfiler_tree_leaf_icon = ' '
-" let g:vimfiler_tree_opened_icon = '▾'
-" let g:vimfiler_tree_closed_icon = '▸'
-" let g:vimfiler_file_icon = ' '
-" let g:vimfiler_marked_file_icon = '✓'
-" let g:vimfiler_readonly_file_icon = '✗'
+" Icons
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = ' '
+let g:vimfiler_marked_file_icon = '✓'
+let g:vimfiler_readonly_file_icon = '✗'
+ 
+"===============================================================================
+" => FZF
+"===============================================================================
 
-" "===============================================================================
-" " => FZF
-" "===============================================================================
-
+if s:is_windows && !s:is_cygwin && !s:is_msysgit
+    let $TERM = ''
+endif
+ 
 " This is the default extra key bindings
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
-
+ 
 " Default fzf layout
 " - down / up / left / right
 let g:fzf_layout = { 'down': '~40%' }
-
+ 
 " " In Neovim, you can set up fzf window using a Vim command
 " let g:fzf_layout = { 'window': 'enew' }
 " let g:fzf_layout = { 'window': '-tabnew' }
-
+ 
 " " Customize fzf colors to match your color scheme
 " let g:fzf_colors =
 " \ { 'fg':      ['fg', 'Normal'],
@@ -846,9 +709,14 @@ let g:fzf_layout = { 'down': '~40%' }
 "   \ 'marker':  ['fg', 'Keyword'],
 "   \ 'spinner': ['fg', 'Label'],
 "   \ 'header':  ['fg', 'Comment'] }
-
+ 
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
 let g:fzf_history_dir = '~/.fzf-history'
+
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
+
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
