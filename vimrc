@@ -7,12 +7,14 @@ let s:is_mac = has('gui_macvim') || has('mac')
 let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
 let s:is_tmux = !empty($TMUX)
 let s:is_ssh = !empty($SSH_TTY)
-let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+" let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
 " let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
 " let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
 if s:is_windows && !s:is_cygwin && !s:is_msysgit
-    set runtimepath+=~/vimfiles/
+    let s:dotvim=expand("~/vimfiles/")
+else
+    let s:dotvim=expand("~/.vim/")
 endif
 
 " 'is GUI' means vim is _not_ running within the terminal.
@@ -178,7 +180,7 @@ set ssop-=options
 set ssop-=folds
 
 if has('persistent_undo')
-    set undodir=~/vimfiles/cache/undo/
+    execute "set undodir=" . s:dotvim . '/cache/undo/'
     "set undofile
     set undolevels=1000
     if exists('+undoreload')
@@ -187,12 +189,12 @@ if has('persistent_undo')
 endif
 
 " Backups
-set backupdir=~/vimfiles/cache/backup/
+execute "set backupdir=" . s:dotvim . '/cache/backup/'
 set nowritebackup
 set nobackup
 
 " Swap Files
-set directory=~/vimfiles/cache/swap/
+execute "set directory=" . s:dotvim . '/cache/swap/'
 set noswapfile
 
 function! EnsureExists(path)
@@ -200,7 +202,7 @@ function! EnsureExists(path)
         call mkdir(expand(a:path))
     endif
 endfunction
-call EnsureExists('~/vimfiles/cache')
+call EnsureExists(s:dotvim . '/cache')
 call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
@@ -635,7 +637,7 @@ endfunction
 let g:unite_source_history_yank_enable = 1
 
 " Data directory location
-let g:unite_data_directory = expand('~/vimfiles/cache/unite')
+let g:unite_data_directory = expand(s:dotvim . '/cache/unite')
 
 " Use ack/ag for search
 if executable('rg')
@@ -663,7 +665,7 @@ endif
 "===============================================================================
 
 let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = expand('~/vimfiles/cache/vimfiler')
+let g:vimfiler_data_directory = expand(s:dotvim . '/cache/vimfiler')
 
 " Icons
 let g:vimfiler_tree_leaf_icon = ' '
