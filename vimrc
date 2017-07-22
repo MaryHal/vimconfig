@@ -370,7 +370,7 @@ syntax enable
 colorscheme apprentice
 highlight FoldColumn ctermbg=NONE
  
-set guifont=PragmataPro:h9:cANSI
+set guifont=Inziu_Iosevka_Slab_J:h9:cANSI
  
 set guioptions=acg
 set fileformat=unix
