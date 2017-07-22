@@ -7,8 +7,7 @@ let s:is_mac = has('gui_macvim') || has('mac')
 let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
 let s:is_tmux = !empty($TMUX)
 let s:is_ssh = !empty($SSH_TTY)
-" let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
-" let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
+" let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885'))) " let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
 " let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
 if s:is_windows && !s:is_cygwin && !s:is_msysgit
@@ -370,7 +369,7 @@ syntax enable
 colorscheme apprentice
 highlight FoldColumn ctermbg=NONE
  
-set guifont=Inziu_Iosevka_Slab_J:h9:cANSI
+set guifont=Inziu_Iosevka_Slab_J:h10:cANSI
  
 set guioptions=acg
 set fileformat=unix
