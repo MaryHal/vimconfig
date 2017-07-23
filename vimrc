@@ -302,6 +302,7 @@ Plug 'editorconfig/editorconfig-vim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-rsi'
 
 " Initialize plugin system
 call plug#end()
@@ -422,7 +423,11 @@ nnoremap <silent> <leader>eb :<C-u>so %<CR>
 nnoremap <F2> :<C-u>VimFiler<CR>
 
 " Open terminal in current directory
-nnoremap <silent> <leader>t :<C-u>!eval $TERMINAL<CR><CR>
+if s:is_windows && !s:is_cygwin && !s:is_msysgit
+    nnoremap <silent> <leader>t :<C-u>!start powershell.exe<CR><CR>
+else
+    nnoremap <silent> <leader>t :<C-u>!eval $TERMINAL<CR><CR>
+endif
  
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
