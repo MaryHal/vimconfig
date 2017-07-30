@@ -303,6 +303,10 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+
+Plug 'wellle/targets.vim'
+Plug 'terryma/vim-expand-region'
 
 " Initialize plugin system
 call plug#end()
@@ -497,13 +501,14 @@ call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
             \ ], '\|'))
 
 call unite#custom#profile('default', 'context', {
-      \ 'winheight'      : 12,
-      \ 'direction'      : 'botright',
-      \ 'start_insert'   : 1,
-      \ 'update_time'    : 200,
-      \ 'prompt'         : '> ',
-      \ 'marked_icon'    : '* ',
-      \ 'max_candidates' : 5000
+      \ 'winheight'        : 12,
+      \ 'direction'        : 'botright',
+      \ 'start_insert'     : 1,
+      \ 'update_time'      : 200,
+      \ 'prompt'           : '> ',
+      \ 'prompt_direction' : 'top',
+      \ 'marked_icon'      : '* ',
+      \ 'max_candidates'   : 5000
       \ })
 
 " General fuzzy search
