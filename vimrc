@@ -442,6 +442,7 @@ endif
  
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
+nnoremap          <leader>m :<C-u>Gstatus<CR>
 
 " command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
  
