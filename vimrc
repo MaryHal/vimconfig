@@ -78,7 +78,7 @@ set foldcolumn=1
 "===============================================================================
 " => VIM user interface
 "===============================================================================
-set shortmess=Iat
+set shortmess=Iatc
 
 " Blank vsplit separator
 set fillchars+=vert:\ 
@@ -94,7 +94,7 @@ set scrolloff=10
 set sidescrolloff=5
 
 " Auto complete setting
-set completeopt=longest,menuone
+set completeopt=menuone,noinsert,noselect
 
 " show list for autocomplete
 set wildmenu
@@ -284,6 +284,13 @@ xnoremap > >gv
 " Q will kill buffer if only window with buffer open, otherwise just close the window
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+
+function! ExecuteMacroOverVisualRange()
+  echo "@".getcmdline()
+  execute ":'<,'>normal @".nr2char(getchar())
+endfunction
+
 "===============================================================================
 " => Plugins
 "===============================================================================
@@ -306,7 +313,7 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 
 Plug 'wellle/targets.vim'
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'
 
 " Initialize plugin system
 call plug#end()
@@ -436,7 +443,7 @@ endif
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
 
-command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
+" command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
  
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
@@ -446,25 +453,6 @@ command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
 "===============================================================================
 " " => Auto-complete
 " "===============================================================================
-" 
-" " " YouCompleteMe
-" " "
-" " let g:EclimCompletionMethod = 'omnifunc'
-" " let g:ycm_global_ycm_extra_conf = '~/vimfiles/ycm_extra_conf.py'
-" " let g:ycm_confirm_extra_conf = 0
-" " let g:ycm_filetype_blacklist = {
-" "             \ 'notes' : 1,
-" "             \ 'markdown' : 1,
-" "             \ 'text' : 1,
-" "             \ 'unite' : 1
-" "             \}
-" " 
-" " let g:ycm_show_diagnostics_ui = 1
-" " let g:ycm_enable_diagnostic_highlighting = 1
-" 
-" " Deoplete
-" let g:deoplete#enable_at_startup = 1
-" 
 " "===============================================================================
 " " => NeoSnippet
 " "===============================================================================
