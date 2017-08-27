@@ -61,10 +61,10 @@ else
     set clipboard=unnamed
 endif
 
-set ttyfast
-set ttyscroll=0
-set ttimeout
-set ttimeoutlen=50
+" set ttyfast
+" set ttyscroll=0
+" set ttimeout
+" set ttimeoutlen=50
 
 " Auto reload if file is saved externally.
 set autoread
@@ -372,7 +372,7 @@ function! CustomStatusLine()
                 \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
                 \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
 endfunction
- 
+
 let g:lightline = {
     \ 'colorscheme' : 'wombat'
     \ }
