@@ -1,6 +1,6 @@
-"===============================================================================
+" ====================
 " => Pre-init
-"===============================================================================
+" ====================
 let s:is_cygwin = has('win32unix') || has('win64unix')
 let s:is_windows = has('win32') || has('win64')
 let s:is_mac = has('gui_macvim') || has('mac')
@@ -24,9 +24,9 @@ endif
 " &shell = C:\Windows\system32\cmd.exe , /bin/bash
 let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gui'
 
-"===============================================================================
+" ====================
 " => General
-"===============================================================================
+" ====================
 if has('autocmd')
     " Reset autogroup
     augroup MyAutoCmd
@@ -62,7 +62,7 @@ else
 endif
 
 set ttyfast
-"set ttyscroll=0
+set ttyscroll=0
 set ttimeout
 set ttimeoutlen=50
 
@@ -75,9 +75,9 @@ set guicursor=a:blinkon0
 
 set foldcolumn=1
 
-"===============================================================================
-" => VIM user interface
-"===============================================================================
+" ====================
+" => User Interface
+" ====================
 set shortmess=Iatc
 
 " Blank vsplit separator
@@ -154,8 +154,6 @@ endif
 "     set listchars+=conceal:Δ
 " endif
 
-set gdefault "substitute default = all matches on line
-
 set showmatch " Show matching bracets when text indicator is over them
 set matchtime=2
 
@@ -171,9 +169,9 @@ set t_vb=
 
 set lazyredraw
 
-"===============================================================================
-" => Files and backups
-"===============================================================================
+" ====================
+" => Files and Backups
+" ====================
 " Do not store global/local values in a session.
 set ssop-=options
 set ssop-=folds
@@ -206,9 +204,9 @@ call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
 
-"===============================================================================
-" => Text, tab and indent related
-"===============================================================================
+" ====================
+" => Formatting
+" ====================
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -234,18 +232,17 @@ set linebreak
 
 set formatoptions=ql
 
-
-"===============================================================================
-" => Moving around, tabs and buffers
-"===============================================================================
+" ====================
+" => Moving around
+" ====================
 set splitright
 set splitbelow
 
-" Multiple buffer stuff
-"set switchbuf=useopen
+" " Multiple buffer stuff
+" set switchbuf=useopen
 set switchbuf=usetab
 
-" Easy buffer navigation
+" " Easy buffer navigation
 " nmap <silent> <C-h> :wincmd h<CR>
 " nmap <silent> <C-j> :wincmd j<CR>
 " nmap <silent> <C-k> :wincmd k<CR>
@@ -265,21 +262,21 @@ noremap k gk
 xnoremap < <gv
 xnoremap > >gv
 
-" Delete into the blackhole register to not clobber the last yank
-"nnoremap d "_d
-" I use this often to yank a single line, retain its original behavior
-"nnoremap dd dd
+" " Delete into the blackhole register to not clobber the last yank
+" nnoremap d "_d
+" " I use this often to yank a single line, retain its original behavior
+" nnoremap dd dd
 
 "map H ^
 "map L g_
 
-" Bracket matching made easy?
-"nnoremap <tab> %
-"vnoremap <tab> %
+" " Bracket matching made easy?
+" nnoremap <tab> %
+" vnoremap <tab> %
 
 " Tab Switching (non-terminal vim only)
-" nmap <C-S-tab> :tabp<CR>
-" nmap <C-tab>   :tabn<CR>
+nmap <C-S-tab> :tabp<CR>
+nmap <C-tab>   :tabn<CR>
 
 " Q will kill buffer if only window with buffer open, otherwise just close the window
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
@@ -291,9 +288,9 @@ function! ExecuteMacroOverVisualRange()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 
-"===============================================================================
+" ====================
 " => Plugins
-"===============================================================================
+" ====================
 call plug#begin('~/vimfiles/plugged')
 
 Plug 'junegunn/fzf'
@@ -318,11 +315,9 @@ Plug 'wellle/targets.vim'
 " Initialize plugin system
 call plug#end()
 
-"===============================================================================
-" => Other Key Remapping
-"===============================================================================
-" Mapleader and localleader.
-
+" ====================
+" => Other Keys
+" ====================
 let mapleader = "\<Space>"
 let maplocalleader = " "
 
@@ -336,48 +331,28 @@ let maplocalleader = " "
 " 
 " " Make Y consistent with C and D. See :help Y.
 " nnoremap Y y$
-" 
-" " Sudo to write
-" " cmap W!! w !sudo tee % >/dev/null
-" 
-" " Avoid Typos
-" " silent! command -nargs=0 W w
-" " silent! command -nargs=0 Q q
-" " silent! command -nargs=0 WQ x
-" " silent! command -nargs=0 Wq x
-" 
-" "===============================================================================
-" " => Insert Mode Key Remapping
-" "===============================================================================
-" " map control-backspace to delete the previous word
-" " imap <C-BS> <C-W>
-" 
+ 
+" Sudo to write
+cmap W!! w !sudo tee % >/dev/null
+ 
+" Avoid Typos
+silent! command -nargs=0 W w
+silent! command -nargs=0 Q q
+silent! command -nargs=0 WQ x
+silent! command -nargs=0 Wq x
+ 
+map control-backspace to delete the previous word
+imap <C-BS> <C-W>
+
 " " Escape is far...
-" " imap jk <ESC>
-" " imap kj <ESC>
-" 
-" "===============================================================================
-" " => Colors and Fonts
-" "===============================================================================
+" imap jk <ESC>
+" imap kj <ESC>
+
+" ====================
+" => User Interface
+" ====================
 syntax enable
 
-" " if !s:is_gui
-" "     set t_Co=256
-" 
-" "     " set background=dark
-" "     " colorscheme hemisu
-" "     colorscheme default
-" 
-" "     " let g:seoul256_background = 233
-" "     " colorscheme seoul256
-" " else
-" "     set background=dark
-" "     colorscheme hemisu
-" 
-" "     " let g:seoul256_background = 233
-" "     " colorscheme seoul256
-" " endif
-" 
 colorscheme apprentice
 highlight FoldColumn ctermbg=NONE
  
@@ -385,34 +360,19 @@ set guifont=Inziu_Iosevka_Slab_J:h9:cANSI
  
 set guioptions=acg
 set fileformat=unix
-set ffs=unix,dos,mac "Default file types
+set ffs=unix,dos,mac
 
-"===============================================================================
-" " => Statusline
-" "===============================================================================
-" let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-"             \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-"             \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
-"             \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
-"             \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
-" 
-" " let g:airline_left_sep=''
-" " let g:airline_right_sep=''
-" " let g:airline_detect_modified=1
-" " let g:airline_detect_iminsert=1
-" " let g:airline_theme="wombat"
-" 
-" " let g:airline#extensions#bufferline#enabled = 0
-" 
-" " let g:airline#extensions#tabline#enabled = 1
-" " let g:airline#extensions#tabline#show_close_button = 0
-" " let g:airline#extensions#tabline#show_buffers = 0
-" " let g:airline#extensions#tabline#tab_nr_type = 0 " # of splits (default)
-" 
-" " let g:airline#extensions#branch#enabled = 0
-" " let g:airline#extensions#syntastic#enabled = 0
-" " let g:airline#extensions#whitespace#enabled = 0
-
+" ====================
+" => Statusline
+" ====================
+function! CustomStatusLine()
+    let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+                \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+                \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
+                \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
+                \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
+endfunction
+ 
 let g:lightline = {
     \ 'colorscheme' : 'wombat'
     \ }
@@ -425,10 +385,10 @@ set showcmd
 
 " No need to show mode due to statusline modifications
 set noshowmode
-" 
-" "===============================================================================
-" " => Plugin Settings
-" "===============================================================================
+ 
+" ====================
+" => Plugin Settings
+" ====================
 nnoremap <silent> <leader>eb :<C-u>so %<CR>
 
 nnoremap <F2> :<C-u>VimFiler<CR>
@@ -451,30 +411,13 @@ nnoremap          <leader>m :<C-u>Gstatus<CR>
 " " fzf
 " nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 
-"===============================================================================
-" " => Auto-complete
-" "===============================================================================
-" "===============================================================================
-" " => NeoSnippet
-" "===============================================================================
-" 
-" " " Plugin key-mappings.
-" " imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" " smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-" " xmap <C-k>     <Plug>(neosnippet_expand_target)
-" 
-" " " SuperTab like snippets behavior.
-" " imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" "             \ "\<Plug>(neosnippet_expand_or_jump)"
-" "             \: pumvisible() ? "\<C-n>" : "\<TAB>"
-" " smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" "             \ "\<Plug>(neosnippet_expand_or_jump)"
-" "             \: "\<TAB>"
-" 
-"===============================================================================
-" => Unite
-"===============================================================================
+" ====================
+" => Auto-Complete
+" ====================
 
+" ====================
+" => Unite
+" ====================
 " Use the fuzzy matcher for everything
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
@@ -658,10 +601,9 @@ elseif executable('ack')
     let g:unite_source_grep_recursive_opt=''
 endif
 
-"===============================================================================
+" ====================
 " => VimFiler
-"===============================================================================
-
+" ====================
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_data_directory = expand(s:dotvim . '/cache/vimfiler')
 
@@ -673,10 +615,9 @@ let g:vimfiler_file_icon = ' '
 let g:vimfiler_marked_file_icon = '✓'
 let g:vimfiler_readonly_file_icon = '✗'
  
-"===============================================================================
+" ====================
 " => FZF
-"===============================================================================
-
+" ====================
 if s:is_windows && !s:is_cygwin && !s:is_msysgit
     let $TERM = ''
 endif
