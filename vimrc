@@ -299,8 +299,8 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim'
 Plug 'Shougo/vimfiler.vim'
 
-Plug 'romainl/Apprentice'
-Plug 'itchyny/lightline.vim'
+Plug 'MaryHal/Apprentice'
+" Plug 'itchyny/lightline.vim'
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -366,16 +366,18 @@ set ffs=unix,dos,mac
 " => Statusline
 " ====================
 function! CustomStatusLine()
-    let &statusline="%{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+    let &statusline=" %{winnr('$')>1?'['.winnr().'/'.winnr('$')"
                 \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-                \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')}"
+                \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')} "
                 \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
-                \ . "%{printf('  %4d/%d',line('.'),line('$'))}"
+                \ . "%{printf('  %4d/%d',line('.'),line('$'))}\ "
 endfunction
 
-let g:lightline = {
-    \ 'colorscheme' : 'wombat'
-    \ }
+exec CustomStatusLine()
+
+" let g:lightline = {
+"     \ 'colorscheme' : 'wombat'
+"     \ }
 
 " Always show the statusline
 set laststatus=2
@@ -407,9 +409,6 @@ nnoremap          <leader>m :<C-u>Gstatus<CR>
 " command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
  
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" " fzf
-" nnoremap <silent> <leader>z :<C-u>FZF -m<CR>
 
 " ====================
 " => Auto-Complete
@@ -661,3 +660,11 @@ let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_buffers_jump = 1
 
 command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
+" nnoremap <silent> <leader>u :<C-u>Buffers<CR>
+" nnoremap <silent> <leader>f :<C-u>Files<CR>
+" nnoremap <silent> <leader>p :<C-u>GFiles<CR>
+" nnoremap <silent> <leader>l :<C-u>BLines<CR>
+" nnoremap <silent> <leader>x :<C-u>Commands<CR>
+" nnoremap <silent> <M-x>     :<C-u>Commands<CR>
+" nnoremap <silent> <leader>g :<C-u>Ag<CR>
