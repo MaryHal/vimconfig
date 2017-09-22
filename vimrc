@@ -225,7 +225,7 @@ set cinoptions+=(0
 " set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
 " set showbreak=↪
 
-set wrap
+" set wrap
 set whichwrap+=h,l,<,>,[,]
 set linebreak
 " set tw=500
@@ -242,11 +242,11 @@ set splitbelow
 " set switchbuf=useopen
 set switchbuf=usetab
 
-" " Easy buffer navigation
-" nmap <silent> <C-h> :wincmd h<CR>
-" nmap <silent> <C-j> :wincmd j<CR>
-" nmap <silent> <C-k> :wincmd k<CR>
-" nmap <silent> <C-l> :wincmd l<CR>
+" Easy buffer navigation
+nnoremap <silent> <C-h> :<C-u>wincmd h<CR>
+nnoremap <silent> <C-j> :<C-u>wincmd j<CR>
+nnoremap <silent> <C-k> :<C-u>wincmd k<CR>
+nnoremap <silent> <C-l> :<C-u>wincmd l<CR>
 
 " Make K match J
 nmap K kJ
@@ -300,6 +300,7 @@ Plug 'Shougo/vimproc.vim'
 Plug 'Shougo/vimfiler.vim'
 
 Plug 'MaryHal/Apprentice'
+" Plug 'joshdick/onedark.vim'
 " Plug 'itchyny/lightline.vim'
 
 Plug 'editorconfig/editorconfig-vim'
@@ -311,6 +312,9 @@ Plug 'tpope/vim-surround'
 
 Plug 'wellle/targets.vim'
 " Plug 'terryma/vim-expand-region'
+
+Plug 'fatih/vim-go'
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 " Initialize plugin system
 call plug#end()
@@ -376,7 +380,7 @@ endfunction
 exec CustomStatusLine()
 
 " let g:lightline = {
-"     \ 'colorscheme' : 'wombat'
+"     \ 'colorscheme' : 'onedark'
 "     \ }
 
 " Always show the statusline
@@ -406,8 +410,6 @@ endif
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
 nnoremap          <leader>m :<C-u>Gstatus<CR>
 
-" command! DeleteTrailingWhitespace call DeleteTrailingWhitespace()
- 
 " map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " ====================
