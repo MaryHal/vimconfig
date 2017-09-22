@@ -345,7 +345,7 @@ silent! command -nargs=0 Q q
 silent! command -nargs=0 WQ x
 silent! command -nargs=0 Wq x
  
-map control-backspace to delete the previous word
+" map control-backspace to delete the previous word
 imap <C-BS> <C-W>
 
 " " Escape is far...
