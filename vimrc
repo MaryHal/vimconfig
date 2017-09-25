@@ -355,6 +355,10 @@ syntax enable
 
 colorscheme apprentice
 highlight FoldColumn ctermbg=NONE
+
+if s:is_gui 
+  set lines=40 columns=120
+endif
  
 set guifont=Inziu_Iosevka_Slab_J:h9:cANSI
  
