@@ -299,8 +299,12 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim'
 Plug 'Shougo/vimfiler.vim'
 
+Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-rooter'
+
 Plug 'MaryHal/Apprentice'
 " Plug 'joshdick/onedark.vim'
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }
 " Plug 'itchyny/lightline.vim'
 
 Plug 'editorconfig/editorconfig-vim'
@@ -384,7 +388,7 @@ endfunction
 exec CustomStatusLine()
 
 " let g:lightline = {
-"     \ 'colorscheme' : 'onedark'
+"     \ 'colorscheme' : 'onehalfdark'
 "     \ }
 
 " Always show the statusline
