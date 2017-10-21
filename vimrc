@@ -233,6 +233,41 @@ set linebreak
 set formatoptions=ql
 
 " ====================
+" => Plugins
+" ====================
+call plug#begin('~/vimfiles/plugged')
+
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim'
+Plug 'Shougo/vimfiler.vim'
+
+Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-rooter'
+
+Plug 'MaryHal/Apprentice'
+" Plug 'joshdick/onedark.vim'
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }
+" Plug 'itchyny/lightline.vim'
+
+Plug 'editorconfig/editorconfig-vim'
+
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-rsi'
+Plug 'tpope/vim-surround'
+
+Plug 'wellle/targets.vim'
+" Plug 'terryma/vim-expand-region'
+
+Plug 'fatih/vim-go'
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+
+" Initialize plugin system
+call plug#end()
+
+" ====================
 " => Moving around
 " ====================
 set splitright
@@ -247,6 +282,8 @@ nnoremap <silent> <C-h> :<C-u>wincmd h<CR>
 nnoremap <silent> <C-j> :<C-u>wincmd j<CR>
 nnoremap <silent> <C-k> :<C-u>wincmd k<CR>
 nnoremap <silent> <C-l> :<C-u>wincmd l<CR>
+
+nnoremap <silent> <leader>k :<C-u>bw<CR>
 
 " Make K match J
 nmap K kJ
@@ -287,41 +324,6 @@ function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
-
-" ====================
-" => Plugins
-" ====================
-call plug#begin('~/vimfiles/plugged')
-
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim'
-Plug 'Shougo/vimfiler.vim'
-
-Plug 'airblade/vim-gitgutter'
-Plug 'airblade/vim-rooter'
-
-Plug 'MaryHal/Apprentice'
-" Plug 'joshdick/onedark.vim'
-" Plug 'sonph/onehalf', { 'rtp': 'vim' }
-" Plug 'itchyny/lightline.vim'
-
-Plug 'editorconfig/editorconfig-vim'
-
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-rsi'
-Plug 'tpope/vim-surround'
-
-Plug 'wellle/targets.vim'
-" Plug 'terryma/vim-expand-region'
-
-Plug 'fatih/vim-go'
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-
-" Initialize plugin system
-call plug#end()
 
 " ====================
 " => Other Keys
