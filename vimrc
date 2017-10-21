@@ -676,6 +676,14 @@ command! -bang -nargs=* Rg
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
+
+
 " nnoremap <silent> <leader>u :<C-u>Buffers<CR>
 " nnoremap <silent> <leader>f :<C-u>Files<CR>
 " nnoremap <silent> <leader>p :<C-u>GFiles<CR>
