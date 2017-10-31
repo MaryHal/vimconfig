@@ -235,7 +235,7 @@ set formatoptions=ql
 " ====================
 " => Plugins
 " ====================
-call plug#begin('~/vimfiles/plugged')
+call plug#begin(s:dotvim . 'plugged')
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
