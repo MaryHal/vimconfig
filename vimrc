@@ -503,8 +503,8 @@ call unite#custom#profile('default', 'context', {
 " Quick registers
 nnoremap <silent> <leader>r :<C-u>Unite -buffer-name=register register<CR>
 
-" Quick buffer
-nnoremap <silent> <leader>u :<C-u>Unite -buffer-name=buffers buffer<CR>
+" " Quick buffer
+" nnoremap <silent> <leader>u :<C-u>Unite -buffer-name=buffers buffer<CR>
 
 " Quick yank history
 nnoremap <silent> <leader>y :<C-u>Unite -buffer-name=yanks history/yank<CR>
@@ -528,10 +528,10 @@ nnoremap <silent> <leader>D
 nnoremap <silent> <leader><C-d>
             \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
 
-" Quick file search
-nnoremap <silent> <leader>f :<C-u>Unite -buffer-name=files file file/new<CR>
-nnoremap <silent> <leader>F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
-nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
+" " Quick file search
+" nnoremap <silent> <leader>f :<C-u>Unite -buffer-name=files file file/new<CR>
+" nnoremap <silent> <leader>F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
+" nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
 
 " " Quick Recursive File Search
 " if s:is_windows
@@ -540,14 +540,14 @@ nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file
 "     nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec/async<CR>
 " endif
 
-" Quick grep from cwd
-nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
+" " Quick grep from cwd
+" nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
 " Quick help
 " nnoremap <silent> <leader>h :<C-u>Unite -buffer-name=help help<CR>
 
-" Quick line using the word under cursor
-nnoremap <silent> <leader>l :<C-u>Unite -buffer-name=search_file line<CR>
+" " Quick line using the word under cursor
+" nnoremap <silent> <leader>l :<C-u>Unite -buffer-name=search_file line<CR>
 
 " Quick MRU search
 " nnoremap <silent> <leader>m :<C-u>Unite -buffer-name=mru file_mru<CR>
@@ -555,9 +555,9 @@ nnoremap <silent> <leader>l :<C-u>Unite -buffer-name=search_file line<CR>
 " Quick find
 nnoremap <silent> <leader>n :<C-u>Unite -buffer-name=find find:.<CR>
 
-" Quick commands
-nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
-nnoremap <silent> <M-x>     :<C-u>Unite -buffer-name=commands command<CR>
+" " Quick commands
+" nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
+" nnoremap <silent> <M-x>     :<C-u>Unite -buffer-name=commands command<CR>
 
 " Unicode insert
 nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
@@ -728,10 +728,10 @@ let g:rg_command = '
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
 
-" nnoremap <silent> <leader>u :<C-u>Buffers<CR>
-" nnoremap <silent> <leader>f :<C-u>Files<CR>
-" nnoremap <silent> <leader>p :<C-u>GFiles<CR>
-" nnoremap <silent> <leader>l :<C-u>BLines<CR>
-" nnoremap <silent> <leader>x :<C-u>Commands<CR>
-" nnoremap <silent> <M-x>     :<C-u>Commands<CR>
-" nnoremap <silent> <leader>g :<C-u>Ag<CR>
+nnoremap <silent> <leader>u :<C-u>Buffers<CR>
+nnoremap <silent> <leader>f :<C-u>Files<CR>
+nnoremap <silent> <leader>p :<C-u>GFiles<CR>
+nnoremap <silent> <leader>l :<C-u>BLines<CR>
+nnoremap <silent> <leader>x :<C-u>Commands<CR>
+nnoremap <silent> <M-x>     :<C-u>Commands<CR>
+nnoremap <silent> <leader>g :<C-u>Ag<CR>
