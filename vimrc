@@ -247,6 +247,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 
 Plug 'MaryHal/Apprentice'
+" Plug 'tomasr/molokai'
 " Plug 'joshdick/onedark.vim'
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
 " Plug 'itchyny/lightline.vim'
@@ -266,6 +267,47 @@ Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' 
 
 " Initialize plugin system
 call plug#end()
+
+" ====================
+" => Functions
+" ====================
+function! RemoveBackground()
+    if !s:is_gui
+        "Remove background set by colorscheme
+        hi Normal ctermbg=NONE
+        hi Comment ctermbg=NONE
+        hi Constant ctermbg=NONE
+        hi Special ctermbg=NONE
+        hi Identifier ctermbg=NONE
+        hi Statement ctermbg=NONE
+        hi PreProc ctermbg=NONE
+        hi Type ctermbg=NONE
+        hi Underlined ctermbg=NONE
+        hi Todo ctermbg=NONE
+        hi String ctermbg=NONE
+        hi Function ctermbg=NONE
+        hi Conditional ctermbg=NONE
+        hi Repeat ctermbg=NONE
+        hi Operator ctermbg=NONE
+        hi Structure ctermbg=NONE
+    endif
+endfunction
+
+" ====================
+" => Autocommands
+" ====================
+if has('autocmd')
+    " Reset autogroup
+    augroup MyAutoCmd
+        autocmd!
+    augroup END
+
+    augroup MyAutoCmd
+        if !s:is_gui
+            autocmd ColorScheme * call RemoveBackground()
+        endif
+    augroup END
+endif
 
 " ====================
 " => Moving around
@@ -364,7 +406,7 @@ imap <C-BS> <C-W>
 syntax enable
 
 colorscheme apprentice
-highlight FoldColumn ctermbg=NONE
+" highlight FoldColumn ctermbg=NONE
 
 if s:is_gui 
   set lines=40 columns=120
