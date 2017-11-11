@@ -27,13 +27,6 @@ let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gu
 " ====================
 " => General
 " ====================
-if has('autocmd')
-    " Reset autogroup
-    augroup MyAutoCmd
-        autocmd!
-    augroup END
-end
-
 " Sets how many lines of history VIM has to remember
 set history=1000
 
@@ -307,6 +300,9 @@ if has('autocmd')
             autocmd ColorScheme * call RemoveBackground()
         endif
     augroup END
+
+    au BufLeave * let b:winview = winsaveview()
+    au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 endif
 
 " ====================
