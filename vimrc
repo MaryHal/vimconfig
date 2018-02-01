@@ -731,3 +731,8 @@ nnoremap <silent> <leader>l :<C-u>BLines<CR>
 nnoremap <silent> <leader>x :<C-u>Commands<CR>
 nnoremap <silent> <M-x>     :<C-u>Commands<CR>
 nnoremap <silent> <leader>g :<C-u>Ag<CR>
+
+" ====================
+" => Misc
+" ====================
+command -nargs=0 Jq :%!jq "."<CR>
