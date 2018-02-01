@@ -171,7 +171,7 @@ set ssop-=folds
 
 if has('persistent_undo')
     execute "set undodir=" . s:dotvim . '/cache/undo/'
-    "set undofile
+    set undofile
     set undolevels=1000
     if exists('+undoreload')
         set undoreload=1000
@@ -180,12 +180,12 @@ endif
 
 " Backups
 execute "set backupdir=" . s:dotvim . '/cache/backup/'
-set nowritebackup
-set nobackup
+" set nowritebackup
+" set nobackup
 
 " Swap Files
 execute "set directory=" . s:dotvim . '/cache/swap/'
-set noswapfile
+" set noswapfile
 
 function! EnsureExists(path)
     if !isdirectory(expand(a:path))
