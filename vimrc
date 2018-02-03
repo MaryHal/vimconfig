@@ -735,4 +735,4 @@ nnoremap <silent> <leader>g :<C-u>Ag<CR>
 " ====================
 " => Misc
 " ====================
-command -nargs=0 Jq :%!jq "."<CR>
+command! -nargs=0 Jq :%!jq "."
