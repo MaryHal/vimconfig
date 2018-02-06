@@ -255,6 +255,7 @@ Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 " Plug 'terryma/vim-expand-region'
 
+Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go'
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
