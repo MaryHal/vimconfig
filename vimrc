@@ -409,7 +409,7 @@ if s:is_gui
   set lines=40 columns=120
 endif
  
-set guifont=Inziu_Iosevka_Slab_J:h9:cANSI
+set guifont=Iosevka\ Term\ Slab\ 9
  
 set guioptions=acg
 set fileformat=unix
