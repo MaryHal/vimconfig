@@ -240,6 +240,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 
 Plug 'MaryHal/Apprentice'
+Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
+Plug 'andreypopp/vim-colors-plain'
 " Plug 'tomasr/molokai'
 " Plug 'joshdick/onedark.vim'
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
@@ -247,17 +249,26 @@ Plug 'MaryHal/Apprentice'
 
 Plug 'editorconfig/editorconfig-vim'
 
+Plug 'junegunn/vim-peekaboo'
+
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 
 Plug 'wellle/targets.vim'
+Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'terryma/vim-expand-region'
 
 Plug 'sheerun/vim-polyglot'
-Plug 'fatih/vim-go'
-Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'rust-lang/rust.vim'
+
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+Plug 'w0rp/ale'
 
 " Initialize plugin system
 call plug#end()
@@ -402,14 +413,21 @@ imap <C-BS> <C-W>
 " ====================
 syntax enable
 
-colorscheme apprentice
+" colorscheme apprentice
+set background=light
+colorscheme plain
 " highlight FoldColumn ctermbg=NONE
 
 if s:is_gui 
   set lines=40 columns=120
 endif
  
-set guifont=Iosevka\ Term\ Slab\ 9
+
+if s:is_windows && !s:is_cygwin && !s:is_msysgit
+    set guifont=Iosevka_Term_Slab:h9
+else
+    set guifont=Iosevka\ Term\ Slab\ 9
+endif
  
 set guioptions=acg
 set fileformat=unix
@@ -419,14 +437,48 @@ set ffs=unix,dos,mac
 " => Statusline
 " ====================
 function! CustomStatusLine()
-    let &statusline=" %{winnr('$')>1?'['.winnr().'/'.winnr('$')"
-                \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
-                \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')} "
-                \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
-                \ . "%{printf('  %4d/%d',line('.'),line('$'))}\ "
+    " let &statusline=" %{winnr('$')>1?'['.winnr().'/'.winnr('$')"
+    "             \ . ".(winnr('#')==winnr()?'#':'').']':''}\ "
+    "             \ . "%{(&previewwindow?'[preview] ':'').expand('%:t:.')} "
+    "             \ . "\ %=%m%y%{'['.(&fenc!=''?&fenc:&enc).','.&ff.']'}"
+    "             \ . "%{printf('  %4d/%d',line('.'),line('$'))}\ "
+    if has('statusline')
+        function! ALEWarnings() abort
+            let l:counts = ale#statusline#Count(bufnr(''))
+            let l:all_errors = l:counts.error + l:counts.style_error
+            let l:all_non_errors = l:counts.total - l:all_errors
+            return l:counts.total == 0 ? '' : printf('  W:%d ', all_non_errors)
+        endfunction
+
+        function! ALEErrors() abort
+            let l:counts = ale#statusline#Count(bufnr(''))
+            let l:all_errors = l:counts.error + l:counts.style_error
+            let l:all_non_errors = l:counts.total - l:all_errors
+            return l:counts.total == 0 ? '' : printf(' E:%d ', all_errors)
+        endfunction
+
+        function! ALEStatus() abort
+            let l:counts = ale#statusline#Count(bufnr(''))
+            let l:all_errors = l:counts.error + l:counts.style_error
+            let l:all_non_errors = l:counts.total - l:all_errors
+            return l:counts.total == 0 ? ' ok ' : ''
+        endfunction
+
+        set laststatus=2
+        set statusline=\ %<%f
+        set statusline+=%w%h%m%r
+
+        set statusline+=\ %y
+        set statusline+=%=%-14.(%l,%c%V%)\ %p%%\ 
+
+        set statusline+=\%#StatusLineOk#%{ALEStatus()}
+        set statusline+=\%#StatusLineError#%{ALEErrors()}
+        set statusline+=\%#StatusLineWarning#%{ALEWarnings()}
+    endif
 endfunction
 
 exec CustomStatusLine()
+
 
 " let g:lightline = {
 "     \ 'colorscheme' : 'onehalfdark'
@@ -737,3 +789,15 @@ nnoremap <silent> <leader>g :<C-u>Ag<CR>
 " => Misc
 " ====================
 command! -nargs=0 Jq :%!jq "."
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+        \ 'whitelist': ['rust'],
+        \ })
+endif 
+
+let g:targets_argOpening = '[({[]'
+let g:targets_argClosing = '[]})]'
+
