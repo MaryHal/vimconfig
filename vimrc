@@ -260,6 +260,7 @@ Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'terryma/vim-expand-region'
 Plug 'romainl/vim-qf'
+Plug 'tpope/vim-unimpaired'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
