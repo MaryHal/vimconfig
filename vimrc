@@ -135,17 +135,17 @@ set wrapscan   " Search wraps around the end of the file
 
 if executable('rg')
     set grepprg=rg\ --vimgrep
-    set grepformat=%f:%l:%c:%m
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
 elseif executable('ag')
     set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
     set grepformat=%f:%l:%c:%m
 endif
 
-" if has('conceal')
-"     set conceallevel=2
-"     set concealcursor=i
-"     set listchars+=conceal:Δ
-" endif
+if has('conceal')
+    set conceallevel=2
+    set concealcursor=i
+    set listchars+=conceal:Δ
+endif
 
 set showmatch " Show matching bracets when text indicator is over them
 set matchtime=2
@@ -259,6 +259,7 @@ Plug 'tpope/vim-surround'
 Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
 " Plug 'terryma/vim-expand-region'
+Plug 'romainl/vim-qf'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
@@ -323,11 +324,8 @@ endif
 set splitright
 set splitbelow
 
-" " Multiple buffer stuff
-" set switchbuf=useopen
 set switchbuf=usetab
 
-" Easy buffer navigation
 nnoremap <silent> <C-h> :<C-u>wincmd h<CR>
 nnoremap <silent> <C-j> :<C-u>wincmd j<CR>
 nnoremap <silent> <C-k> :<C-u>wincmd k<CR>
@@ -335,7 +333,6 @@ nnoremap <silent> <C-l> :<C-u>wincmd l<CR>
 
 nnoremap <silent> <leader>k :<C-u>bw<CR>
 
-" Make K match J
 nmap K kJ
 
 " Window sizes always equal on split or close
@@ -349,31 +346,17 @@ noremap k gk
 xnoremap < <gv
 xnoremap > >gv
 
-" " Delete into the blackhole register to not clobber the last yank
-" nnoremap d "_d
-" " I use this often to yank a single line, retain its original behavior
-" nnoremap dd dd
-
-"map H ^
-"map L g_
-
-" " Bracket matching made easy?
-" nnoremap <tab> %
-" vnoremap <tab> %
-
-" Tab Switching (non-terminal vim only)
 nmap <C-S-tab> :tabp<CR>
 nmap <C-tab>   :tabn<CR>
 
 " Q will kill buffer if only window with buffer open, otherwise just close the window
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 
-xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
-
 function! ExecuteMacroOverVisualRange()
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
+xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 " ====================
 " => Other Keys
@@ -388,25 +371,18 @@ let maplocalleader = " "
 " " vnoremap ? ?\v
 " " cnoremap s/ s/\v
 " set magic
-" 
-" " Make Y consistent with C and D. See :help Y.
-" nnoremap Y y$
+
+" Make Y consistent with C and D. See :help Y.
+nnoremap Y yg_
  
-" Sudo to write
 cmap W!! w !sudo tee % >/dev/null
  
-" Avoid Typos
 silent! command -nargs=0 W w
 silent! command -nargs=0 Q q
 silent! command -nargs=0 WQ x
 silent! command -nargs=0 Wq x
  
-" map control-backspace to delete the previous word
 imap <C-BS> <C-W>
-
-" " Escape is far...
-" imap jk <ESC>
-" imap kj <ESC>
 
 " ====================
 " => User Interface
@@ -464,7 +440,6 @@ function! CustomStatusLine()
             return l:counts.total == 0 ? ' ok ' : ''
         endfunction
 
-        set laststatus=2
         set statusline=\ %<%f
         set statusline+=%w%h%m%r
 
@@ -480,19 +455,12 @@ endfunction
 exec CustomStatusLine()
 
 
-" let g:lightline = {
-"     \ 'colorscheme' : 'onehalfdark'
-"     \ }
-
 " Always show the statusline
 set laststatus=2
-" 
+
 " Show incomplete commands
 set showcmd
 
-" No need to show mode due to statusline modifications
-set noshowmode
- 
 " ====================
 " => Plugin Settings
 " ====================
@@ -783,7 +751,7 @@ nnoremap <silent> <leader>p :<C-u>GFiles<CR>
 nnoremap <silent> <leader>l :<C-u>BLines<CR>
 nnoremap <silent> <leader>x :<C-u>Commands<CR>
 nnoremap <silent> <M-x>     :<C-u>Commands<CR>
-nnoremap <silent> <leader>g :<C-u>Ag<CR>
+nnoremap <silent> <leader>g :<C-u>Rg<CR>
 
 " ====================
 " => Misc
