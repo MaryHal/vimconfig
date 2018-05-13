@@ -7,8 +7,6 @@ let s:is_mac = has('gui_macvim') || has('mac')
 let s:is_msysgit = (has('win32') || has('win64')) && $TERM ==? 'cygwin'
 let s:is_tmux = !empty($TMUX)
 let s:is_ssh = !empty($SSH_TTY)
-" let s:lua_patch885 = has('lua') && (v:version > 703 || (v:version == 703 && has('patch885'))) " let s:has_eclim = isdirectory(expand("~/.vim/eclim", 1))
-" let s:plugins=isdirectory(expand("~/.vim/bundle/vundle", 1))
 
 if s:is_windows && !s:is_cygwin && !s:is_msysgit
     let s:dotvim=expand("~/vimfiles/")
@@ -45,9 +43,6 @@ set mouse=a
 " Hide mouse when typing
 set mousehide
 
-" Make with n cores
-set makeprg=make\ -j\ -k
-
 if has ('unnamedplus')
     set clipboard=unnamedplus
 else
@@ -62,9 +57,6 @@ endif
 " Auto reload if file is saved externally.
 set autoread
 set autowrite
-
-" Turn off cursor blinking
-set guicursor=a:blinkon0
 
 set foldcolumn=1
 
@@ -94,32 +86,8 @@ set wildmenu
 set wildmode=list:longest
 set wildignorecase
 
-set wildignore=*.o,*.pyc,*.hi
-set wildignore+=.hg,.git,.svn,.gitignore         " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.dll,*.manifest       " compiled object files
-set wildignore+=*.d                              " dependency files
-set wildignore+=*.spl                            " compiled spelling word lists
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX BS
-
-set wildignore+=*.luac                           " Lua byte code
-set wildignore+=*.pyc                            " Python byte code
-
-set wildignore+=*.wav,*.mp3,*.ogg
-set wildignore+=*.png,*.jpg,*.gif
-set wildignore+=*.so,*.swp,*.zip,*.pdf
-
-set wildignore+=*.exe,*.jar,*.class
-
-" Files with these suffixes get a lower priority when matching a wildcard
-set suffixes=.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
-
-set ruler "Always show current position
-
-" Line Numbers
-" set number
+" Always show current position
+set ruler 
 
 " Allow backspacing everything in insert mode
 set backspace=indent,eol,start
@@ -232,25 +200,16 @@ call plug#begin(s:dotvim . 'plugged')
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim'
-Plug 'Shougo/vimfiler.vim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 
 Plug 'MaryHal/Apprentice'
-Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
 Plug 'andreypopp/vim-colors-plain'
-" Plug 'tomasr/molokai'
-" Plug 'joshdick/onedark.vim'
-" Plug 'sonph/onehalf', { 'rtp': 'vim' }
-" Plug 'itchyny/lightline.vim'
 
 Plug 'editorconfig/editorconfig-vim'
 
 Plug 'junegunn/vim-peekaboo'
-
 
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
@@ -260,7 +219,6 @@ Plug 'tpope/vim-surround'
 
 Plug 'wellle/targets.vim'
 Plug 'AndrewRadev/splitjoin.vim'
-" Plug 'terryma/vim-expand-region'
 Plug 'romainl/vim-qf'
 Plug 'tpope/vim-unimpaired'
 
@@ -352,7 +310,6 @@ xnoremap > >gv
 nmap <C-S-tab> :tabp<CR>
 nmap <C-tab>   :tabn<CR>
 
-" Q will kill buffer if only window with buffer open, otherwise just close the window
 nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
 
 function! ExecuteMacroOverVisualRange()
@@ -392,13 +349,12 @@ imap <C-BS> <C-W>
 " ====================
 syntax enable
 
-" colorscheme apprentice
 set background=light
 colorscheme plain
 " highlight FoldColumn ctermbg=NONE
 
 if s:is_gui 
-  set lines=40 columns=120
+    set lines=40 columns=120
 endif
  
 
@@ -479,199 +435,25 @@ endif
  
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
-nnoremap          <leader>m :<C-u>Gstatus<CR>
+nnoremap          <leader>g :<C-u>Gstatus<CR>
 
-" map <F7> :!ctags --verbose=yes -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+command! -nargs=0 Jq :%!jq "."
+
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+        \ 'whitelist': ['rust'],
+        \ })
+endif 
+
+let g:targets_argOpening = '[({[]'
+let g:targets_argClosing = '[]})]'
+
 
 " ====================
 " => Auto-Complete
 " ====================
-
-" ====================
-" => Unite
-" ====================
-" Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-
-" Use the rank sorter for everything
-call unite#filters#sorter_default#use(['sorter_rank'])
-
-" Set up some custom ignores
-call unite#custom#source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-            \ 'ignore_pattern', join([
-            \ '\.git/',
-            \ 'git5/.*/review/',
-            \ 'google/obj/',
-            \ ], '\|'))
-
-call unite#custom#profile('default', 'context', {
-      \ 'winheight'        : 12,
-      \ 'direction'        : 'botright',
-      \ 'start_insert'     : 1,
-      \ 'update_time'      : 200,
-      \ 'prompt'           : '> ',
-      \ 'prompt_direction' : 'top',
-      \ 'marked_icon'      : '* ',
-      \ 'max_candidates'   : 5000
-      \ })
-
-" General fuzzy search
-" nnoremap <silent> <leader><space> :<C-u>Unite
-"       \ -buffer-name=files buffer file_mru bookmark file<CR>
-
-" Quick registers
-nnoremap <silent> <leader>r :<C-u>Unite -buffer-name=register register<CR>
-
-" " Quick buffer
-" nnoremap <silent> <leader>u :<C-u>Unite -buffer-name=buffers buffer<CR>
-
-" Quick yank history
-nnoremap <silent> <leader>y :<C-u>Unite -buffer-name=yanks history/yank<CR>
-
-" Quick outline
-" nnoremap <silent> <leader>o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
-
-" Quick sessions (projects)
-" nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=sessions session<CR>
-
-" Quick sources
-nnoremap <silent> <leader>a :<C-u>Unite -buffer-name=sources source<CR>
-
-" Quick snippet
-" nnoremap <silent> <leader>s :<C-u>Unite -buffer-name=snippets snippet<CR>
-
-" Quickly switch lcd
-nnoremap <silent> <leader>d :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory<CR>
-nnoremap <silent> <leader>D
-            \ :<C-u>UniteWithCurrentDir -buffer-name=change-cwd -default-action=lcd directory<CR>
-nnoremap <silent> <leader><C-d>
-            \ :<C-u>UniteWithBufferDir -buffer-name=change-cwd -default-action=lcd directory<CR>
-
-" " Quick file search
-" nnoremap <silent> <leader>f :<C-u>Unite -buffer-name=files file file/new<CR>
-" nnoremap <silent> <leader>F :<C-u>UniteWithCurrentDir -buffer-name=files file file/new<CR>
-" nnoremap <silent> <leader><C-f> :<C-u>UniteWithBufferDir -buffer-name=files file file/new<CR>
-
-" " Quick Recursive File Search
-" if s:is_windows
-"     nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec<CR>
-" else
-"     nnoremap <silent> <leader>p :<C-u>Unite -buffer-name=files file_rec/async<CR>
-" endif
-
-" " Quick grep from cwd
-" nnoremap <silent> <leader>g :<C-u>Unite -buffer-name=grep grep:.<CR>
-
-" Quick help
-" nnoremap <silent> <leader>h :<C-u>Unite -buffer-name=help help<CR>
-
-" " Quick line using the word under cursor
-" nnoremap <silent> <leader>l :<C-u>Unite -buffer-name=search_file line<CR>
-
-" Quick MRU search
-" nnoremap <silent> <leader>m :<C-u>Unite -buffer-name=mru file_mru<CR>
-
-" Quick find
-nnoremap <silent> <leader>n :<C-u>Unite -buffer-name=find find:.<CR>
-
-" " Quick commands
-" nnoremap <silent> <leader>x :<C-u>Unite -buffer-name=commands command<CR>
-" nnoremap <silent> <M-x>     :<C-u>Unite -buffer-name=commands command<CR>
-
-" Unicode insert
-nnoremap <silent> <leader>i :<C-u>Unite -buffer-name=unicode unicode<CR>
-
-" Unite Neobundle update
-" nnoremap <silent> <leader>z :<C-u>Unite neobundle/update -log -wrap -vertical -auto-quit<CR>
-
-" Quick bookmarks
-" nnoremap <silent> <leader>b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
-
-" Fuzzy search from current buffer
-" nnoremap <silent> <leader>b :<C-u>UniteWithBufferDir
-" \ -buffer-name=files -prompt=%\ buffer file_mru bookmark file<CR>
-
-" Quick commands
-" nnoremap <silent> <leader>; :<C-u>Unite -buffer-name=history history/command command<CR>
-
-" Custom Unite settings
-autocmd MyAutoCmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> <ESC> <Plug>(unite_exit)
-
-    nmap <buffer> <nowait> <C-g> <Plug>(unite_exit)
-    imap <buffer> <nowait> <C-g> <Plug>(unite_exit)
-
-    " imap <buffer> jj <Plug>(unite_insert_leave)
-    " imap <buffer> <C-j> <Plug>(unite_insert_leave)
-
-    nmap <buffer> <C-j> <Plug>(unite_loop_cursor_down)
-    nmap <buffer> <C-k> <Plug>(unite_loop_cursor_up)
-    imap <buffer> <TAB> <Plug>(unite_select_next_line)
-
-    imap <buffer> <M-o> <Plug>(unite_choose_action)
-
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
-    imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
-    " imap <buffer> <BS>  <Plug>(unite_delete_backward_path)
-
-    imap <buffer> ' <Plug>(unite_quick_match_default_action)
-    nmap <buffer> ' <Plug>(unite_quick_match_default_action)
-
-    nmap <buffer> <C-r> <Plug>(unite_redraw)
-    imap <buffer> <C-r> <Plug>(unite_redraw)
-    inoremap <silent><buffer><expr> <C-x> unite#do_action('split')
-    nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
-    inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-    nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-
-    let unite = unite#get_current_unite()
-    if unite.buffer_name =~# '^search'
-        nnoremap <silent><buffer><expr> r unite#do_action('replace')
-    else
-        nnoremap <silent><buffer><expr> r unite#do_action('rename')
-    endif
-
-    nnoremap <silent><buffer><expr> cd unite#do_action('lcd')
-
-    " Using Ctrl-\ to trigger outline, so close it using the same keystroke
-    if unite.buffer_name =~# '^outline'
-        imap <buffer> <C-\> <Plug>(unite_exit)
-    endif
-
-    " Using Ctrl-/ to trigger line, close it using same keystroke
-    if unite.buffer_name =~# '^search_file'
-        imap <buffer> <C-_> <Plug>(unite_exit)
-    endif
-endfunction
-
-" Enable history yank source
-let g:unite_source_history_yank_enable = 1
-
-" Data directory location
-let g:unite_data_directory = expand(s:dotvim . '/cache/unite')
-
-" Use ack/ag for search
-if executable('rg')
-    let g:unite_source_grep_command='rg'
-    let g:unite_source_grep_default_opts='--vimgrep'
-    let g:unite_source_grep_recursive_opt=''
-
-    " Set up ignores for ag when using file_rec/async
-    " let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
-elseif executable('ag')
-    let g:unite_source_grep_command='ag'
-    let g:unite_source_grep_default_opts='--nocolor --line-numbers --nogroup -S -C4'
-    let g:unite_source_grep_recursive_opt=''
-
-    " Set up ignores for ag when using file_rec/async
-    let g:unite_source_rec_async_command='ag --nocolor --nogroup --ignore ".hg" --ignore ".svn" --ignore ".git" --ignore ".bzr" --hidden -g ""'
-elseif executable('ack')
-    let g:unite_source_grep_command='ack'
-    let g:unite_source_grep_default_opts='--no-heading --no-color -a -C4'
-    let g:unite_source_grep_recursive_opt=''
-endif
 
 " ====================
 " => VimFiler
@@ -746,28 +528,10 @@ let g:rg_command = '
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
-
 nnoremap <silent> <leader>u :<C-u>Buffers<CR>
 nnoremap <silent> <leader>f :<C-u>Files<CR>
 nnoremap <silent> <leader>p :<C-u>GFiles<CR>
 nnoremap <silent> <leader>l :<C-u>BLines<CR>
 nnoremap <silent> <leader>x :<C-u>Commands<CR>
 nnoremap <silent> <M-x>     :<C-u>Commands<CR>
-nnoremap <silent> <leader>g :<C-u>Rg<CR>
-
-" ====================
-" => Misc
-" ====================
-command! -nargs=0 Jq :%!jq "."
-
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-        \ 'whitelist': ['rust'],
-        \ })
-endif 
-
-let g:targets_argOpening = '[({[]'
-let g:targets_argClosing = '[]})]'
 
