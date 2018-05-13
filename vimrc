@@ -251,6 +251,8 @@ Plug 'editorconfig/editorconfig-vim'
 
 Plug 'junegunn/vim-peekaboo'
 
+
+Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
@@ -454,7 +456,6 @@ function! CustomStatusLine()
 endfunction
 
 exec CustomStatusLine()
-
 
 " Always show the statusline
 set laststatus=2
