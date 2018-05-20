@@ -14,128 +14,14 @@ else
     let s:dotvim=expand("~/.vim/")
 endif
 
-" 'is GUI' means vim is _not_ running within the terminal.
-" sample values:
-" &term = win32 //vimrc running in msysgit terminal
-" $TERM = xterm-color , cygwin
-" &term = builtin_gui //*after* vimrc but *before* gvimrc
-" &shell = C:\Windows\system32\cmd.exe , /bin/bash
 let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gui'
-
-" ====================
-" => General
-" ====================
-" Sets how many lines of history VIM has to remember
-set history=1000
-
-" Enable filetype plugin
-filetype plugin on
-filetype indent on
-
-set encoding=utf-8
-
-" Allow changing buffer without saving first
-set hidden
-
-" Allow Mouse Usage
-set mouse=a
-
-" Hide mouse when typing
-set mousehide
-
-if has ('unnamedplus')
-    set clipboard=unnamedplus
-else
-    set clipboard=unnamed
-endif
-
-" set ttyfast
-" set ttyscroll=0
-" set ttimeout
-" set ttimeoutlen=50
-
-" Auto reload if file is saved externally.
-set autoread
-set autowrite
-
-set foldcolumn=1
-
-" ====================
-" => User Interface
-" ====================
-set shortmess=Iatc
-
-" Blank vsplit separator
-set fillchars+=vert:\ 
-
-" Ask for confirmation for various things
-set confirm
-
-" Don't complete from other buffer
-set complete=.
-
-" Set 3 lines to pad the cursor - when moving vertical..
-set scrolloff=10
-set sidescrolloff=5
-
-" Auto complete setting
-set completeopt=menuone,noinsert,noselect
-
-" show list for autocomplete
-set wildmenu
-set wildmode=list:longest
-set wildignorecase
-
-" Always show current position
-set ruler 
-
-" Allow backspacing everything in insert mode
-set backspace=indent,eol,start
-
-" Searching
-set ignorecase " Ignore case when searching
-set smartcase  " If there are any capitalized letters, case sensitive search
-
-set nohlsearch " Don't Highlight search things
-set incsearch  " Make search act like search in modern browsers
-set wrapscan   " Search wraps around the end of the file
-
-
-if executable('rg')
-    set grepprg=rg\ --vimgrep
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
-elseif executable('ag')
-    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
-    set grepformat=%f:%l:%c:%m
-endif
-
-if has('conceal')
-    set conceallevel=2
-    set concealcursor=i
-    set listchars+=conceal:Δ
-endif
-
-set showmatch " Show matching bracets when text indicator is over them
-set matchtime=2
-
-set virtualedit=onemore
-
-set nomodeline
-set modelines=0
-
-" Disable all bells
-set noerrorbells
-set novisualbell
-set t_vb=
-
-set lazyredraw
 
 " ====================
 " => Files and Backups
 " ====================
 " Do not store global/local values in a session.
-set ssop-=options
-set ssop-=folds
+set sessionoptions-=options
+set sessionoptions-=folds
 
 if has('persistent_undo')
     execute "set undodir=" . s:dotvim . '/cache/undo/'
@@ -164,34 +50,6 @@ call EnsureExists(s:dotvim . '/cache')
 call EnsureExists(&undodir)
 call EnsureExists(&backupdir)
 call EnsureExists(&directory)
-
-" ====================
-" => Formatting
-" ====================
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set smarttab
-
-set copyindent
-
-set autoindent
-set smartindent
-" set cindent
-
-set cinoptions+=(0
-
-" set list
-" set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
-" set showbreak=↪
-
-" set wrap
-set whichwrap+=h,l,<,>,[,]
-set linebreak
-" set tw=500
-
-set formatoptions=ql
 
 " ====================
 " => Plugins
@@ -236,11 +94,118 @@ Plug 'w0rp/ale'
 call plug#end()
 
 " ====================
+" => General
+" ====================
+set encoding=utf-8
+
+" Allow changing buffer without saving first
+set hidden
+
+" Allow Mouse Usage
+set mouse=a
+set mousehide
+
+if has('unnamedplus')
+    set clipboard=unnamedplus
+else
+    set clipboard=unnamed
+endif
+
+set autoread
+set autowrite
+
+set foldcolumn=1
+
+" ====================
+" => User Interface
+" ====================
+set shortmess=Iatc
+
+" Blank vsplit separator
+set fillchars+=vert:\ 
+
+" Ask for confirmation for various things
+set confirm
+
+" Don't complete from other buffer
+set complete=.
+
+" Set 3 lines to pad the cursor - when moving vertical..
+set scrolloff=10
+set sidescrolloff=5
+
+" Auto complete setting
+set completeopt=menuone,noselect,preview
+
+" show list for autocomplete
+set wildmenu
+set wildmode=list:longest
+set wildignorecase
+
+" Always show current position
+set ruler 
+
+" Allow backspacing everything in insert mode
+set backspace=indent,eol,start
+
+" Searching
+set ignorecase " Ignore case when searching
+set smartcase  " If there are any capitalized letters, case sensitive search
+
+set nohlsearch " Don't Highlight search things
+set incsearch  " Make search act like search in modern browsers
+set wrapscan   " Search wraps around the end of the file
+
+
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+elseif executable('ag')
+    set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+    set grepformat=%f:%l:%c:%m
+endif
+
+set showmatch " Show matching bracets when text indicator is over them
+set matchtime=2
+
+" set virtualedit=onemore
+
+set nomodeline
+set modelines=0
+
+set lazyredraw
+
+" ====================
+" => Formatting
+" ====================
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set autoindent
+
+" set list
+" set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣,trail:• ",eol:¬
+" set showbreak=↪
+
+" set wrap
+set whichwrap+=h,l,<,>,[,]
+set linebreak
+
+set formatoptions=ql
+
+if has('conceal')
+    set conceallevel=2
+    set concealcursor=i
+    set listchars+=conceal:Δ
+endif
+
+" ====================
 " => Functions
 " ====================
-function! RemoveBackground()
+function! RemoveBackground() abort
     if !s:is_gui
-        "Remove background set by colorscheme
         hi Normal ctermbg=NONE
         hi Comment ctermbg=NONE
         hi Constant ctermbg=NONE
@@ -280,23 +245,17 @@ if has('autocmd')
 endif
 
 " ====================
-" => Moving around
+" => Windows and Moving around
 " ====================
 set splitright
 set splitbelow
 
 set switchbuf=usetab
 
-nnoremap <silent> <C-h> :<C-u>wincmd h<CR>
-nnoremap <silent> <C-j> :<C-u>wincmd j<CR>
-nnoremap <silent> <C-k> :<C-u>wincmd k<CR>
-nnoremap <silent> <C-l> :<C-u>wincmd l<CR>
-
 nnoremap <silent> <leader>k :<C-u>bw<CR>
 
 nmap K kJ
 
-" Window sizes always equal on split or close
 set equalalways
 
 " line wrap movement
@@ -310,9 +269,7 @@ xnoremap > >gv
 nmap <C-S-tab> :tabp<CR>
 nmap <C-tab>   :tabn<CR>
 
-nnoremap <silent> Q :call CloseWindowOrKillBuffer()<CR>
-
-function! ExecuteMacroOverVisualRange()
+function! ExecuteMacroOverVisualRange() abort
   echo "@".getcmdline()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
@@ -322,7 +279,6 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 " => Other Keys
 " ====================
 let mapleader = "\<Space>"
-let maplocalleader = " "
 
 " " Fix broken vim regexes when searching
 " " nnoremap / /\v
@@ -332,7 +288,6 @@ let maplocalleader = " "
 " " cnoremap s/ s/\v
 " set magic
 
-" Make Y consistent with C and D. See :help Y.
 nnoremap Y yg_
  
 cmap W!! w !sudo tee % >/dev/null
@@ -351,7 +306,6 @@ syntax enable
 
 set background=light
 colorscheme plain
-" highlight FoldColumn ctermbg=NONE
 
 if s:is_gui 
     set lines=40 columns=120
@@ -365,8 +319,6 @@ else
 endif
  
 set guioptions=acg
-set fileformat=unix
-set ffs=unix,dos,mac
 
 " ====================
 " => Statusline
@@ -424,15 +376,6 @@ set showcmd
 " ====================
 nnoremap <silent> <leader>eb :<C-u>so %<CR>
 
-nnoremap <F2> :<C-u>VimFiler<CR>
-
-" Open terminal in current directory
-if s:is_windows && !s:is_cygwin && !s:is_msysgit
-    nnoremap <silent> <leader>t :<C-u>!start powershell.exe<CR><CR>
-else
-    nnoremap <silent> <leader>t :<C-u>!eval $TERMINAL<CR><CR>
-endif
- 
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
 nnoremap          <leader>g :<C-u>Gstatus<CR>
@@ -450,33 +393,17 @@ endif
 let g:targets_argOpening = '[({[]'
 let g:targets_argClosing = '[]})]'
 
-
 " ====================
 " => Auto-Complete
 " ====================
 
 " ====================
-" => VimFiler
-" ====================
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_data_directory = expand(s:dotvim . '/cache/vimfiler')
-
-" Icons
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = ' '
-let g:vimfiler_marked_file_icon = '✓'
-let g:vimfiler_readonly_file_icon = '✗'
- 
-" ====================
 " => FZF
 " ====================
-if s:is_windows && !s:is_cygwin && !s:is_msysgit
-    let $TERM = ''
-endif
- 
-" This is the default extra key bindings
+" if s:is_windows && !s:is_cygwin && !s:is_msysgit
+"     let $TERM = ''
+" endif
+
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
@@ -486,24 +413,25 @@ let g:fzf_action = {
 " - down / up / left / right
 let g:fzf_layout = { 'down': '~40%' }
  
-" " In Neovim, you can set up fzf window using a Vim command
+" In Neovim, you can set up fzf window using a Vim command
 " let g:fzf_layout = { 'window': 'enew' }
-" let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+" let g:fzf_layout = { 'window': '15split enew' }
  
-" " Customize fzf colors to match your color scheme
-" let g:fzf_colors =
-" \ { 'fg':      ['fg', 'Normal'],
-"   \ 'bg':      ['bg', 'Normal'],
-"   \ 'hl':      ['fg', 'Comment'],
-"   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-"   \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-"   \ 'hl+':     ['fg', 'Statement'],
-"   \ 'info':    ['fg', 'PreProc'],
-"   \ 'prompt':  ['fg', 'Conditional'],
-"   \ 'pointer': ['fg', 'Exception'],
-"   \ 'marker':  ['fg', 'Keyword'],
-"   \ 'spinner': ['fg', 'Label'],
-"   \ 'header':  ['fg', 'Comment'] }
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
  
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
