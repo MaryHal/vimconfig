@@ -98,18 +98,11 @@ call plug#end()
 " ====================
 set encoding=utf-8
 
-" Allow changing buffer without saving first
 set hidden
 
 " Allow Mouse Usage
 set mouse=a
 set mousehide
-
-if has('unnamedplus')
-    set clipboard=unnamedplus
-else
-    set clipboard=unnamed
-endif
 
 set autoread
 set autowrite
@@ -156,7 +149,6 @@ set nohlsearch " Don't Highlight search things
 set incsearch  " Make search act like search in modern browsers
 set wrapscan   " Search wraps around the end of the file
 
-
 if executable('rg')
     set grepprg=rg\ --vimgrep
     set grepformat=%f:%l:%c:%m,%f:%l:%m
@@ -165,7 +157,7 @@ elseif executable('ag')
     set grepformat=%f:%l:%c:%m
 endif
 
-set showmatch " Show matching bracets when text indicator is over them
+set showmatch
 set matchtime=2
 
 " set virtualedit=onemore
@@ -194,12 +186,6 @@ set whichwrap+=h,l,<,>,[,]
 set linebreak
 
 set formatoptions=ql
-
-if has('conceal')
-    set conceallevel=2
-    set concealcursor=i
-    set listchars+=conceal:Δ
-endif
 
 " ====================
 " => Functions
@@ -437,7 +423,8 @@ let g:fzf_colors =
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
 " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-let g:fzf_history_dir = '~/.fzf-history'
+"
+let g:fzf_history_dir = s:dotvim . '/cache/fzf_history'
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
