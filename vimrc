@@ -83,6 +83,7 @@ Plug 'tpope/vim-unimpaired'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
+Plug 'tweekmonster/django-plus.vim'
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -227,8 +228,10 @@ if has('autocmd')
         endif
     augroup END
 
-    au BufLeave * let b:winview = winsaveview()
-    au BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+    autocmd BufLeave * let b:winview = winsaveview()
+    autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+
+    autocmd BufNewFile,BufRead *.tera set filetype=htmldjango
 endif
 
 " ====================
