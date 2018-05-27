@@ -19,7 +19,6 @@ let s:is_gui = has('gui_running') || strlen(&term) == 0 || &term ==? 'builtin_gu
 " ====================
 " => Files and Backups
 " ====================
-" Do not store global/local values in a session.
 set sessionoptions-=options
 set sessionoptions-=folds
 
@@ -58,6 +57,8 @@ call plug#begin(s:dotvim . 'plugged')
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+
+Plug 'Shougo/denite.nvim'
 
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
@@ -401,17 +402,15 @@ let g:fzf_layout = { 'down': '~40%' }
  
 " In Neovim, you can set up fzf window using a Vim command
 " let g:fzf_layout = { 'window': 'enew' }
-let g:fzf_layout = { 'window': '-tabnew' }
-" let g:fzf_layout = { 'window': '15split enew' }
+" let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '15split enew' }
  
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
+  \ 'hl':      ['fg', 'String'],
   \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
+  \ 'hl+':     ['fg', 'String'],
   \ 'info':    ['fg', 'PreProc'],
   \ 'prompt':  ['fg', 'Conditional'],
   \ 'pointer': ['fg', 'Exception'],
