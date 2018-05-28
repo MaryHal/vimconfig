@@ -64,7 +64,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 
 Plug 'MaryHal/Apprentice'
-Plug 'andreypopp/vim-colors-plain'
+Plug 'MaryHal/vim-colors-plain'
 
 Plug 'editorconfig/editorconfig-vim'
 
