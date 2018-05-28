@@ -365,6 +365,7 @@ set showcmd
 " => Plugin Settings
 " ====================
 nnoremap <silent> <leader>eb :<C-u>so %<CR>
+vnoremap <silent> <leader>er :<C-u>@*<CR>
 
 " Change cwd to current buffer directory
 nnoremap          <leader>c :<C-u>cd %:p:h<CR>
