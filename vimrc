@@ -260,8 +260,8 @@ nmap <C-S-tab> :tabp<CR>
 nmap <C-tab>   :tabn<CR>
 
 function! ExecuteMacroOverVisualRange() abort
-  echo "@".getcmdline()
-  execute ":'<,'>normal @".nr2char(getchar())
+    echo "@".getcmdline()
+    execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
@@ -279,14 +279,14 @@ let mapleader = "\<Space>"
 " set magic
 
 nnoremap Y yg_
- 
+
 cmap W!! w !sudo tee % >/dev/null
- 
+
 silent! command -nargs=0 W w
 silent! command -nargs=0 Q q
 silent! command -nargs=0 WQ x
 silent! command -nargs=0 Wq x
- 
+
 imap <C-BS> <C-W>
 
 " ====================
@@ -300,14 +300,14 @@ colorscheme plain
 if s:is_gui 
     set lines=40 columns=120
 endif
- 
+
 
 if s:is_windows && !s:is_cygwin && !s:is_msysgit
     set guifont=Iosevka_Term_Slab:h9
 else
     set guifont=Iosevka\ Term\ Slab\ 9
 endif
- 
+
 set guioptions=acg
 
 " ====================
@@ -375,10 +375,10 @@ command! -nargs=0 Jq :%!jq "."
 
 if executable('rls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-        \ 'whitelist': ['rust'],
-        \ })
+                \ 'name': 'rls',
+                \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+                \ 'whitelist': ['rust'],
+                \ })
 endif 
 
 let g:targets_argOpening = '[({[]'
@@ -395,33 +395,35 @@ let g:targets_argClosing = '[]})]'
 "     let $TERM = ''
 " endif
 
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
+
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
- 
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-x': 'split',
+            \ 'ctrl-v': 'vsplit' }
+
 " Default fzf layout
 " - down / up / left / right
 let g:fzf_layout = { 'down': '~40%' }
- 
+
 " In Neovim, you can set up fzf window using a Vim command
 " let g:fzf_layout = { 'window': 'enew' }
 " let g:fzf_layout = { 'window': '-tabnew' }
 let g:fzf_layout = { 'window': '15split enew' }
- 
+
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'hl':      ['fg', 'String'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'hl+':     ['fg', 'String'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
- 
+            \ { 'fg':      ['fg', 'Normal'],
+            \ 'hl':      ['fg', 'String'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'hl+':     ['fg', 'String'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'Comment'] }
+
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
@@ -433,16 +435,16 @@ let g:fzf_history_dir = s:dotvim . '/cache/fzf_history'
 let g:fzf_buffers_jump = 1
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
 
 let g:rg_command = '
-  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
-  \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
-  \ -g "!{.git,node_modules,vendor}/*" '
+            \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+            \ -g "*.{js,json,php,md,styl,jade,html,config,py,cpp,c,go,hs,rb,conf}"
+            \ -g "!{.git,node_modules,vendor}/*" '
 
 command! -bang -nargs=* F call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, <bang>0)
 
