@@ -134,7 +134,7 @@ set completeopt=menuone,noselect,preview
 
 " show list for autocomplete
 set wildmenu
-set wildmode=list:full
+set wildmode=list:longest
 set wildignorecase
 
 " Always show current position
