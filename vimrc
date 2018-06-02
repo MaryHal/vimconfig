@@ -409,7 +409,7 @@ let g:fzf_layout = { 'down': '~40%' }
 " In Neovim, you can set up fzf window using a Vim command
 " let g:fzf_layout = { 'window': 'enew' }
 " let g:fzf_layout = { 'window': '-tabnew' }
-let g:fzf_layout = { 'window': '15split enew' }
+let g:fzf_layout = { 'window': 'botright 15split enew' }
 
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
